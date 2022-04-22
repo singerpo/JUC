@@ -1,4 +1,4 @@
-package com.sing.juc.c_01;
+package com.sing.juc.c01;
 
 /**
  * synchronized关键字(可重入)
@@ -13,9 +13,9 @@ package com.sing.juc.c_01;
  * @author songbo
  * @since 2022-04-20
  */
-public class T04_Synchronized {
+public class T04Synchronized {
     private int count = 10;
-    private Object obj = new Object();
+    private final Object obj = new Object();
 
     public void m1() {
         // 任何线程要执行下面的代码，必须先拿到obj的锁
@@ -44,14 +44,14 @@ public class T04_Synchronized {
     }
 
     public void m5() {
-        synchronized (T04_Synchronized.class) {
+        synchronized (T04Synchronized.class) {
             count--;
             System.out.println(Thread.currentThread().getName() + "count = " + count);
         }
     }
 
     public static void m6() {
-        synchronized (T04_Synchronized.class) {
+        synchronized (T04Synchronized.class) {
             System.out.println(Thread.currentThread().getName());
         }
     }

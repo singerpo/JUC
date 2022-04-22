@@ -1,4 +1,4 @@
-package com.sing.juc.c_01;
+package com.sing.juc.c01;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author songbo
  * @since 2022-04-20
  */
-public class T01_WhatIsThread {
+public class T01WhatIsThread {
     private static class T1 extends Thread {
         @Override
         public void run() {

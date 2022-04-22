@@ -1,4 +1,4 @@
-package com.sing.juc.c_01;
+package com.sing.juc.c01;
 
 /**
  * 1.sleep()方法
@@ -22,7 +22,7 @@ package com.sing.juc.c_01;
  * @author songbo
  * @since 2022-04-20
  */
-public class T03_Sleep_Yield_Join {
+public class T03Sleep_Yield_Join {
     static void testSleep() {
         new Thread(() -> {
             for (int i = 0; i < 100; i++) {

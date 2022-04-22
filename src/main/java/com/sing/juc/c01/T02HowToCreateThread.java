@@ -1,4 +1,4 @@
-package com.sing.juc.c_01;
+package com.sing.juc.c01;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -14,7 +14,7 @@ import java.util.concurrent.FutureTask;
  * @author songbo
  * @since 2022-04-20
  */
-public class T02_HowToCreateThread {
+public class T02HowToCreateThread {
     static class MyThread extends Thread {
         @Override
         public void run() {
