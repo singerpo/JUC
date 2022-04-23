@@ -23,16 +23,16 @@ public class T02AtomicInteger {
     volatile int count = 0;
 
     void m() {
-        // for (int i = 0; i < 10000; i++) {
-        count++;
-        atomicInteger.incrementAndGet();
-        // }
+        for (int i = 0; i < 10000; i++) {
+            count++;
+            atomicInteger.incrementAndGet();
+        }
     }
 
     public static void main(String[] args) {
         T02AtomicInteger t02AtomicInteger = new T02AtomicInteger();
         List<Thread> threads = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10; i++) {
             threads.add(new Thread(t02AtomicInteger::m, "thread-" + i));
         }
 
