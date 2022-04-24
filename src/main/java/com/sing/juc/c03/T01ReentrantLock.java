@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * 可重入锁
  * ReentrantLock用于替代synchronized
  * 由于m1锁定this,只有m1执行完毕的时候，m2才能执行
  * <p>
@@ -21,7 +22,7 @@ public class T01ReentrantLock {
             lock.lock();
             for (int i = 0; i < 10; i++) {
                 TimeUnit.SECONDS.sleep(1);
-                System.out.println(i);
+                System.out.println("m1--" + i);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -50,6 +51,31 @@ public class T01ReentrantLock {
         }
     }
 
+    void m3() {
+        boolean isLock = true;
+        try {
+            try {
+                lock.lockInterruptibly();
+            } catch (InterruptedException e) {
+                System.out.println("线程被中断了");
+                isLock = false;
+                // e.printStackTrace();
+            }
+            for (int i = 0; i < 10; i++) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("m3--" + i);
+            }
+        } finally {
+            if (isLock) {
+                lock.unlock();
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         T01ReentrantLock t01ReentrantLock = new T01ReentrantLock();
@@ -60,6 +86,16 @@ public class T01ReentrantLock {
             e.printStackTrace();
         }
         new Thread(t01ReentrantLock::m2).start();
+
+        Thread t3 = new Thread(t01ReentrantLock::m3);
+        t3.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        t3.interrupt();
+
 
     }
 }

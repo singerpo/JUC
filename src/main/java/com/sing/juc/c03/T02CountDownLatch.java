@@ -3,7 +3,7 @@ package com.sing.juc.c03;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * 1:08
+ * 倒计时闩锁
  */
 public class T02CountDownLatch {
 
