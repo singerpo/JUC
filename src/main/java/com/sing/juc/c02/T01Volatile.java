@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * volatile
- * 1.保证线程可见性（缓存一致性协议,不能保证操作原子性所以不能替代锁）
- * 2.禁止指令重排序（CPU)
+ * 1.保证线程可见性（通过缓存一致性协议实现,不能保证操作原子性所以不能替代锁）
+ * 2.禁止指令重排序（CPU)（通过内存屏障实现）
  */
 public class T01Volatile {
     volatile boolean running = true;

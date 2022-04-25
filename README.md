@@ -13,4 +13,7 @@ T01ReentrantLock: ReentrantLock
 T02CountDownLatch: CountDownLatch  
 T03CyclicBarrier: CyclicBarrier
 T04Phaser: Phaser
+T05ReentrantReadWriteLock：ReentrantReadWriteLock--StampedLock  
+T06Semaphore：Semaphore
+T07Exchanger：Exchanger
   
