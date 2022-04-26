@@ -7,7 +7,7 @@ import java.util.List;
  * 实现一个容器，提供两个方法 add size
  * 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束
  */
-public class T01NotifyWaitLock {
+public class V01NotifyWaitLock {
 
     List lists = new ArrayList();
 
@@ -20,7 +20,7 @@ public class T01NotifyWaitLock {
     }
 
     public static void main(String[] args) {
-        T01NotifyWaitLock t01WithoutVolatile = new T01NotifyWaitLock();
+        V01NotifyWaitLock t01WithoutVolatile = new V01NotifyWaitLock();
         final Object obj = new Object();
         new Thread(() -> {
             synchronized (obj) {

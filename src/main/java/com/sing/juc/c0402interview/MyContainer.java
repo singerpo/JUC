@@ -4,22 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 1:35
+ * 1:52
  * 写一个固定容量同步容器，拥有put和get方法，以及getCount方法
  * 能够支持2个生产者线程以及10个消费者线程的阻塞调用
  */
-public class T01NotifyWaitLock {
+public class MyContainer<T> {
 
-    List lists = new ArrayList();
+    final private List<T> lists = new ArrayList();
+    final private int MAX = 10;
+    private int count = 0;
 
-    public void put(Object o) {
-        lists.add(o);
+    public synchronized void put(T t) {
+        while (lists.size() == MAX){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        lists.add(t);
+        ++count;
+        // 通知消费者线程进行消费
+        this.notifyAll();
     }
 
-    public Object get() {
-        Object obj = lists.get(0);
+    public synchronized T get() {
+        T t = null;
+        while (lists.size() == 0){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        t = lists.get(0);
         lists.remove(0);
-        return obj;
+        count--;
+        this.notifyAll();//通知生产者进行生产
+        return t;
     }
 
     public int getCount() {
@@ -27,7 +49,7 @@ public class T01NotifyWaitLock {
     }
 
     public static void main(String[] args) {
-        T01NotifyWaitLock t01WithoutVolatile = new T01NotifyWaitLock();
+        MyContainer t01WithoutVolatile = new MyContainer();
 
         new Thread(() -> {
             while (true) {

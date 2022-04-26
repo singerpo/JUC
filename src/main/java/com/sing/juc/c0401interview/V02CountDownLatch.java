@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
  * 实现一个容器，提供两个方法 add size
  * 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束
  */
-public class T02CountDownLatch {
+public class V02CountDownLatch {
     List lists = new ArrayList();
 
     public void add(Object o) {
@@ -21,7 +21,7 @@ public class T02CountDownLatch {
     }
 
     public static void main(String[] args) {
-        T02CountDownLatch t02CountDownLatch = new T02CountDownLatch();
+        V02CountDownLatch t02CountDownLatch = new V02CountDownLatch();
         CountDownLatch latch = new CountDownLatch(1);
         CountDownLatch latch2 = new CountDownLatch(1);
 

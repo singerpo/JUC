@@ -8,7 +8,7 @@ import java.util.concurrent.locks.LockSupport;
  * 实现一个容器，提供两个方法 add size
  * 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束
  */
-public class T03LockSupport {
+public class V03LockSupport {
     List lists = new ArrayList();
     static Thread t1,t2;
 
@@ -21,7 +21,7 @@ public class T03LockSupport {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        T03LockSupport t03LockSupport = new T03LockSupport();
+        V03LockSupport t03LockSupport = new V03LockSupport();
 
         t1 = new Thread(() -> {
             System.out.println(" t1 启动");
