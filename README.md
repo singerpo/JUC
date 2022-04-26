@@ -13,7 +13,13 @@ T01ReentrantLock: ReentrantLock
 T02CountDownLatch: CountDownLatch  
 T03CyclicBarrier: CyclicBarrier
 T04Phaser: Phaser
-T05ReentrantReadWriteLock：ReentrantReadWriteLock--StampedLock  
+T05ReentrantReadWriteLock：ReentrantReadWriteLock--StampedLock   
 T06Semaphore：Semaphore
 T07Exchanger：Exchanger
+
+4.com.sing.juc.c0401interview  
+ 实现一个容器，提供两个方法 add size  
+ 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束  
+
+5.com.sing.juc.c0402interview  
   

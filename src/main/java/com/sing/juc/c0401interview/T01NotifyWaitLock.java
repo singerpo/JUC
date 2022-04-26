@@ -1,14 +1,14 @@
-package com.sing.juc.c04interview;
+package com.sing.juc.c0401interview;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-/**1:03
+/**
  * 实现一个容器，提供两个方法 add size
  * 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束
  */
 public class T01NotifyWaitLock {
+
     List lists = new ArrayList();
 
     public void add(Object o) {
@@ -38,11 +38,11 @@ public class T01NotifyWaitLock {
             }
         }, "t2").start();
 
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     TimeUnit.SECONDS.sleep(1);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
 
         new Thread(() -> {
             synchronized (obj) {
@@ -53,6 +53,7 @@ public class T01NotifyWaitLock {
                     if (t01WithoutVolatile.size() == 5) {
                         obj.notify();
                         try {
+                            // 释放锁，让t2能够执行
                             obj.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -61,7 +62,6 @@ public class T01NotifyWaitLock {
                 }
             }
         }, "t1").start();
-
 
     }
 }
