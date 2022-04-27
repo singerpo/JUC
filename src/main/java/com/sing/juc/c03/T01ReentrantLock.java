@@ -18,6 +18,7 @@ public class T01ReentrantLock {
     Lock lock = new ReentrantLock();
 
     void m1() {
+        lock = new ReentrantLock(true);
         try {
             lock.lock();
             for (int i = 0; i < 10; i++) {

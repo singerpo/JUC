@@ -3,6 +3,7 @@ package com.sing.juc.c0402interview;
 import java.util.LinkedList;
 
 /**
+ * 02:33
  * 写一个固定容量同步容器，拥有put和get方法，以及getCount方法
  * 能够支持2个生产者线程以及10个消费者线程的阻塞调用
  */
