@@ -1,7 +1,9 @@
 package com.sing.juc.c0402interview;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 1:52
@@ -10,75 +12,82 @@ import java.util.List;
  */
 public class MyContainer<T> {
 
-    final private List<T> lists = new ArrayList();
+    final private LinkedList<T> lists = new LinkedList<>();
     final private int MAX = 10;
     private int count = 0;
 
-    public synchronized void put(T t) {
-        while (lists.size() == MAX){
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    private Lock lock = new ReentrantLock();
+    // Condition本质就是不同的等待队列
+    private Condition producer = lock.newCondition();
+    private Condition consumer = lock.newCondition();
+
+    public void put(T t) {
+        try {
+            lock.lock();
+            // 为什么用while而不是用if
+            // 因为当执行this.wait时阻塞，唤醒之后会继续往下执行，不会再判断条件，所以要用while唤醒之后重新判断条件
+            while (lists.size() == MAX) {
+                try {
+                    producer.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            lists.add(t);
+            ++count;
+            // 通知消费者线程进行消费
+            consumer.signalAll();
+        } finally {
+            lock.unlock();
         }
-        lists.add(t);
-        ++count;
-        // 通知消费者线程进行消费
-        this.notifyAll();
     }
 
-    public synchronized T get() {
+    public T get() {
         T t = null;
-        while (lists.size() == 0){
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            lock.lock();
+            while (lists.size() == 0) {
+                try {
+                   consumer.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            t = lists.removeFirst();
+            count--;
+            //通知生产者进行生产
+            producer.signalAll();
+        } finally {
+            lock.unlock();
         }
-        t = lists.get(0);
-        lists.remove(0);
-        count--;
-        this.notifyAll();//通知生产者进行生产
         return t;
     }
 
     public int getCount() {
-        return lists.size();
+        return this.count;
     }
 
     public static void main(String[] args) {
-        MyContainer t01WithoutVolatile = new MyContainer();
+        MyContainer<String> myContainer = new MyContainer();
 
-        new Thread(() -> {
-            while (true) {
-                if (t01WithoutVolatile.getCount() <= 10) {
-                    t01WithoutVolatile.put(new Object());
-                    System.out.println(Thread.currentThread().getName() + "--" + t01WithoutVolatile.getCount());
-                }
-            }
-        }, "p1").start();
-
-        new Thread(() -> {
-            while (true) {
-                if (t01WithoutVolatile.getCount() <= 10) {
-                    t01WithoutVolatile.put(new Object());
-                    System.out.println(Thread.currentThread().getName() + "--" + t01WithoutVolatile.getCount());
-                }
-            }
-        }, "p2").start();
-
+        // 启动消费者线程
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
-                while (true) {
-                    if (t01WithoutVolatile.getCount() > 0) {
-                        Object obj = t01WithoutVolatile.get();
-                        System.out.println(Thread.currentThread().getName() + "--" + t01WithoutVolatile.getCount());
-                    }
+                for (int j = 0; j < 5; j++) {
+                    System.out.println(myContainer.get());
                 }
             }, "c" + i).start();
         }
+
+        // 启动生产者线程
+        for (int i = 0; i < 2; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 25; j++) {
+                    myContainer.put(Thread.currentThread().getName() + " " + j);
+                }
+            }, "p" + i).start();
+        }
+
 
     }
 }

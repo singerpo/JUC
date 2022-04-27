@@ -27,6 +27,7 @@ public class V01NotifyWaitLock {
                 System.out.println(" t2 启动");
                 if (t01WithoutVolatile.size() != 5) {
                     try {
+                        // 不等于5，阻塞释放锁
                         obj.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -51,9 +52,9 @@ public class V01NotifyWaitLock {
                     System.out.println("add " + i);
 
                     if (t01WithoutVolatile.size() == 5) {
+                        // 等于5时通知t2,释放锁，让t2能够执行
                         obj.notify();
                         try {
-                            // 释放锁，让t2能够执行
                             obj.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
