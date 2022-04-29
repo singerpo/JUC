@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
+/**2.55
  * 可重入锁
  * ReentrantLock用于替代synchronized
  * 由于m1锁定this,只有m1执行完毕的时候，m2才能执行
@@ -18,7 +18,7 @@ public class T01ReentrantLock {
     Lock lock = new ReentrantLock();
 
     void m1() {
-        lock = new ReentrantLock(true);
+        lock = new ReentrantLock();
         try {
             lock.lock();
             for (int i = 0; i < 10; i++) {
