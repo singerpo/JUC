@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * 2:04
+ * 新的StampedLock不支持重入
  * @author songbo
  * @since 2022-04-24
  */

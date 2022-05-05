@@ -13,6 +13,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * 使用ReetrantLock可以进行tryLock
  * 使用ReetrantLock可以进行lockInterruptibly(调用线程.interrupt方法打断该线程的等待）
  * 参数为true则表示为公平锁
+ *
+ * 底层原理：AQS(AbstractQueuedSynchronizer)
+ * 底层是CAS+volatile
+ *
  */
 public class T01ReentrantLock {
     Lock lock = new ReentrantLock();
@@ -30,7 +34,6 @@ public class T01ReentrantLock {
         } finally {
             lock.unlock();
         }
-
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.sing.juc.c0401interview;
+package com.sing.juc.c04.T1interview;
 
 import java.util.ArrayList;
 import java.util.List;

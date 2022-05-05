@@ -1,4 +1,4 @@
-package com.sing.juc.c0402interview;
+package com.sing.juc.c04.T2interview;
 
 import java.util.LinkedList;
 

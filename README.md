@@ -17,11 +17,13 @@ T05ReentrantReadWriteLock：ReentrantReadWriteLock--StampedLock
 T06Semaphore：Semaphore
 T07Exchanger：Exchanger
 
-4.com.sing.juc.c0401interview  
- 实现一个容器，提供两个方法 add size  
- 写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束  
-
-5.com.sing.juc.c0402interview  
- 写一个固定容量同步容器，拥有put和get方法，以及getCount方法  
- 能够支持2个生产者线程以及10个消费者线程的阻塞调用  
+4.com.sing.juc.c04.T1interview  
+    实现一个容器，提供两个方法 add size  
+    写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束  
+com.sing.juc.c04.T2interview  
+    写一个固定容量同步容器，拥有put和get方法，以及getCount方法  
+    能够支持2个生产者线程以及10个消费者线程的阻塞调用  
+ 
+5.AQS
+JDK9及之后：VarHandle
   
