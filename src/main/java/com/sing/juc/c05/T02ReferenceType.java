@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
-/**
+/**1.50
  * 强引用(当没有指向引用时会回收)
  * 软引用(当内存不够时会回收)
  * --大对象的缓存
@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
  * 弱引用(遇到gc就会回收)
  * --缓存，没有容器引用指向的时候就需要清除的缓存
  * --ThreadLocal
- * --WearkHashMap
+ * --WeakHashMap
  * 虚引用
  * --管理堆外内存
  *
@@ -51,6 +51,19 @@ public class T02ReferenceType {
     }
 
     static class T03WeakReference {
+        static void weak() throws IOException {
+            WeakReference<T02ReferenceType> m = new WeakReference<>(new T02ReferenceType());
+            System.out.println(m.get());
+            System.gc();
+            System.out.println(m.get());
+
+            ThreadLocal<T02ReferenceType> threadLocal = new ThreadLocal<>();
+            threadLocal.set(new T02ReferenceType());
+            threadLocal.remove();
+        }
+    }
+
+    static class T04PhantomReference {
         static void weak() throws IOException {
             WeakReference<T02ReferenceType> m = new WeakReference<>(new T02ReferenceType());
             System.out.println(m.get());
