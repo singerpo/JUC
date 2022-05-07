@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.ref.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 强引用(当没有指向引用时会回收)
