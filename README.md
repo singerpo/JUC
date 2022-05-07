@@ -23,7 +23,11 @@ T07Exchanger：Exchanger
 com.sing.juc.c04.T2interview  
     写一个固定容量同步容器，拥有put和get方法，以及getCount方法  
     能够支持2个生产者线程以及10个消费者线程的阻塞调用  
- 
-5.AQS
-JDK9及之后：VarHandle
+AQS
+JDK9及之后：VarHandle（1.普通属性原子操作 2比反射快，直接操作二进制码）
+
+5.com.sing.juc.c05
+T01ThreadLocal：ThreadLocal（弱）
+T02ReferenceType：强软弱虚
+
   

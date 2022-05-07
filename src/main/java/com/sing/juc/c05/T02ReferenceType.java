@@ -1,10 +1,11 @@
 package com.sing.juc.c05;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
+import java.lang.ref.*;
+import java.util.LinkedList;
+import java.util.List;
 
-/**1.50
+/**
  * 强引用(当没有指向引用时会回收)
  * 软引用(当内存不够时会回收)
  * --大对象的缓存
@@ -22,7 +23,7 @@ import java.lang.ref.WeakReference;
 public class T02ReferenceType {
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finalize() {
         System.out.println("finalize");
     }
 
@@ -64,15 +65,30 @@ public class T02ReferenceType {
     }
 
     static class T04PhantomReference {
-        static void weak() throws IOException {
-            WeakReference<T02ReferenceType> m = new WeakReference<>(new T02ReferenceType());
-            System.out.println(m.get());
-            System.gc();
-            System.out.println(m.get());
+        private static final List<Object> LIST = new LinkedList<>();
+        private static final ReferenceQueue<T02ReferenceType> QUEUE = new ReferenceQueue<>();
+        static void phantom(){
+            PhantomReference<T02ReferenceType> phantomReference = new PhantomReference<>(new T02ReferenceType(),QUEUE);
+            new Thread(()->{
+                while (true){
+                    System.out.println(phantomReference.get());
+                    LIST.add(new byte[1024*1024]);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 
-            ThreadLocal<T02ReferenceType> threadLocal = new ThreadLocal<>();
-            threadLocal.set(new T02ReferenceType());
-            threadLocal.remove();
+            new Thread(()->{
+                while (true){
+                    Reference poll = QUEUE.poll();
+                    if(poll != null){
+                        System.out.println("---虚引用对象被JVM回收了----" + poll);
+                    }
+                }
+            }).start();
         }
     }
 
@@ -81,9 +97,12 @@ public class T02ReferenceType {
         // T01StrongReference.strong();
 
         // 软引用: 当内存不够时会回收（-Xms20M -Xmx20M）
-        T02SoftReference.soft();
+        // T02SoftReference.soft();
 
         // 弱引用：遇到gc就会回收
         // T03WeakReference.weak();
+
+        // 虚引用：在任何时候都可能被垃圾回收器回收，它不能单独使用也不能通过它访问对象，虚引用必须和引用队列（ReferenceQueue）联合使用
+        T04PhantomReference.phantom();
     }
 }
