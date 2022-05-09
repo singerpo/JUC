@@ -3,7 +3,7 @@ package com.sing.juc.c06;
 import java.util.*;
 import java.util.concurrent.*;
 
-/**2.19
+/**
  * Queue List的区别
  * --Queue提供了对线程友好的API: offer  peek poll
  * --BlockingQueue提供了 put take(阻塞)
@@ -52,7 +52,9 @@ public class T03Collection {
         BlockingQueue delayQueue = new DelayQueue();
         // 容量为0，通常用于线程通知任务
         BlockingQueue<String> synchronousQueue = new SynchronousQueue<>();
+
         TransferQueue<String> linkedTransferQueue = new LinkedTransferQueue<>();
+        // 阻塞等待被消费
         linkedTransferQueue.transfer("a");
 
 

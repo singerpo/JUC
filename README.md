@@ -30,4 +30,7 @@ JDK9及之后：VarHandle（1.普通属性原子操作 2比反射快，直接操
 T01ThreadLocal：ThreadLocal（弱）
 T02ReferenceType：强软弱虚
 
+6.com.sing.juc.c05
+容器：Collection  Map 
+
   
