@@ -1,10 +1,8 @@
 package com.sing.juc.c06;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**1.02
  * @author songbo
@@ -29,11 +27,16 @@ public class T01Map {
          */
         Map<String, Object> hashMap = new HashMap<>();
         hashMap.put(null,null);
+        // 采用红黑树排序，key不允许为空，value可以为空
+        Map<String, Object> treeMap = new TreeMap<>();
+        treeMap.put("",null);
 
         Map<String, Object> synchronizedMap = Collections.synchronizedMap(new HashMap<>());
         synchronizedMap.put(null,null);
 
         Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
+        // 高并发并且排序（链表+跳表）
+        Map<String,Object> concurrentSkipListMap = new ConcurrentSkipListMap<>();
 
     }
 }
