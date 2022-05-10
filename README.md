@@ -30,7 +30,11 @@ JDK9及之后：VarHandle（1.普通属性原子操作 2比反射快，直接操
 T01ThreadLocal：ThreadLocal（弱）
 T02ReferenceType：强软弱虚
 
-6.com.sing.juc.c05
-容器：Collection  Map 
+6.com.sing.juc.c06
+容器：Collection(List Set Queue)  Map 
+
+7.com.sing.juc.c07.T1InterviewA1B2C3
+    两个线程交替打印A1B2C3D4E5F6G7
+
 
   
