@@ -38,7 +38,6 @@ public class T03Collection {
 
         Queue<String> priorityQueue = new PriorityQueue<>();
 
-        //无界队列
         BlockingQueue<String> linkedBlockingQueue = new LinkedBlockingQueue<>();
         // 如果满了，则阻塞
         linkedBlockingQueue.put("a");
