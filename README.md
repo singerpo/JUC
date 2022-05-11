@@ -1,14 +1,14 @@
-1.com.sing.juc.c01  
+#1.com.sing.juc.c01  
 T01_WhatIsThread: 线程的概念、线程的5种状态  
 T02_HowToCreateThread: 线程启动方式  
 T03_Sleep_Yield_Join: 线程常用方法  
 T04_Synchronized: 线程同步synchronized  
 
-2.com.sing.juc.c02  
+#2.com.sing.juc.c02  
 T01Volatile: volatile保证线程可见性、禁止指令重排序  
 T02AtomicInteger: AtomicXX类，通过Unsafe类通过**CAS**来实现（**ABA**问题通过加版本号解决）  
 
-3.com.sing.juc.c03  
+###3.com.sing.juc.c03  
 T01ReentrantLock: ReentrantLock  
 T02CountDownLatch: CountDownLatch  
 T03CyclicBarrier: CyclicBarrier
@@ -17,7 +17,7 @@ T05ReentrantReadWriteLock：ReentrantReadWriteLock--StampedLock
 T06Semaphore：Semaphore
 T07Exchanger：Exchanger
 
-4.com.sing.juc.c04.T1interview  
+###4.com.sing.juc.c04.T1interview  
     实现一个容器，提供两个方法 add size  
     写两个线程线程1提供10个元素到容器中，线程2实现监控元素的个数，当个数为5时，线程2给出提示并结束  
 com.sing.juc.c04.T2interview  
@@ -26,14 +26,14 @@ com.sing.juc.c04.T2interview
 AQS
 JDK9及之后：VarHandle（1.普通属性原子操作 2比反射快，直接操作二进制码）
 
-5.com.sing.juc.c05
+###5.com.sing.juc.c05
 T01ThreadLocal：ThreadLocal（弱）
 T02ReferenceType：强软弱虚
 
-6.com.sing.juc.c06
+###6.com.sing.juc.c06
 容器：Collection(List Set Queue)  Map 
 
-7.com.sing.juc.c07.T1InterviewA1B2C3
+###7.com.sing.juc.c07.T1InterviewA1B2C3
     两个线程交替打印A1B2C3D4E5F6G7
 
 
