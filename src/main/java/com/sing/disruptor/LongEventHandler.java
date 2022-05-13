@@ -20,6 +20,6 @@ public class LongEventHandler implements EventHandler<LongEvent> {
     @Override
     public void onEvent(LongEvent longEvent, long sequence, boolean endOfBatch) throws Exception {
         count ++;
-        System.out.println("[" + Thread.currentThread().getName() +"]" + longEvent + "序号:" + sequence);
+        System.out.println("[" + Thread.currentThread().getName() +"] " + longEvent + " 序号:" + sequence);
     }
 }
