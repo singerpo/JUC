@@ -45,7 +45,5 @@ public class T03ThreadPoolExecutor {
         // DelayedWorkQueue
         ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(5);
 
-
-        Executors.newWorkStealingPool();
     }
 }
