@@ -18,7 +18,7 @@ package com.sing.jvm.basic;
  * major version: 00 34
  * constant_pool_count(常量池数量）:00 10
  * constant_pool(长度为constant_pool_count-1的表）
- * access_flag
+ * access_flag(类的修饰符eg.public)
  * this_class
  * super_class
  * interfaces_count
