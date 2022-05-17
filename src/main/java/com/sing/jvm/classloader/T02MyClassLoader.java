@@ -2,7 +2,7 @@ package com.sing.jvm.classloader;
 
 import java.io.*;
 
-/**1.37
+/**2.17
  * @author songbo
  * @since 2022-05-17
  */
@@ -27,6 +27,6 @@ public class T02MyClassLoader extends ClassLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return super.findClass(name);
     }
 }
