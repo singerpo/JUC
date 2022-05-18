@@ -37,11 +37,14 @@ import sun.net.spi.nameservice.dns.DNSNameService;
  * 一个类只有被第一次主动使用时，才会被Java虚拟机加载
  * 主动使用的情况（6种）
  * 1.创建类的实例
- * 2.访问类的静态变量
+ * 2.访问类的静态变量(final静态变量除外）
  * 3.调用类的静态方法
  * 4.反射加载
  * 5.初始化一个类的子类
  * 6.Java虚拟机启动时被标记为启动类的类
+ *
+ * 三、混合执行 解释执行+编译执行
+ * 1.检测热点代码：—XX:CompileThreshold=10000
  */
 public class T01ClassLoaderLevel {
 
@@ -55,6 +58,8 @@ public class T01ClassLoaderLevel {
         System.out.println("--------------------------");
         System.out.println(DNSNameService.class.getClassLoader().getParent());
         System.out.println(T01ClassLoaderLevel.class.getClassLoader().getParent());
+        System.out.println("----------默认parent----------------");
+        System.out.println(ClassLoader.getSystemClassLoader());
 
         System.out.println("--------------------------");
 
