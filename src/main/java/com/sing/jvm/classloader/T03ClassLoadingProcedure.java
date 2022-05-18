@@ -1,6 +1,6 @@
 package com.sing.jvm.classloader;
 
-/**1.10
+/**1.28
  * 一、类加载过程
  * 1.加载
  * --Java虚拟机将.class文件读入内存（放在运行时区域的方法区内），并根据字节流为之创建一个Class对象（放在堆中）
