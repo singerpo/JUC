@@ -1,6 +1,5 @@
 # 使用JavaAgent测试Object的大小
 
-作者：马士兵 http://www.mashibing.com
 
 ## 对象大小（64位机）
 
