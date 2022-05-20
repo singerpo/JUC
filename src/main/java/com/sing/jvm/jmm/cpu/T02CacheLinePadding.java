@@ -1,6 +1,6 @@
 package com.sing.jvm.jmm.cpu;
 
-/**
+/**2.31
  * 使用缓存行的对齐提高效率
  */
 public class T02CacheLinePadding {
