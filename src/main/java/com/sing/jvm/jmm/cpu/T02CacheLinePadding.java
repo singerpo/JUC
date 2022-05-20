@@ -1,4 +1,4 @@
-package com.sing.jvm.jmm;
+package com.sing.jvm.jmm.cpu;
 
 /**
  * 使用缓存行的对齐提高效率

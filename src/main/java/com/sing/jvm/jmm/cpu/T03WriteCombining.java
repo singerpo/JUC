@@ -1,8 +1,8 @@
-package com.sing.jvm.jmm;
+package com.sing.jvm.jmm.cpu;
 
-/**2.12
- * CPU为了提高指令效率，会在一条指令执行过程中（比如去内存读数据），同时去执行另一条指令（前提是两条指令没有依赖关系）
- *  写操作也可以进行合并
+/**
+ * 合并写的例子
+ *  写操作也可以进行合并（4个字节缓存合并写）
  */
 public final class T03WriteCombining {
 

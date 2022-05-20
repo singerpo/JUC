@@ -1,4 +1,4 @@
-package com.sing.jvm.jmm;
+package com.sing.jvm.jmm.cpu;
 
 /**
  * -、硬件层数据一致性
