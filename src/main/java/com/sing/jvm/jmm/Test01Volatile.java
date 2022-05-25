@@ -1,6 +1,7 @@
 package com.sing.jvm.jmm;
 
 /**
+ * JMM(Java内存模型)定义了Java虚拟机在计算机内存中的工作方式。可见性、有序性、原子性
  *volatile的实现细节
  * 1.字节码层面
  *  flags: ACC_VOLATILE
