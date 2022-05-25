@@ -36,7 +36,7 @@ import org.openjdk.jol.info.ClassLayout;
  * --句柄池
  * 5.对象怎么分配？
  * 6.Object o = new Object()在内存中占用多少字节？
- * 16字节（mark word 8字节，class pointer 4字节，对齐填充 4字节
+ * 16字节（mark word 8字节，class pointer 4字节，对齐填充 4字节）
  *
  */
 public class Test03Object {
