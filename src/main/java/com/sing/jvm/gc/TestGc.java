@@ -3,7 +3,7 @@ package com.sing.jvm.gc;
 import java.util.ArrayList;
 import java.util.List;
 
-/**110:1.30
+/**110:2.02
  *
  * 熟悉GC常用算法，熟悉常见垃圾收集器，具有实际JVM调优实战经验
  * -.找出垃圾的方法
