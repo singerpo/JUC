@@ -119,14 +119,15 @@
 * -XX:+UseParallelGC = Parallel Scavenge + Parallel Old (1.8默认) 【PS + SerialOld】
 * -XX:+UseParallelOldGC = Parallel Scavenge + Parallel Old
 * -XX:+UseG1GC = G1
-* Linux中没找到默认GC的查看方法，而windows中会打印UseParallelGC 
-  * java +XX:+PrintCommandLineFlags -version
+* 默认GC的查看方法，会打印-XX:+UseParallelGC 
+  * java -XX:+PrintCommandLineFlags -version
   * 通过GC的日志来分辨
 
 * Linux下1.8版本默认的垃圾回收器到底是什么？
 
   * 1.8.0_181 默认（看不出来）Copy MarkCompact
   * 1.8.0_222 默认 PS + PO
+  * 1.8.0_201 默认 PS + PO
 
 ### JVM调优第一步，了解JVM常用命令行参数
 
@@ -156,8 +157,9 @@
     public static void main(String[] args) {
       System.out.println("HelloGC!");
       List list = new LinkedList();
-      for(;;) {
+      for(int i = 1;;i++) {
         byte[] b = new byte[1024*1024];
+        System.out.println(b);
         list.add(b);
       }
     }
@@ -167,10 +169,10 @@
   
 
   1. 区分概念：内存泄漏memory leak，内存溢出out of memory
-  2. java -XX:+PrintCommandLineFlags HelloGC
-  3. java -Xmn10M -Xms40M -Xmx60M -XX:+PrintCommandLineFlags -XX:+PrintGC  HelloGC
+  2. java -XX:+PrintCommandLineFlags  com.sing.jvm.gc.TestTuning
+  3. java -Xmn10M -Xms40M -Xmx60M -XX:+PrintCommandLineFlags -XX:+PrintGC   com.sing.jvm.gc.TestTuning
      PrintGCDetails PrintGCTimeStamps PrintGCCauses
-  4. java -XX:+UseConcMarkSweepGC -XX:+PrintCommandLineFlags HelloGC
+  4. java -XX:+UseConcMarkSweepGC -XX:+PrintCommandLineFlags  com.sing.jvm.gc.TestTuning
   5. java -XX:+PrintFlagsInitial 默认参数值
   6. java -XX:+PrintFlagsFinal 最终参数值
   7. java -XX:+PrintFlagsFinal | grep xxx 找到对应的参数
