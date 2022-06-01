@@ -24,6 +24,9 @@ java -XX:+PrintCommandLineFlags -version
 4. 数组数据
 5. 对齐 8的倍数
 
+### mark word结构
+![markword](markword.jpg)
+
 ## 实验
 
 1. 新建项目ObjectSize （1.8）

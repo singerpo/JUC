@@ -159,7 +159,7 @@
       List list = new LinkedList();
       for(int i = 1;;i++) {
         byte[] b = new byte[1024*1024];
-        System.out.println(b);
+        System.out.println(i);
         list.add(b);
       }
     }
@@ -170,7 +170,7 @@
 
   1. 区分概念：内存泄漏memory leak，内存溢出out of memory
   2. java -XX:+PrintCommandLineFlags  com.sing.jvm.gc.TestTuning
-  3. java -Xmn10M -Xms40M -Xmx60M -XX:+PrintCommandLineFlags -XX:+PrintGC   com.sing.jvm.gc.TestTuning
+  3. java -Xmn10M -Xms40M -Xmx40M -XX:+PrintCommandLineFlags -XX:+PrintGC   com.sing.jvm.gc.TestTuning
      PrintGCDetails PrintGCTimeStamps PrintGCCauses
   4. java -XX:+UseConcMarkSweepGC -XX:+PrintCommandLineFlags  com.sing.jvm.gc.TestTuning
   5. java -XX:+PrintFlagsInitial 默认参数值
