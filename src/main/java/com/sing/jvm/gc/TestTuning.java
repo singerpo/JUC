@@ -3,9 +3,11 @@ package com.sing.jvm.gc;
 import java.util.LinkedList;
 import java.util.List;
 
-/**114:1.27
- * @author songbo
- * @since 2022-05-31
+/**119
+ * 设置日志参数
+ * -Xloggc:/opt/xxx/logs/xxx-xxx-gc-%t.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=20M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCCause
+ *
+ *
  */
 public class TestTuning {
 
