@@ -1,6 +1,6 @@
 package com.sing.jvm.basic;
 
-/**2.25
+/**
  * 常见的JVM实现
  * 1.Hotspot:oracle官方，我们做实验用的JVM
  * 2.azul zing:最新垃圾回收的业界标杆（www.azul.com)

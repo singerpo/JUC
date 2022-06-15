@@ -48,6 +48,16 @@ public class Test03Object {
         // markword:8 类型指针：4 数组长度:4 数组数据：0 对齐：0，一共16字节
         String[] strs = new String[]{};
         System.out.println(ClassLayout.parseInstance(strs).toPrintable());
+
+        IntObject intObject = new IntObject();
+        System.out.println(ClassLayout.parseInstance(intObject).toPrintable());
+
+    }
+
+    static class IntObject {
+        int i = 130;
+        Long j= 130L;
+
     }
 
 }

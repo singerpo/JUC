@@ -389,14 +389,14 @@ total = eden + 1个survivor
 8. jinfo pid 
 
 9. jstat -gc 动态观察gc情况 / 阅读GC日志发现频繁GC / arthas观察 / jconsole/jvisualVM/ Jprofiler（最好用）
-   jstat -gc 4655 500 : 每个500个毫秒打印GC的情况
+   jstat -gc 4655 500 : 每隔500个毫秒打印GC的情况
    如果面试官问你是怎么定位OOM问题的？如果你回答用图形界面（错误）
    1：已经上线的系统不用图形界面用什么？（cmdline arthas）
    2：图形界面到底用在什么地方？测试！测试的时候进行监控！（压测观察）
 
-10. jmap - histo 4655 | head -20，查找有多少对象产生
+10. jmap -histo 4655 | head -20，查找有多少对象产生
 
-11. jmap -dump:format=b,file=xxx pid ：
+11. jmap -dump:format=b,file=xxx.hprof pid 
 
     线上系统，内存特别大，jmap执行期间会对进程产生很大影响，甚至卡顿（电商不适合）
     1：设定了参数HeapDump，OOM的时候会自动产生堆转储文件
@@ -419,7 +419,11 @@ jhat -J-mx512M xxx.dump
 1. 程序启动加入参数：
 
    > ```shell
-   > java -Djava.rmi.server.hostname=192.168.17.11 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=11111 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false XXX
+   >if [ "$1" = "start" ] ; then
+   >    JAVA_OPTS="$JAVA_OPTS -Djava.rmi.server.hostname=本机外网IP -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=11111 -Dcom.sun.management.jmxremote.rmi.port=11111"
+   >    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.ssl=false"
+   >    JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.pwd.file=/usr/local/jdk1.8.0_201/jre/lib/management/jmxremote.password"
+   >fi
    > ```
 
 2. 如果遭遇 Local host name unknown：XXX的错误，修改/etc/hosts文件，把XXX加入进去
@@ -603,9 +607,9 @@ OOM产生的原因多种多样，有些程序未必产生OOM，不断FGC(CPU飙�
    解决问题 加内存 + 更换垃圾回收器 G1
    真正问题在哪儿？不知道
 
-4. tomcat http-header-size过大问题（Hector）
+4. tomcat server.max-http-header-size过大问题（Hector）--
 
-5. lambda表达式导致方法区溢出问题(MethodArea / Perm Metaspace)
+5. lambda表达式导致方法区溢出问题(MethodArea / Perm Metaspace)--
    LambdaGC.java     -XX:MaxMetaspaceSize=9M -XX:+PrintGCDetails
 
    ```java
@@ -653,10 +657,10 @@ OOM产生的原因多种多样，有些程序未必产生OOM，不断FGC(CPU飙�
    
    ```
 
-6. 直接内存溢出问题（少见）
+6. 直接内存溢出问题（少见）--
    《深入理解Java虚拟机》P59，使用Unsafe分配直接内存，或者使用NIO的问题
 
-7. 栈溢出问题
+7. 栈溢出问题--
    -Xss设定太小
 
 8. 比较一下这两段程序的异同，分析哪一个是更优的写法：
@@ -834,7 +838,7 @@ OOM产生的原因多种多样，有些程序未必产生OOM，不断FGC(CPU飙�
 
       1. 扩内存
       2. 提高CPU性能（回收的快，业务逻辑产生对象的速度固定，垃圾回收越快，内存空间越大）
-      3. 降低MixedGC触发的阈值，让MixedGC提早发生（默认是45%）
+      3. 降低MixedGC触发的阈值，让MixedGC提早发生（默认是45% ，XX:InitiatingHeapOccupacyPercent）
 
  18. 问：生产环境中能够随随便便的dump吗？
      小堆影响不大，大堆会有服务暂停或卡顿（加live可以缓解），dump前会有FGC

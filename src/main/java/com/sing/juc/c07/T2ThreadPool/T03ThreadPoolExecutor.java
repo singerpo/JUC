@@ -28,7 +28,15 @@ public class T03ThreadPoolExecutor {
                 new ArrayBlockingQueue<>(4),
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
-        threadPoolExecutor.shutdown();
+        // threadPoolExecutor.shutdown();
+        threadPoolExecutor.execute(()->{
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(" execute ...");
+        });
 
         //指定线程工厂（定义名称，是否守护线程）
         new BasicThreadFactory.Builder().namingPattern("job-schedule-pool-%d").daemon(false).build();

@@ -65,16 +65,10 @@ import java.util.List;
 public class TestGc {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-            if(i == 0){
-                list.remove(0);
-            }
-        }
-
+        Integer i = 1;
+        Integer j = Integer.parseInt("1");
+        Integer k = Integer.valueOf(1);
+        System.out.println(i == j);
+        System.out.println(i == k);
     }
 }
