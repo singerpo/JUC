@@ -1,4 +1,4 @@
-package com.sing.design.d1factorymethod.bean;
+package com.sing.design.d01factorymethod.bean;
 
 /**
  * @author songbo

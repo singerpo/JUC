@@ -1,7 +1,7 @@
-package com.sing.design.d1factorymethod.factorymethod;
+package com.sing.design.d01factorymethod.factorymethod;
 
-import com.sing.design.d1factorymethod.bean.Plane;
-import com.sing.design.d1factorymethod.bean.Toy;
+import com.sing.design.d01factorymethod.bean.Plane;
+import com.sing.design.d01factorymethod.bean.Toy;
 
 /**
  * @author songbo

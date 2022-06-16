@@ -1,8 +1,8 @@
-package com.sing.design.d1factorymethod.simplefactory;
+package com.sing.design.d01factorymethod.simplefactory;
 
-import com.sing.design.d1factorymethod.bean.Car;
-import com.sing.design.d1factorymethod.bean.Plane;
-import com.sing.design.d1factorymethod.bean.Toy;
+import com.sing.design.d01factorymethod.bean.Car;
+import com.sing.design.d01factorymethod.bean.Plane;
+import com.sing.design.d01factorymethod.bean.Toy;
 
 /**
  * 简单工厂:核心是定义一个创建对象的接口，将对象的创建和本身的业务逻辑分离.(当以后实现改变时，只需要修改工厂类即可)
