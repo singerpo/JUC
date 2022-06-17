@@ -1,4 +1,4 @@
-package com.sing.design.d04builder;
+package com.sing.design.c4builder;
 
 /**
  * 指挥者 Director

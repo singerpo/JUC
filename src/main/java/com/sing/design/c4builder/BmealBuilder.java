@@ -1,4 +1,4 @@
-package com.sing.design.d04builder;
+package com.sing.design.c4builder;
 
 public class BmealBuilder extends MealBuilder{
 

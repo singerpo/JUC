@@ -1,4 +1,4 @@
-package com.sing.design.d03singleton;
+package com.sing.design.c3singleton;
 
 /**
  * 饿汉式

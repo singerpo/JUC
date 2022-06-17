@@ -1,4 +1,4 @@
-package com.sing.design.d04builder;
+package com.sing.design.c4builder;
 
 /**
  * 套餐构造器抽象类

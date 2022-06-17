@@ -1,8 +1,8 @@
-package com.sing.design.d01factorymethod.staticfactory;
+package com.sing.design.c1factorymethod.staticfactory;
 
-import com.sing.design.d01factorymethod.bean.Car;
-import com.sing.design.d01factorymethod.bean.Plane;
-import com.sing.design.d01factorymethod.bean.Toy;
+import com.sing.design.c1factorymethod.bean.Car;
+import com.sing.design.c1factorymethod.bean.Plane;
+import com.sing.design.c1factorymethod.bean.Toy;
 
 /**
  * 静态工厂

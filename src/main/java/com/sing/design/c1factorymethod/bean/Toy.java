@@ -1,4 +1,4 @@
-package com.sing.design.d01factorymethod.bean;
+package com.sing.design.c1factorymethod.bean;
 
 /**
  * 玩具
