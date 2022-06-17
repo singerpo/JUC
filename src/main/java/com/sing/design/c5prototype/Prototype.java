@@ -26,11 +26,7 @@ public class Prototype {
         for (String s : person3.arr) {
             System.out.println(s);
         }
-
-
     }
-
-
 }
 
 class Person implements Cloneable, Serializable {
