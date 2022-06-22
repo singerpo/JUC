@@ -51,11 +51,17 @@
       <artifactId>disruptor</artifactId>
       <version>3.4.4</version>
     </dependency>
-
+    <!-- java object layout -->
     <dependency>
       <groupId>org.openjdk.jol</groupId>
       <artifactId>jol-core</artifactId>
       <version>0.16</version>
+    </dependency>
+    <!-- CGLIB -->
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.3.0</version>
     </dependency>
 
   </dependencies>
