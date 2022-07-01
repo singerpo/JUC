@@ -7,6 +7,7 @@ import java.util.Map;
  * 享元模式
  * 重复利用对象
  * 享元模式通过共享技术有效地支持细粒度、状态变化小的对象复用，当系统中存在有多个相同的对象，那么只共享一份，不必每个都去实例化一个对象，极大地减少系统中对象的数量。
+ *
  * @author songbo
  * @since 2022-06-28
  */
@@ -22,20 +23,20 @@ public class FlyweightMain {
 }
 
 //享元工厂类
-class FlyweightFactory{
+class FlyweightFactory {
     static Map<String, Circle> circles = new HashMap<>();
 
-    public static Circle getShape(String key){
+    public static Circle getShape(String key) {
         Circle circle = circles.get(key);
         //如果shape==null,表示不存在,则新建,并且保持到共享池中
-        if(circle == null){
+        if (circle == null) {
             circle = new Circle(key);
             circles.put(key, circle);
         }
         return circle;
     }
 
-    public static int getSum(){
+    public static int getSum() {
         return circles.size();
     }
 }
