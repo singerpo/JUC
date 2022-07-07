@@ -1,7 +1,5 @@
 package com.sing.tank;
 
-import org.apache.commons.math3.analysis.function.Tan;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,32 +27,70 @@ public class TankFrame extends Frame {
         });
 
         this.addKeyListener(new KeyAdapter() {
+            boolean up = false;
+            boolean down = false;
+            boolean left = false;
+            boolean right = false;
+
             @Override
             public void keyPressed(KeyEvent e) {
-                x += 30;
-               repaint();
+                int key = e.getKeyCode();
+                switch (key) {
+                    case KeyEvent.VK_UP:
+                        up = true;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        down = true;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        left = true;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        right = true;
+                        break;
+                }
+                if(up){
+                    y -= 10;
+                }
+                if(down){
+                    y += 10;
+                }
+                if(left){
+                    x -= 10;
+                }
+                if(right){
+                    x += 10;
+                }
+                repaint();
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                y += 30;
-                repaint();
+                int key = e.getKeyCode();
+                switch (key) {
+                    case KeyEvent.VK_UP:
+                        up = false;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        down = false;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        left = false;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        right = false;
+                        break;
+                }
+
             }
         });
     }
 
     @Override
     public void paint(Graphics graphics) {
+        graphics.setColor(new Color(255, 168, 255));
         graphics.fillRect(x, y, 50, 50);
-        x += 10;
-        y += 10;
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        TankFrame tankFrame = new TankFrame();
-        while (true){
-            Thread.sleep(100);
-            tankFrame.repaint();
-        }
+//        x += 10;
+//        y += 10;
     }
 }
