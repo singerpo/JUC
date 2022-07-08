@@ -4,28 +4,37 @@ import java.awt.*;
 
 /**
  * 坦克
+ *
  * @author songbo
  * @since 2022-07-08
  */
 public class Tank {
+    private TankFrame tankFrame;
     private int x;
     private int y;
     private DirectionEnum directionEnum = DirectionEnum.DOWN;
     private int speed = 5;
     private Color color;
     private boolean moving = false;
+    private boolean live = true;
+    private int width = 50;
+    private int height = 50;
 
-    public Tank(int x, int y, DirectionEnum directionEnum, Color color) {
+    public Tank(int x, int y, DirectionEnum directionEnum, Color color, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.directionEnum = directionEnum;
         this.color = color;
+        this.tankFrame = tankFrame;
 
     }
 
     public void paint(Graphics graphics) {
+        if (!this.live) {
+            return;
+        }
         graphics.setColor(this.color);
-        graphics.fillRect(this.x, this.y, 50, 50);
+        graphics.fillRect(this.x, this.y, this.width, this.height);
         if (this.directionEnum != null && moving) {
             switch (this.directionEnum) {
                 case UP:
@@ -52,6 +61,11 @@ public class Tank {
                     break;
             }
         }
+    }
+
+    public void fire() {
+        Bullet bullet = new Bullet(this.x + 20, this.y + 20, this.directionEnum, this.color, this.tankFrame);
+        this.tankFrame.bullets.add(bullet);
     }
 
     public int getX() {
@@ -100,5 +114,30 @@ public class Tank {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
