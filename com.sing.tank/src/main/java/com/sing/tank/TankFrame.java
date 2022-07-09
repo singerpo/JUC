@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 实现MyKeyListener，对键盘作出响应（1）.mp4 00:12
+ * 坦克主窗口
  *
+ *抽象出坦克类，学习使用枚举类型 00：33
  * @author songbo
  * @since 2022-07-07
  */
@@ -19,14 +20,26 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank mainTank = new Tank(50, 200, DirectionEnum.DOWN, Color.RED, this);
-    Tank otherTank = new Tank(800 - 100, 200, DirectionEnum.DOWN, Color.BLUE, this);
+    Tank mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+    Tank otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+    List<Tank> tanks = new ArrayList<>();
     List<Bullet> bullets = new ArrayList<>();
+
+    {
+        tanks.add(mainTank);
+        tanks.add(otherTank);
+        //60为间距
+        int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
+        for (int i = 1; i <= max; i++) {
+            tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
+        }
+    }
 
     public TankFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
         setTitle("坦克大战");
+        setIconImage(ResourceManager.tankD);
         setVisible(true);
 
         this.addWindowListener(new WindowAdapter() {
@@ -49,6 +62,7 @@ public class TankFrame extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
+            // System.out.println(Integer.toHexString(key));
             switch (key) {
                 case KeyEvent.VK_UP:
                     up = true;
@@ -65,7 +79,7 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_CONTROL:
                     TankFrame.this.mainTank.fire();
                     break;
-                case KeyEvent.VK_ALT:
+                case KeyEvent.VK_L:
                     TankFrame.this.otherTank.fire();
                     break;
             }
@@ -129,7 +143,7 @@ public class TankFrame extends Frame {
         }
         Graphics offGraphics = offScreenImage.getGraphics();
         Color color = offGraphics.getColor();
-        offGraphics.setColor(Color.YELLOW);
+        offGraphics.setColor(Color.GRAY);
         offGraphics.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         offGraphics.setColor(color);
         paint(offGraphics);
@@ -138,8 +152,15 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        this.mainTank.paint(graphics);
-        this.otherTank.paint(graphics);
+        Color color = graphics.getColor();
+        graphics.setColor(Color.YELLOW);
+        graphics.drawString("子弹的数量：" + bullets.size(), 10, 60);
+        graphics.drawString("坦克的数量：" + tanks.size(), 100, 60);
+        graphics.setColor(color);
+
+        for (int i = 0; i < this.tanks.size(); i++) {
+            this.tanks.get(i).paint(graphics);
+        }
         for (int i = 0; i < this.bullets.size(); i++) {
             this.bullets.get(i).paint(graphics);
         }
