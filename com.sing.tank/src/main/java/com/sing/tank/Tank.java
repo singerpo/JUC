@@ -62,7 +62,25 @@ public class Tank {
                 break;
 
         }
-        // graphics.fillRect(this.x, this.y, this.width, this.height);
+        if (this.groupEnum == GroupEnum.BAD) {
+            this.moving = true;
+            int direct = random.nextInt(20);
+            switch (direct){
+                case 1:
+                    this.directionEnum = DirectionEnum.UP;
+                    break;
+                case 2:
+                    this.directionEnum = DirectionEnum.DOWN;
+                    break;
+                case 3:
+                    this.directionEnum = DirectionEnum.LEFT;
+                    break;
+                case 4:
+                    this.directionEnum = DirectionEnum.RIGHT;
+                    break;
+            }
+
+        }
         move();
 
     }
@@ -97,8 +115,10 @@ public class Tank {
                     break;
             }
         }
-        if(random.nextInt(10) > 8){
-            this.fire();
+        if(GroupEnum.BAD.equals(this.groupEnum)){
+            if(random.nextInt(20) > 16){
+                this.fire();
+            }
         }
     }
 

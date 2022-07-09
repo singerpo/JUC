@@ -46,7 +46,7 @@ public class Bullet {
                 this.height = ResourceManager.bulletR.getHeight();
                 this.x = tank.getX() + tank.getWidth() - this.width;
                 this.y = tank.getY() + (tank.getHeight() - this.height) / 2;
-                this.y +=1;
+                this.y += 1;
                 break;
         }
 
@@ -110,18 +110,21 @@ public class Bullet {
     /**
      * 判断子弹和坦克碰撞
      */
-    public void collide(){
+    public void collide() {
         // 通过是否相交来判断是否相撞
         for (Tank tank : tankFrame.tanks) {
             // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
             }
-            Rectangle bulletRect = new Rectangle(this.x,this.y,this.width,this.height);
-            Rectangle tankRect = new Rectangle(tank.getX(),tank.getY(),tank.getWidth(),tank.getHeight());
-            if(bulletRect.intersects(tankRect)){
+            Rectangle bulletRect = new Rectangle(this.x, this.y, this.width, this.height);
+            Rectangle tankRect = new Rectangle(tank.getX(), tank.getY(), tank.getWidth(), tank.getHeight());
+            if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
                 this.live = false;
+                //爆炸
+                Explode explode = new Explode(tank.getX(), tank.getY(), tankFrame);
+                tankFrame.explodes.add(explode);
             }
         }
         // 计算x,y来判断是否碰撞

@@ -24,7 +24,8 @@ public class TankFrame extends Frame {
     Tank otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
     List<Tank> tanks = new ArrayList<>();
     List<Bullet> bullets = new ArrayList<>();
-
+    List<Explode> explodes = new ArrayList<>();
+    
     {
         tanks.add(mainTank);
         tanks.add(otherTank);
@@ -163,6 +164,9 @@ public class TankFrame extends Frame {
         }
         for (int i = 0; i < this.bullets.size(); i++) {
             this.bullets.get(i).paint(graphics);
+        }
+        for (int i = 0; i < this.explodes.size(); i++) {
+            this.explodes.get(i).paint(graphics);
         }
 
 
