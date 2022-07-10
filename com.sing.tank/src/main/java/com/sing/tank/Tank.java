@@ -17,7 +17,7 @@ public class Tank {
     /*** 坦克y坐标 **/
     private int y;
     /*** 坦克方向 **/
-    private DirectionEnum directionEnum = DirectionEnum.DOWN;
+    private DirectionEnum directionEnum;
     /*** 坦克速度 **/
     private int speed = 5;
     /*** 是否移动 **/
@@ -25,13 +25,14 @@ public class Tank {
     /*** 是否存活 **/
     private boolean live = true;
     /*** 坦克宽度 **/
-    private int width = 50;
+    private int width = 60;
     /*** 坦克高度 **/
-    private int height = 50;
+    private int height = 60;
     /*** 坦克分组 **/
     private GroupEnum groupEnum;
     /*** random **/
     Random random = new Random();
+    Rectangle rectangle = new Rectangle();
 
     public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, TankFrame tankFrame) {
         this.x = x;
@@ -44,85 +45,131 @@ public class Tank {
 
     public void paint(Graphics graphics) {
         if (!this.live) {
+            // 当坦克发生销毁，随机产生一个敌对坦克
+//            int r = random.nextInt(4);
+//            if (r == 3) {
+//                this.setGroupEnum(GroupEnum.BAD);
+//                this.setX(random.nextInt(TankFrame.GAME_WIDTH - 100));
+//                this.setY(random.nextInt(TankFrame.GAME_HEIGHT - 100));
+//                this.setLive(true);
+//            } else {
+//            }
             tankFrame.tanks.remove(this);
             return;
         }
-        switch (this.directionEnum){
+        switch (this.directionEnum) {
             case UP:
-                graphics.drawImage(ResourceManager.tankU, x, y, this.width, this.height, null);
+                if (this.groupEnum == GroupEnum.GOOD) {
+                    graphics.drawImage(ResourceManager.goodTankU, x, y, this.width, this.height, null);
+                } else {
+                    graphics.drawImage(ResourceManager.tankU, x, y, this.width, this.height, null);
+                }
                 break;
             case DOWN:
-                graphics.drawImage(ResourceManager.tankD, x, y, this.width, this.height, null);
+                if (this.groupEnum == GroupEnum.GOOD) {
+                    graphics.drawImage(ResourceManager.goodTankD, x, y, this.width, this.height, null);
+                } else {
+                    graphics.drawImage(ResourceManager.tankD, x, y, this.width, this.height, null);
+                }
                 break;
             case LEFT:
-                graphics.drawImage(ResourceManager.tankL, x, y, this.width, this.height, null);
+                if (this.groupEnum == GroupEnum.GOOD) {
+                    graphics.drawImage(ResourceManager.goodTankL, x, y, this.width, this.height, null);
+                } else {
+                    graphics.drawImage(ResourceManager.tankL, x, y, this.width, this.height, null);
+                }
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceManager.tankR, x, y, this.width, this.height, null);
+                if (this.groupEnum == GroupEnum.GOOD) {
+                    graphics.drawImage(ResourceManager.goodTankR, x, y, this.width, this.height, null);
+                } else {
+                    graphics.drawImage(ResourceManager.tankR, x, y, this.width, this.height, null);
+                }
                 break;
 
         }
+        randomDirection();
+        move();
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+        rectangle.width = this.width;
+        rectangle.height = this.height;
+    }
+
+    /**
+     * 敌对坦克随机方向
+     */
+    private void randomDirection() {
         if (this.groupEnum == GroupEnum.BAD) {
             this.moving = true;
-            int direct = random.nextInt(20);
-            switch (direct){
-                case 1:
-                    this.directionEnum = DirectionEnum.UP;
-                    break;
-                case 2:
-                    this.directionEnum = DirectionEnum.DOWN;
-                    break;
-                case 3:
-                    this.directionEnum = DirectionEnum.LEFT;
-                    break;
-                case 4:
-                    this.directionEnum = DirectionEnum.RIGHT;
-                    break;
+            if (random.nextInt(100) > 95) {
+                int direct = random.nextInt(4);
+                switch (direct) {
+                    case 1:
+                        this.directionEnum = DirectionEnum.UP;
+                        break;
+                    case 2:
+                        this.directionEnum = DirectionEnum.DOWN;
+                        break;
+                    case 3:
+                        this.directionEnum = DirectionEnum.LEFT;
+                        break;
+                    case 4:
+                        this.directionEnum = DirectionEnum.RIGHT;
+                        break;
+                }
             }
-
         }
-        move();
-
     }
 
     /**
      * 坦克移动
      */
-    private void move(){
+    private void move() {
         if (this.directionEnum != null && moving) {
             switch (this.directionEnum) {
                 case UP:
-                    if (this.y - this.speed >= 25) {
-                        this.y -= this.speed;
-                    }
+                    this.y -= this.speed;
                     break;
                 case DOWN:
-                    if (this.y + this.speed <= TankFrame.GAME_HEIGHT - this.height) {
-                        this.y += this.speed;
-                    }
-
+                    this.y += this.speed;
                     break;
                 case LEFT:
-                    if (this.x - this.speed >= 0) {
-                        this.x -= this.speed;
-                    }
+                    this.x -= this.speed;
                     break;
                 case RIGHT:
-                    if (this.x + this.speed <= TankFrame.GAME_WIDTH - this.width) {
-                        this.x += this.speed;
-                    }
-
+                    this.x += this.speed;
                     break;
             }
         }
-        if(GroupEnum.BAD.equals(this.groupEnum)){
-            if(random.nextInt(20) > 16){
+        boundCheck();
+        if (GroupEnum.BAD.equals(this.groupEnum)) {
+            if (random.nextInt(100) > 95) {
                 this.fire();
             }
         }
     }
 
+    private void boundCheck() {
+        if (this.x < 2) {
+            this.x = 2;
+        }
+        if (this.x > TankFrame.GAME_WIDTH - this.width - 2) {
+            this.x = TankFrame.GAME_WIDTH - this.width - 2;
+        }
+        if (this.y < 30 - 2) {
+            this.y = 30 - 2;
+        }
+        if (this.y > TankFrame.GAME_HEIGHT - this.height - 2) {
+            this.y = TankFrame.GAME_HEIGHT - this.height - 2;
+        }
+
+    }
+
     public void fire() {
+        if (!this.live) {
+            return;
+        }
         Bullet bullet = new Bullet(this.directionEnum, this.tankFrame, this);
         this.tankFrame.bullets.add(bullet);
     }

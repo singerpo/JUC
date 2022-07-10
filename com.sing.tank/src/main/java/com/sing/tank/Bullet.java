@@ -1,6 +1,7 @@
 package com.sing.tank;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * 子弹
@@ -18,42 +19,61 @@ public class Bullet {
     private Tank tank;
     private int width = 12;
     private int height = 12;
+    Rectangle rectangle = new Rectangle();
 
     public Bullet(DirectionEnum directionEnum, TankFrame tankFrame, Tank tank) {
+        this.directionEnum = directionEnum;
+        this.tankFrame = tankFrame;
+        this.tank = tank;
         switch (directionEnum) {
             case UP:
-                this.width = ResourceManager.bulletU.getWidth();
-                this.height = ResourceManager.bulletU.getHeight();
+                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                    this.width = ResourceManager.goodBulletU.getWidth();
+                    this.height = ResourceManager.goodBulletU.getHeight();
+                }else {
+                    this.width = ResourceManager.bulletU.getWidth();
+                    this.height = ResourceManager.bulletU.getHeight();
+                }
                 this.x = tank.getX() + (tank.getWidth() - this.width) / 2;
                 this.x += 1;
                 this.y = tank.getY();
                 break;
             case DOWN:
-                this.width = ResourceManager.bulletD.getWidth();
-                this.height = ResourceManager.bulletD.getHeight();
+                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                    this.width = ResourceManager.goodBulletD.getWidth();
+                    this.height = ResourceManager.goodBulletD.getHeight();
+                }else {
+                    this.width = ResourceManager.bulletD.getWidth();
+                    this.height = ResourceManager.bulletD.getHeight();
+                }
                 this.x = tank.getX() + (tank.getWidth() - this.width) / 2;
                 this.x -= 1;
                 this.y = tank.getY() + tank.getHeight() - this.height;
                 break;
             case LEFT:
-                this.width = ResourceManager.bulletL.getWidth();
-                this.height = ResourceManager.bulletL.getHeight();
+                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                    this.width = ResourceManager.goodBulletL.getWidth();
+                    this.height = ResourceManager.goodBulletL.getHeight();
+                }else {
+                    this.width = ResourceManager.bulletL.getWidth();
+                    this.height = ResourceManager.bulletL.getHeight();
+                }
                 this.x = tank.getX();
                 this.y = tank.getY() + (tank.getHeight() - this.height) / 2;
                 break;
             case RIGHT:
-                this.width = ResourceManager.bulletR.getWidth();
-                this.height = ResourceManager.bulletR.getHeight();
+                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                    this.width = ResourceManager.goodBulletR.getWidth();
+                    this.height = ResourceManager.goodBulletR.getHeight();
+                }else {
+                    this.width = ResourceManager.bulletR.getWidth();
+                    this.height = ResourceManager.bulletR.getHeight();
+                }
                 this.x = tank.getX() + tank.getWidth() - this.width;
                 this.y = tank.getY() + (tank.getHeight() - this.height) / 2;
                 this.y += 1;
                 break;
         }
-
-
-        this.directionEnum = directionEnum;
-        this.tankFrame = tankFrame;
-        this.tank = tank;
     }
 
     public void paint(Graphics graphics) {
@@ -63,21 +83,35 @@ public class Bullet {
         }
         switch (this.directionEnum) {
             case UP:
-                graphics.drawImage(ResourceManager.bulletU, x, y, this.width, this.height, null);
+                BufferedImage bufferedImage = GroupEnum.GOOD == this.tank.getGroupEnum()? ResourceManager.goodBulletU:ResourceManager.bulletU;
+                this.width = bufferedImage.getWidth();
+                this.height = bufferedImage.getHeight();
+                graphics.drawImage(bufferedImage, x, y, this.width, this.height, null);
                 break;
             case DOWN:
-                this.width = ResourceManager.bulletD.getWidth();
-                this.height = ResourceManager.bulletD.getHeight();
-                graphics.drawImage(ResourceManager.bulletD, x, y, this.width, this.height, null);
+                bufferedImage = GroupEnum.GOOD == this.tank.getGroupEnum()? ResourceManager.goodBulletD:ResourceManager.bulletD;
+                this.width = bufferedImage.getWidth();
+                this.height = bufferedImage.getHeight();
+                graphics.drawImage(bufferedImage, x, y, this.width, this.height, null);
                 break;
             case LEFT:
-                graphics.drawImage(ResourceManager.bulletL, x, y, this.width, this.height, null);
+                bufferedImage = GroupEnum.GOOD == this.tank.getGroupEnum()? ResourceManager.goodBulletL:ResourceManager.bulletL;
+                this.width = bufferedImage.getWidth();
+                this.height = bufferedImage.getHeight();
+                graphics.drawImage(bufferedImage, x, y, this.width, this.height, null);
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceManager.bulletR, x, y, this.width, this.height, null);
+                bufferedImage = GroupEnum.GOOD == this.tank.getGroupEnum()? ResourceManager.goodBulletR:ResourceManager.bulletR;
+                this.width = bufferedImage.getWidth();
+                this.height = bufferedImage.getHeight();
+                graphics.drawImage(bufferedImage, x, y, this.width, this.height, null);
                 break;
         }
         move();
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+        rectangle.width = this.width;
+        rectangle.height = this.height;
 
     }
 
@@ -117,13 +151,13 @@ public class Bullet {
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
             }
-            Rectangle bulletRect = new Rectangle(this.x, this.y, this.width, this.height);
-            Rectangle tankRect = new Rectangle(tank.getX(), tank.getY(), tank.getWidth(), tank.getHeight());
+            Rectangle bulletRect = this.rectangle;
+            Rectangle tankRect = tank.rectangle;
             if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
                 this.live = false;
-                //爆炸
-                Explode explode = new Explode(tank.getX(), tank.getY(), tankFrame);
+                //在坦克中心位置爆炸
+                Explode explode = new Explode(tank, tankFrame);
                 tankFrame.explodes.add(explode);
             }
         }

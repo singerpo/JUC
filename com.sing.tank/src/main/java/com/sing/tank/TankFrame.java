@@ -8,33 +8,44 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 坦克主窗口
+ * <p>
+ * 4  把监听处理类MyKeyListener放到TankFrame内（1）
  *
- *抽象出坦克类，学习使用枚举类型 00：33
  * @author songbo
  * @since 2022-07-07
  */
 public class TankFrame extends Frame {
-    public static final int GAME_WIDTH = 800;
-    public static final int GAME_HEIGHT = 600;
+    public static final int GAME_WIDTH = 1080;
+    public static final int GAME_HEIGHT = 960;
 
-    Tank mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-    Tank otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-    List<Tank> tanks = new ArrayList<>();
-    List<Bullet> bullets = new ArrayList<>();
-    List<Explode> explodes = new ArrayList<>();
-    
-    {
-        tanks.add(mainTank);
-        tanks.add(otherTank);
-        //60为间距
-        int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
-        for (int i = 1; i <= max; i++) {
-            tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
-        }
-    }
+    List<Tank> tanks ;
+    List<Bullet> bullets;
+    List<Explode> explodes;
+    Tank mainTank;
+    Tank otherTank;
+     public void init(){
+         tanks = new ArrayList<>();
+         bullets = new ArrayList<>();
+         explodes = new ArrayList<>();
+         mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+         otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+         tanks.add(mainTank);
+         tanks.add(otherTank);
+         //60为间距
+         int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
+         for (int i = 1; i <= max; i++) {
+             tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
+         }
+         Random random = new Random();
+         for (int i = 0; i < 5; i++) {
+             tanks.add(new Tank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
+         }
+     }
+
 
     public TankFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -51,6 +62,7 @@ public class TankFrame extends Frame {
         });
 
         this.addKeyListener(new MyKeyListener());
+        init();
     }
 
     // 键盘监听
@@ -82,6 +94,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_L:
                     TankFrame.this.otherTank.fire();
+                    break;
+                case KeyEvent.VK_R:
+                    TankFrame.this.init();
                     break;
             }
             setMainTankDirection();
