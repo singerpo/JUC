@@ -21,7 +21,7 @@ import java.util.Random;
 public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 1080;
     public static final int GAME_HEIGHT = 960;
-    public static final long PAINT_DIFF = 50L;
+    public static final long PAINT_DIFF = 25L;
 
     List<Tank> tanks ;
     List<Bullet> bullets;
@@ -42,7 +42,7 @@ public class TankFrame extends Frame {
              tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
          }
          Random random = new Random();
-         for (int i = 0; i < 5; i++) {
+         for (int i = 0; i < PropertyManager.getInstance().initTankCount -2 - max; i++) {
              tanks.add(new Tank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
          }
      }
