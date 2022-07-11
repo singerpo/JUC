@@ -21,6 +21,7 @@ import java.util.Random;
 public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 1080;
     public static final int GAME_HEIGHT = 960;
+    public static final long PAINT_DIFF = 50L;
 
     List<Tank> tanks ;
     List<Bullet> bullets;

@@ -33,6 +33,7 @@ public class Tank {
     /*** random **/
     Random random = new Random();
     Rectangle rectangle = new Rectangle();
+    int paintCount = 0;
 
     public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, TankFrame tankFrame) {
         this.x = x;
@@ -144,8 +145,13 @@ public class Tank {
         }
         boundCheck();
         if (GroupEnum.BAD.equals(this.groupEnum)) {
+            this.paintCount++;
             if (random.nextInt(100) > 95) {
-                this.fire();
+                // 敌对坦克间隔半秒
+                if(this.paintCount > 500/TankFrame.PAINT_DIFF){
+                    this.paintCount = 0;
+                    this.fire();
+                }
             }
         }
     }
