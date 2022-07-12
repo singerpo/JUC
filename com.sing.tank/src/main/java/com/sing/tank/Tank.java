@@ -144,14 +144,10 @@ public class Tank {
             }
         }
         boundCheck();
+        this.paintCount++;
         if (GroupEnum.BAD.equals(this.groupEnum)) {
-            this.paintCount++;
             if (random.nextInt(100) > 95) {
-                // 敌对坦克间隔半秒
-                if (this.paintCount > 500 / TankFrame.PAINT_DIFF) {
-                    this.paintCount = 0;
-                    this.fire();
-                }
+                this.fire();
             }
         }
     }
@@ -176,11 +172,19 @@ public class Tank {
         if (!this.live) {
             return;
         }
-        Bullet bullet = new Bullet(this.directionEnum, this.tankFrame, this);
-        this.tankFrame.bullets.add(bullet);
-        if (this.groupEnum == GroupEnum.GOOD) {
-            new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
+        int diff = 500;
+        if(this.groupEnum == GroupEnum.GOOD){
+            diff = 200;
         }
+        if (this.paintCount > diff / TankFrame.PAINT_DIFF) {
+            this.paintCount = 0;
+            Bullet bullet = new Bullet(this.directionEnum, this.tankFrame, this);
+            this.tankFrame.bullets.add(bullet);
+            if (this.groupEnum == GroupEnum.GOOD) {
+                new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
+            }
+        }
+
     }
 
     public int getX() {
