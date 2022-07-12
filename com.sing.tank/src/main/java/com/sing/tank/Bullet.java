@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class Bullet {
-    private int speed = 6;
+    private int speed = PropertyManager.getInstance().bulletSpeed;
     private int x, y;
     private DirectionEnum directionEnum;
     private Color color;

@@ -19,7 +19,7 @@ public class Tank {
     /*** 坦克方向 **/
     private DirectionEnum directionEnum;
     /*** 坦克速度 **/
-    private int speed = 5;
+    private int speed = PropertyManager.getInstance().tankSpeed;
     /*** 是否移动 **/
     private boolean moving = false;
     /*** 是否存活 **/
@@ -148,7 +148,7 @@ public class Tank {
             this.paintCount++;
             if (random.nextInt(100) > 95) {
                 // 敌对坦克间隔半秒
-                if(this.paintCount > 500/TankFrame.PAINT_DIFF){
+                if (this.paintCount > 500 / TankFrame.PAINT_DIFF) {
                     this.paintCount = 0;
                     this.fire();
                 }
@@ -178,6 +178,9 @@ public class Tank {
         }
         Bullet bullet = new Bullet(this.directionEnum, this.tankFrame, this);
         this.tankFrame.bullets.add(bullet);
+        if (this.groupEnum == GroupEnum.GOOD) {
+            new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
+        }
     }
 
     public int getX() {

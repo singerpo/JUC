@@ -19,9 +19,9 @@ import java.util.Random;
  * @since 2022-07-07
  */
 public class TankFrame extends Frame {
-    public static final int GAME_WIDTH = 1080;
-    public static final int GAME_HEIGHT = 960;
-    public static final long PAINT_DIFF = 25L;
+    public static final int GAME_WIDTH = PropertyManager.getInstance().gameWidth;
+    public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
+    public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
 
     List<Tank> tanks ;
     List<Bullet> bullets;
@@ -100,6 +100,7 @@ public class TankFrame extends Frame {
                     TankFrame.this.init();
                     break;
             }
+            new Thread(()->new Audio("audio/tank_move.war").play()).start();
             setMainTankDirection();
         }
 
