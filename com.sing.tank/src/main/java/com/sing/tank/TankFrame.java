@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * 坦克主窗口
  * <p>
- * 4  把监听处理类MyKeyListener放到TankFrame内（1）
+ * 6
  *
  * @author songbo
  * @since 2022-07-07

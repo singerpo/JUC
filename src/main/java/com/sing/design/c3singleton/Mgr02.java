@@ -13,6 +13,7 @@ public class Mgr02 {
 
     public static Mgr02 getInstance() {
         if (instance == null) {
+            // 通过减小同步代码块和双重检查来提高效率
             synchronized (Mgr02.class) {
                 if (instance == null) {
                     instance = new Mgr02();

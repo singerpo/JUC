@@ -184,7 +184,6 @@ public class Tank {
                 new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
             }
         }
-
     }
 
     public int getX() {
