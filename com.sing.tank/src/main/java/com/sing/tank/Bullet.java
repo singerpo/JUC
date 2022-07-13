@@ -74,11 +74,12 @@ public class Bullet {
                 this.y += 1;
                 break;
         }
+        this.tankFrame.getBullets().add(this);
     }
 
     public void paint(Graphics graphics) {
         if (!live) {
-            this.tankFrame.bullets.remove(this);
+            this.tankFrame.getBullets().remove(this);
             return;
         }
         switch (this.directionEnum) {
@@ -146,7 +147,7 @@ public class Bullet {
      */
     public void collide() {
         // 通过是否相交来判断是否相撞
-        for (Tank tank : tankFrame.tanks) {
+        for (Tank tank : tankFrame.getTanks()) {
             // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
@@ -158,7 +159,7 @@ public class Bullet {
                 this.live = false;
                 //在坦克中心位置爆炸
                 Explode explode = new Explode(tank, tankFrame);
-                tankFrame.explodes.add(explode);
+                tankFrame.getExplodes().add(explode);
             }
         }
         // 计算x,y来判断是否碰撞

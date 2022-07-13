@@ -23,29 +23,30 @@ public class TankFrame extends Frame {
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
 
-    List<Tank> tanks ;
-    List<Bullet> bullets;
-    List<Explode> explodes;
-    Tank mainTank;
-    Tank otherTank;
-     public void init(){
-         tanks = new ArrayList<>();
-         bullets = new ArrayList<>();
-         explodes = new ArrayList<>();
-         mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-         otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-         tanks.add(mainTank);
-         tanks.add(otherTank);
-         //60为间距
-         int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
-         for (int i = 1; i <= max; i++) {
-             tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
-         }
-         Random random = new Random();
-         for (int i = 0; i < PropertyManager.getInstance().initTankCount -2 - max; i++) {
-             tanks.add(new Tank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
-         }
-     }
+    private List<Tank> tanks;
+    private List<Bullet> bullets;
+    private List<Explode> explodes;
+    private Tank mainTank;
+    private Tank otherTank;
+
+    public void init() {
+        tanks = new ArrayList<>();
+        bullets = new ArrayList<>();
+        explodes = new ArrayList<>();
+        mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+        otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+        tanks.add(mainTank);
+        tanks.add(otherTank);
+        //60为间距
+        int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
+        for (int i = 1; i <= max; i++) {
+            tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
+        }
+        Random random = new Random();
+        for (int i = 0; i < PropertyManager.getInstance().initTankCount - 2 - max; i++) {
+            tanks.add(new Tank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
+        }
+    }
 
 
     public TankFrame() throws HeadlessException {
@@ -100,7 +101,7 @@ public class TankFrame extends Frame {
                     TankFrame.this.init();
                     break;
             }
-            new Thread(()->new Audio("audio/tank_move.wav").play()).start();
+            new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
             setMainTankDirection();
         }
 
@@ -185,7 +186,53 @@ public class TankFrame extends Frame {
         for (int i = 0; i < this.explodes.size(); i++) {
             this.explodes.get(i).paint(graphics);
         }
+    }
 
+    public List<Tank> getTanks() {
+        return tanks;
+    }
 
+    public void setTanks(List<Tank> tanks) {
+        this.tanks = tanks;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public void setBullets(List<Bullet> bullets) {
+        this.bullets = bullets;
+    }
+
+    public List<Explode> getExplodes() {
+        return explodes;
+    }
+
+    public void setExplodes(List<Explode> explodes) {
+        this.explodes = explodes;
+    }
+
+    public Tank getMainTank() {
+        return mainTank;
+    }
+
+    public void setMainTank(Tank mainTank) {
+        this.mainTank = mainTank;
+    }
+
+    public Tank getOtherTank() {
+        return otherTank;
+    }
+
+    public void setOtherTank(Tank otherTank) {
+        this.otherTank = otherTank;
+    }
+
+    public Image getOffScreenImage() {
+        return offScreenImage;
+    }
+
+    public void setOffScreenImage(Image offScreenImage) {
+        this.offScreenImage = offScreenImage;
     }
 }

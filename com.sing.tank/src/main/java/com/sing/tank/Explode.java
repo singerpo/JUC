@@ -26,7 +26,7 @@ public class Explode {
 
     public void paint(Graphics graphics) {
         if (!live) {
-            tankFrame.explodes.remove(this);
+            tankFrame.getExplodes().remove(this);
             return;
         }
         BufferedImage bufferedImage = ResourceManager.explodes[step++];

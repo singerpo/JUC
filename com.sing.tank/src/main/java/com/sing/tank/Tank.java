@@ -1,5 +1,9 @@
 package com.sing.tank;
 
+import com.sing.tank.strategy.DefaultFireStrategy;
+import com.sing.tank.strategy.FireStrategy;
+import com.sing.tank.strategy.FourDirectionFireStrategy;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -34,6 +38,7 @@ public class Tank {
     Random random = new Random();
     Rectangle rectangle = new Rectangle();
     int paintCount = 0;
+    FireStrategy fireStrategy = new FourDirectionFireStrategy();
 
     public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, TankFrame tankFrame) {
         this.x = x;
@@ -55,7 +60,7 @@ public class Tank {
 //                this.setLive(true);
 //            } else {
 //            }
-            tankFrame.tanks.remove(this);
+            tankFrame.getTanks().remove(this);
             return;
         }
         switch (this.directionEnum) {
@@ -169,21 +174,7 @@ public class Tank {
     }
 
     public void fire() {
-        if (!this.live) {
-            return;
-        }
-        int diff = 500;
-        if(this.groupEnum == GroupEnum.GOOD){
-            diff = 200;
-        }
-        if (this.paintCount > diff / TankFrame.PAINT_DIFF) {
-            this.paintCount = 0;
-            Bullet bullet = new Bullet(this.directionEnum, this.tankFrame, this);
-            this.tankFrame.bullets.add(bullet);
-            if (this.groupEnum == GroupEnum.GOOD) {
-                new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
-            }
-        }
+        fireStrategy.fire(this);
     }
 
     public int getX() {
@@ -227,7 +218,7 @@ public class Tank {
     }
 
 
-    public boolean isLive() {
+    public boolean getLive() {
         return live;
     }
 
@@ -265,5 +256,21 @@ public class Tank {
 
     public void setGroupEnum(GroupEnum groupEnum) {
         this.groupEnum = groupEnum;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public int getPaintCount() {
+        return paintCount;
+    }
+
+    public void setPaintCount(int paintCount) {
+        this.paintCount = paintCount;
     }
 }
