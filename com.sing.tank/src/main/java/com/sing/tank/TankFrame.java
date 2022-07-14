@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * 坦克主窗口
  * <p>
- * 6
+ * 7
  *
  * @author songbo
  * @since 2022-07-07
