@@ -2,7 +2,10 @@ package com.sing.tank.strategy;
 
 import com.sing.tank.*;
 
-public class FourDirectionFireStrategy implements FireStrategy{
+/**
+ * 四个方向开火策略
+ */
+public class FourDirectionFireStrategy implements FireStrategy {
     @Override
     public void fire(Tank tank) {
         if (!tank.getLive()) {
@@ -13,11 +16,11 @@ public class FourDirectionFireStrategy implements FireStrategy{
             tank.setPaintCount(0);
             if (tank.getGroupEnum() == GroupEnum.GOOD) {
                 for (DirectionEnum directionEnum : DirectionEnum.values()) {
-                    new Bullet(directionEnum, tank.getTankFrame(), tank);
+                    new Bullet(directionEnum, tank);
                 }
                 new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
-            }else {
-                new Bullet(tank.getDirectionEnum(), tank.getTankFrame(), tank);
+            } else {
+                new Bullet(tank);
             }
         }
     }

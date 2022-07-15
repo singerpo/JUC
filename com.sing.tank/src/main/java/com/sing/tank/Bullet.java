@@ -1,5 +1,8 @@
 package com.sing.tank;
 
+import com.sing.tank.abstractfactory.BaseBullet;
+import com.sing.tank.abstractfactory.BaseTank;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -9,21 +12,25 @@ import java.awt.image.BufferedImage;
  * @author songbo
  * @since 2022-07-08
  */
-public class Bullet {
+public class Bullet extends BaseBullet {
     private int speed = PropertyManager.getInstance().bulletSpeed;
     private int x, y;
     private DirectionEnum directionEnum;
     private Color color;
     private boolean live = true;
     private TankFrame tankFrame;
-    private Tank tank;
-    private int width = 12;
-    private int height = 12;
-    Rectangle rectangle = new Rectangle();
+    private BaseTank tank;
+    private int width;
+    private int height;
+    private Rectangle rectangle = new Rectangle();
 
-    public Bullet(DirectionEnum directionEnum, TankFrame tankFrame, Tank tank) {
+    public Bullet(BaseTank tank) {
+        this(tank.getDirectionEnum(),tank);
+    }
+
+    public Bullet(DirectionEnum directionEnum,BaseTank tank) {
         this.directionEnum = directionEnum;
-        this.tankFrame = tankFrame;
+        this.tankFrame = tank.getTankFrame();
         this.tank = tank;
         switch (directionEnum) {
             case UP:
@@ -76,6 +83,8 @@ public class Bullet {
         }
         this.tankFrame.getBullets().add(this);
     }
+
+
 
     public void paint(Graphics graphics) {
         if (!live) {
@@ -153,12 +162,12 @@ public class Bullet {
                 continue;
             }
             Rectangle bulletRect = this.rectangle;
-            Rectangle tankRect = tank.rectangle;
+            Rectangle tankRect = tank.getRectangle();
             if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
                 this.live = false;
                 //在坦克中心位置爆炸
-                Explode explode = new Explode(tank, tankFrame);
+                Explode explode = new Explode(tank);
                 tankFrame.getExplodes().add(explode);
             }
         }
@@ -177,5 +186,93 @@ public class Bullet {
         //     }
         //
         // }
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public DirectionEnum getDirectionEnum() {
+        return directionEnum;
+    }
+
+    public void setDirectionEnum(DirectionEnum directionEnum) {
+        this.directionEnum = directionEnum;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public boolean getLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
+    }
+
+    public void setTankFrame(TankFrame tankFrame) {
+        this.tankFrame = tankFrame;
+    }
+
+    public BaseTank getTank() {
+        return tank;
+    }
+
+    public void setTank(BaseTank tank) {
+        this.tank = tank;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
     }
 }
