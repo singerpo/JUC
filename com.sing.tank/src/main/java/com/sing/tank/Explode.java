@@ -1,5 +1,8 @@
 package com.sing.tank;
 
+import com.sing.tank.abstractfactory.BaseExplode;
+import com.sing.tank.abstractfactory.BaseTank;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -9,18 +12,18 @@ import java.awt.image.BufferedImage;
  * @author songbo
  * @since 2022-07-08
  */
-public class Explode {
+public class Explode extends BaseExplode {
     private int x, y;
     private boolean live = true;
     private TankFrame tankFrame;
     private int width = 71;
     private int height = 100;
     private int step = 0;
-    private Tank tank;
+    private BaseTank tank;
 
-    public Explode(Tank tank, TankFrame tankFrame) {
+    public Explode(BaseTank tank) {
         this.tank = tank;
-        this.tankFrame = tankFrame;
+        this.tankFrame = tank.getTankFrame();
         new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 

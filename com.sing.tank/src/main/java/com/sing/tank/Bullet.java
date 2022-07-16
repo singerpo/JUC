@@ -9,21 +9,25 @@ import java.awt.image.BufferedImage;
  * @author songbo
  * @since 2022-07-08
  */
-public class Bullet {
+public class Bullet extends BaseBullet {
     private int speed = PropertyManager.getInstance().bulletSpeed;
     private int x, y;
     private DirectionEnum directionEnum;
     private Color color;
     private boolean live = true;
     private TankFrame tankFrame;
-    private Tank tank;
-    private int width = 12;
-    private int height = 12;
-    Rectangle rectangle = new Rectangle();
+    private BaseTank tank;
+    private int width;
+    private int height;
+    private Rectangle rectangle = new Rectangle();
 
-    public Bullet(DirectionEnum directionEnum, TankFrame tankFrame, Tank tank) {
+    public Bullet(BaseTank tank) {
+        this(tank.getDirectionEnum(),tank);
+    }
+
+    public Bullet(DirectionEnum directionEnum,BaseTank tank) {
         this.directionEnum = directionEnum;
-        this.tankFrame = tankFrame;
+        this.tankFrame = tank.getTankFrame();
         this.tank = tank;
         switch (directionEnum) {
             case UP:
@@ -76,6 +80,8 @@ public class Bullet {
         }
         this.tankFrame.getBullets().add(this);
     }
+
+
 
     public void paint(Graphics graphics) {
         if (!live) {
@@ -153,12 +159,13 @@ public class Bullet {
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
             }
+            Rectangle bulletRect = this.rectangle;
             Rectangle tankRect = tank.rectangle;
             if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
                 this.live = false;
                 //在坦克中心位置爆炸
-                Explode explode = new Explode(tank, tankFrame);
+                Explode explode = new Explode(tank);
                 tankFrame.getExplodes().add(explode);
                 return;
             }
