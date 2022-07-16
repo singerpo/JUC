@@ -147,12 +147,12 @@ public class Bullet {
      */
     public void collide() {
         // 通过是否相交来判断是否相撞
+        Rectangle bulletRect = this.rectangle;
         for (Tank tank : tankFrame.getTanks()) {
             // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
             }
-            Rectangle bulletRect = this.rectangle;
             Rectangle tankRect = tank.rectangle;
             if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
@@ -160,7 +160,12 @@ public class Bullet {
                 //在坦克中心位置爆炸
                 Explode explode = new Explode(tank, tankFrame);
                 tankFrame.getExplodes().add(explode);
+                return;
             }
+        }
+        if(this.live && bulletRect.intersects(this.tankFrame.getObstacle().getRectangle())){
+            this.live = false;
+            this.tankFrame.getObstacle().setLive(false);
         }
         // 计算x,y来判断是否碰撞
         // for (Tank tank1 : tankFrame.tanks) {

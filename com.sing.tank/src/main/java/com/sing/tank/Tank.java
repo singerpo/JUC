@@ -133,6 +133,9 @@ public class Tank {
      */
     private void move() {
         if (this.directionEnum != null && moving) {
+            int oldX = this.x;
+            int oldY = this.y;
+
             switch (this.directionEnum) {
                 case UP:
                     this.y -= this.speed;
@@ -146,6 +149,17 @@ public class Tank {
                 case RIGHT:
                     this.x += this.speed;
                     break;
+            }
+
+            if (this.rectangle.intersects(this.getTankFrame().getObstacle().getRectangle())) {
+                if(this.y < this.getTankFrame().getObstacle().getY()){
+                    this.y = oldY-1;
+                    this.x = oldX;
+                }
+                if(this.y > this.getTankFrame().getObstacle().getY()){
+                    this.y = oldY+1;
+                    this.x = oldX;
+                }
             }
         }
         boundCheck();
@@ -170,7 +184,6 @@ public class Tank {
         if (this.y > TankFrame.GAME_HEIGHT - this.height - 2) {
             this.y = TankFrame.GAME_HEIGHT - this.height - 2;
         }
-
     }
 
     public void fire() {
