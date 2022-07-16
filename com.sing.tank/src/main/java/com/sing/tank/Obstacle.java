@@ -1,4 +1,4 @@
-package com.sing.tank.strategy;
+package com.sing.tank;
 
 import com.sing.tank.ResourceManager;
 
