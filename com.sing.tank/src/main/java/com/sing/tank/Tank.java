@@ -78,7 +78,7 @@ public class Tank extends BaseTank {
             this.setMoving(true);
             if (this.getRandom().nextInt(100) > 95) {
                 int direct = this.getRandom().nextInt(4);
-                this.setDirectionEnum(DirectionEnum.values()[direct + 1]);
+                this.setDirectionEnum(DirectionEnum.values()[direct]);
             }
         }
     }
@@ -88,12 +88,9 @@ public class Tank extends BaseTank {
      */
     private void move() {
         if (this.getDirectionEnum() != null && this.getMoving()) {
+            int oldX = this.getX();
+            int oldY = this.getY();
             switch (this.getDirectionEnum()) {
-        if (this.directionEnum != null && moving) {
-            int oldX = this.x;
-            int oldY = this.y;
-
-            switch (this.directionEnum) {
                 case UP:
                     this.setY(this.getY() - this.getSpeed());
                     break;
@@ -104,18 +101,18 @@ public class Tank extends BaseTank {
                     this.setX(this.getX() - this.getSpeed());
                     break;
                 case RIGHT:
-                    this.setX(this.getX() - this.getSpeed());
+                    this.setX(this.getX() + this.getSpeed());
                     break;
             }
 
-            if (this.rectangle.intersects(this.getTankFrame().getObstacle().getRectangle())) {
-                if(this.y < this.getTankFrame().getObstacle().getY()){
-                    this.y = oldY-1;
-                    this.x = oldX;
+            if (this.getRectangle().intersects(this.getTankFrame().getObstacle().getRectangle()) && this.getTankFrame().getObstacle().isLive()) {
+                if (this.getY() < this.getTankFrame().getObstacle().getY()) {
+                    this.setY(oldY - 1);
+                    this.setX(oldX);
                 }
-                if(this.y > this.getTankFrame().getObstacle().getY()){
-                    this.y = oldY+1;
-                    this.x = oldX;
+                if (this.getY() > this.getTankFrame().getObstacle().getY()) {
+                    this.setY(oldY + 1);
+                    this.setX(oldX);
                 }
             }
         }

@@ -1,5 +1,8 @@
 package com.sing.tank;
 
+import com.sing.tank.abstractfactory.BaseBullet;
+import com.sing.tank.abstractfactory.BaseTank;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -159,8 +162,7 @@ public class Bullet extends BaseBullet {
             if (tank == this.tank || tank.getGroupEnum().equals(this.tank.getGroupEnum())) {
                 continue;
             }
-            Rectangle bulletRect = this.rectangle;
-            Rectangle tankRect = tank.rectangle;
+            Rectangle tankRect = tank.getRectangle();
             if (bulletRect.intersects(tankRect)) {
                 tank.setLive(false);
                 this.live = false;
