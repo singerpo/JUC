@@ -1,7 +1,5 @@
 package com.sing.design.b01strategy;
 
-import java.util.Comparator;
-
 /**
  * 策略模式
  * 将类中经常改变或者可能改变的部分提取为作为一个抽象策略接口类，然后在类中包含这个对象的实例，这样类实例在运行时就可以随意调用实现了这个接口的类的行为。

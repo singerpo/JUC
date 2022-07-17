@@ -49,6 +49,9 @@ public abstract class BaseTank {
         this.groupEnum = groupEnum;
     }
 
+    public abstract void paint(Graphics graphics);
+    public abstract void fire();
+
     public TankFrame getTankFrame() {
         return tankFrame;
     }
@@ -160,4 +163,7 @@ public abstract class BaseTank {
     public void setFireStrategy(FireStrategy fireStrategy) {
         this.fireStrategy = fireStrategy;
     }
+
+
+
 }

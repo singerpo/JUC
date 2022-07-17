@@ -1,6 +1,10 @@
 package com.sing.tank;
 
 
+import com.sing.tank.abstractfactory.BaseBullet;
+import com.sing.tank.abstractfactory.BaseExplode;
+import com.sing.tank.abstractfactory.BaseTank;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -23,11 +27,11 @@ public class TankFrame extends Frame {
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
 
-    private List<Tank> tanks;
-    private List<Bullet> bullets;
-    private List<Explode> explodes;
-    private Tank mainTank;
-    private Tank otherTank;
+    private List<BaseTank> tanks;
+    private List<BaseBullet> bullets;
+    private List<BaseExplode> explodes;
+    private BaseTank mainTank;
+    private BaseTank otherTank;
     private Obstacle obstacle;
 
     public void init() {
@@ -192,39 +196,39 @@ public class TankFrame extends Frame {
         }
     }
 
-    public List<Tank> getTanks() {
+    public List<BaseTank> getTanks() {
         return tanks;
     }
 
-    public void setTanks(List<Tank> tanks) {
+    public void setTanks(List<BaseTank> tanks) {
         this.tanks = tanks;
     }
 
-    public List<Bullet> getBullets() {
+    public List<BaseBullet> getBullets() {
         return bullets;
     }
 
-    public void setBullets(List<Bullet> bullets) {
+    public void setBullets(List<BaseBullet> bullets) {
         this.bullets = bullets;
     }
 
-    public List<Explode> getExplodes() {
+    public List<BaseExplode> getExplodes() {
         return explodes;
     }
 
-    public void setExplodes(List<Explode> explodes) {
+    public void setExplodes(List<BaseExplode> explodes) {
         this.explodes = explodes;
     }
 
-    public Tank getMainTank() {
+    public BaseTank getMainTank() {
         return mainTank;
     }
 
-    public void setMainTank(Tank mainTank) {
+    public void setMainTank(BaseTank mainTank) {
         this.mainTank = mainTank;
     }
 
-    public Tank getOtherTank() {
+    public BaseTank getOtherTank() {
         return otherTank;
     }
 
