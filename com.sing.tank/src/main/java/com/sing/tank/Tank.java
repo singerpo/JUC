@@ -105,16 +105,21 @@ public class Tank extends BaseTank {
                     break;
             }
 
-            if (this.getRectangle().intersects(this.getTankFrame().getObstacle().getRectangle()) && this.getTankFrame().getObstacle().isLive()) {
-                if (this.getY() < this.getTankFrame().getObstacle().getY()) {
-                    this.setY(oldY - 1);
-                    this.setX(oldX);
+            for (Obstacle obstacle : this.getTankFrame().getObstacles()) {
+                if (this.getRectangle().intersects(obstacle.getRectangle())) {
+                    if (this.getY() < obstacle.getY()) {
+                        this.setY(oldY - 1);
+                        this.setX(oldX);
+                    }
+                    if (this.getY() > obstacle.getY()) {
+                        this.setY(oldY + 1);
+                        this.setX(oldX);
+                    }
+                    break;
                 }
-                if (this.getY() > this.getTankFrame().getObstacle().getY()) {
-                    this.setY(oldY + 1);
-                    this.setX(oldX);
-                }
+
             }
+
         }
         boundCheck();
         this.setPaintCount(this.getPaintCount() + 1);

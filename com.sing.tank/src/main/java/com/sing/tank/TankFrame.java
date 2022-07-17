@@ -32,10 +32,16 @@ public class TankFrame extends Frame {
     private List<BaseExplode> explodes;
     private BaseTank mainTank;
     private BaseTank otherTank;
-    private Obstacle obstacle;
+    private List<Obstacle> obstacles;
 
     public void init() {
-        obstacle = new Obstacle(100,200);
+        obstacles = new ArrayList<>();
+        Obstacle obstacle = new Obstacle(100,200);
+        obstacles.add(obstacle);
+        obstacle = new Obstacle(131,200);
+        obstacles.add(obstacle);
+        obstacle = new Obstacle(162,200);
+        obstacles.add(obstacle);
         tanks = new ArrayList<>();
         bullets = new ArrayList<>();
         explodes = new ArrayList<>();
@@ -182,8 +188,12 @@ public class TankFrame extends Frame {
         graphics.drawString("子弹的数量：" + bullets.size(), 10, 60);
         graphics.drawString("坦克的数量：" + tanks.size(), 100, 60);
         graphics.setColor(color);
-        if(obstacle.isLive()){
-            obstacle.paint(graphics);
+        for (int i = 0; i < obstacles.size(); i++) {
+            if(this.obstacles.get(i).isLive()){
+                this.obstacles.get(i).paint(graphics);
+            }else {
+                this.obstacles.remove(i);
+            }
         }
         for (int i = 0; i < this.tanks.size(); i++) {
             this.tanks.get(i).paint(graphics);
@@ -244,11 +254,11 @@ public class TankFrame extends Frame {
         this.offScreenImage = offScreenImage;
     }
 
-    public Obstacle getObstacle() {
-        return obstacle;
+    public List<Obstacle> getObstacles() {
+        return obstacles;
     }
 
-    public void setObstacle(Obstacle obstacle) {
-        this.obstacle = obstacle;
+    public void setObstacles(List<Obstacle> obstacles) {
+        this.obstacles = obstacles;
     }
 }

@@ -19,9 +19,16 @@ public class Obstacle {
 
     public void paint(Graphics graphics) {
         if (!this.live) {
+
             return;
         }
-        graphics.drawImage(ResourceManager.obstacle, x, y, this.width, this.height, null);
+//        graphics.drawImage(ResourceManager.obstacle, x, y, this.width, this.height, null);
+        Color color = graphics.getColor();
+        graphics.setColor(Color.BLUE);
+        this.setWidth(30);
+        this.setHeight(30);
+        graphics.fillRect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+        graphics.setColor(color);
         rectangle.x = this.x;
         rectangle.y = this.y;
         rectangle.width = this.width;
