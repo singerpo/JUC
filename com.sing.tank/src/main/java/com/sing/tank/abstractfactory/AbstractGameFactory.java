@@ -5,6 +5,7 @@ import com.sing.tank.GroupEnum;
 import com.sing.tank.TankFrame;
 
 /**
+ * 抽象工厂
  * @author songbo
  * @since 2022-07-15
  */
@@ -13,6 +14,6 @@ public abstract class AbstractGameFactory {
 
     public abstract BaseExplode createExplode(BaseTank baseTank);
 
-    public abstract BaseBullet createBullet(BaseTank baseTank);
+    public abstract BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank);
 
 }

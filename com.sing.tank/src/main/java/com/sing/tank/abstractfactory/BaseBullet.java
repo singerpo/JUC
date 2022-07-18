@@ -120,7 +120,7 @@ public abstract class BaseBullet {
 
                 this.setLive(false);
                 //在坦克中心位置爆炸
-                Explode explode = new Explode(tank);
+                BaseExplode explode = this.getTankFrame().getGameFactory().createExplode(tank);
                 this.getTankFrame().getExplodes().add(explode);
                 return;
             }

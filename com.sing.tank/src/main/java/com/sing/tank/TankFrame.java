@@ -1,9 +1,7 @@
 package com.sing.tank;
 
 
-import com.sing.tank.abstractfactory.BaseBullet;
-import com.sing.tank.abstractfactory.BaseExplode;
-import com.sing.tank.abstractfactory.BaseTank;
+import com.sing.tank.abstractfactory.*;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -33,6 +31,7 @@ public class TankFrame extends Frame {
     private BaseTank mainTank;
     private BaseTank otherTank;
     private List<Obstacle> obstacles;
+    private AbstractGameFactory gameFactory = new DefaultFactory();
 
     public void init() {
         obstacles = new ArrayList<>();
@@ -45,18 +44,18 @@ public class TankFrame extends Frame {
         tanks = new ArrayList<>();
         bullets = new ArrayList<>();
         explodes = new ArrayList<>();
-        mainTank = new Tank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-        otherTank = new Tank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+        mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
+        otherTank = this.gameFactory.createTank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
         tanks.add(mainTank);
         tanks.add(otherTank);
         //60为间距
         int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
         for (int i = 1; i <= max; i++) {
-            tanks.add(new Tank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
+            tanks.add(this.gameFactory.createTank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
         }
         Random random = new Random();
         for (int i = 0; i < PropertyManager.getInstance().initTankCount - 2 - max; i++) {
-            tanks.add(new Tank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
+            tanks.add(this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
         }
     }
 
@@ -260,5 +259,13 @@ public class TankFrame extends Frame {
 
     public void setObstacles(List<Obstacle> obstacles) {
         this.obstacles = obstacles;
+    }
+
+    public AbstractGameFactory getGameFactory() {
+        return gameFactory;
+    }
+
+    public void setGameFactory(AbstractGameFactory gameFactory) {
+        this.gameFactory = gameFactory;
     }
 }

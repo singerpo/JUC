@@ -18,8 +18,8 @@ public class DefaultFactory extends AbstractGameFactory{
     }
 
     @Override
-    public BaseBullet createBullet(BaseTank baseTank) {
-        return new Bullet(baseTank);
+    public BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank) {
+        return new Bullet(directionEnum,baseTank);
     }
 
 }

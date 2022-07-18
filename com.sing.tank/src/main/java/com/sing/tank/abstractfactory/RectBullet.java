@@ -18,10 +18,6 @@ import java.awt.image.BufferedImage;
 public class RectBullet extends BaseBullet {
 
 
-    public RectBullet(BaseTank tank) {
-        this(tank.getDirectionEnum(), tank);
-    }
-
     public RectBullet(DirectionEnum directionEnum, BaseTank tank) {
         super(directionEnum, tank);
     }

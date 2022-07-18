@@ -4,7 +4,7 @@ import com.sing.tank.DirectionEnum;
 import com.sing.tank.GroupEnum;
 import com.sing.tank.TankFrame;
 
-public class RectFactory extends AbstractGameFactory{
+public class RectFactory extends AbstractGameFactory {
     @Override
     public BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, TankFrame tankFrame) {
         return null;
@@ -16,7 +16,7 @@ public class RectFactory extends AbstractGameFactory{
     }
 
     @Override
-    public BaseBullet createBullet(BaseTank baseTank) {
-        return null;
+    public BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank) {
+        return new RectBullet(directionEnum,baseTank);
     }
 }
