@@ -16,6 +16,7 @@ public class ResourceManager {
     public static BufferedImage goodTankU, goodTankD, goodTankL, goodTankR, tankU, tankD, tankL, tankR;
     public static BufferedImage goodBulletU, goodBulletD, goodBulletL, goodBulletR, bulletU, bulletD, bulletL, bulletR;
     public static BufferedImage[] explodes = new BufferedImage[16];
+    public static BufferedImage[] rectExplodes = new BufferedImage[11];
     // public static BufferedImage obstacle;
 
     static {
@@ -39,6 +40,9 @@ public class ResourceManager {
             bulletR = ImageUtil.rotate(bulletU, 90);
             for (int i = 0; i < 16; i++) {
                 explodes[i] = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/e" + (i + 1) + ".gif"));
+            }
+            for (int i = 0; i < 11; i++) {
+                rectExplodes[i] = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/" + i  + ".gif"));
             }
             // obstacle = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/obstacle.png"));
         } catch (IOException e) {

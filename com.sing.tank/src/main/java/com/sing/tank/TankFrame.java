@@ -15,7 +15,7 @@ import java.util.Random;
 /**
  * 坦克主窗口
  * <p>
- * 7
+ * 7 子弹消亡（飞出游戏区）（1） 18:00
  *
  * @author songbo
  * @since 2022-07-07
@@ -66,7 +66,7 @@ public class TankFrame extends Frame {
         setTitle("坦克大战");
         setIconImage(ResourceManager.tankD);
         setVisible(true);
-
+        init();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -75,7 +75,6 @@ public class TankFrame extends Frame {
         });
 
         this.addKeyListener(new MyKeyListener());
-        init();
     }
 
     // 键盘监听

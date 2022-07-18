@@ -30,8 +30,8 @@ public class RectBullet extends BaseBullet {
         }
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
-        this.setWidth(20);
-        this.setHeight(30);
+        this.setWidth(10);
+        this.setHeight(20);
         graphics.fillRect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
         graphics.setColor(color);
         move();
