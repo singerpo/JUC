@@ -107,13 +107,18 @@ public class Tank extends BaseTank {
 
             for (Obstacle obstacle : this.getTankFrame().getObstacles()) {
                 if (this.getRectangle().intersects(obstacle.getRectangle())) {
-                    if (this.getY() < obstacle.getY()) {
+                    if (oldY < obstacle.getY() && (this.getX() >= obstacle.getX() - this.getWidth()) && (this.getX() <= obstacle.getX() + this.getWidth() + obstacle.getWidth())) {
                         this.setY(oldY - 1);
                         this.setX(oldX);
-                    }
-                    if (this.getY() > obstacle.getY()) {
+                    } else if (oldY > (obstacle.getY() + obstacle.getHeight()) && (this.getX() >= obstacle.getX() - this.getWidth()) && (this.getX() <= obstacle.getX() + this.getWidth() + obstacle.getWidth())) {
                         this.setY(oldY + 1);
                         this.setX(oldX);
+                    } else if (oldX < obstacle.getX() && (this.getY() >= obstacle.getY() - this.getHeight()) && (this.getY() <= obstacle.getY() + this.getHeight() + obstacle.getHeight())) {
+                        this.setY(oldY);
+                        this.setX(oldX - 1);
+                    } else if (oldX > (obstacle.getX() + obstacle.getWidth()) && (this.getY() >= obstacle.getY() - this.getHeight()) && (this.getY() <= obstacle.getY() + this.getHeight() + obstacle.getHeight())) {
+                        this.setY(oldY);
+                        this.setX(oldX + 1);
                     }
                     break;
                 }
