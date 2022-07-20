@@ -5,6 +5,7 @@ import com.sing.design.c1factorymethod.bean.Plane;
 import com.sing.design.c1factorymethod.bean.Toy;
 
 /**
+ * Spring BeanFactory使用了简单工厂
  * 简单工厂:核心是定义一个创建对象的接口，将对象的创建和本身的业务逻辑分离.(当以后实现改变时，只需要修改工厂类即可)
  * 缺点在于不符合“开闭原则”，每次添加新产品就需要修改工厂类。
  */
