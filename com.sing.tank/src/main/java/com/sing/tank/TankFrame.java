@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -35,11 +36,11 @@ public class TankFrame extends Frame {
 
     public void init() {
         obstacles = new ArrayList<>();
-        Obstacle obstacle = new Obstacle(100,200);
+        Obstacle obstacle = new Obstacle(100, 200);
         obstacles.add(obstacle);
-        obstacle = new Obstacle(131,200);
+        obstacle = new Obstacle(131, 200);
         obstacles.add(obstacle);
-        obstacle = new Obstacle(162,200);
+        obstacle = new Obstacle(162, 200);
         obstacles.add(obstacle);
         tanks = new ArrayList<>();
         bullets = new ArrayList<>();
@@ -58,7 +59,6 @@ public class TankFrame extends Frame {
             tanks.add(this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
         }
     }
-
 
     public TankFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -186,11 +186,14 @@ public class TankFrame extends Frame {
         graphics.drawString("子弹的数量：" + bullets.size(), 10, 60);
         graphics.drawString("坦克的数量：" + tanks.size(), 100, 60);
         graphics.setColor(color);
-        for (int i = 0; i < obstacles.size(); i++) {
-            if(this.obstacles.get(i).isLive()){
-                this.obstacles.get(i).paint(graphics);
-            }else {
-                this.obstacles.remove(i);
+        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
+        Obstacle obstacle;
+        while (obstacleIterator.hasNext()){
+            obstacle = obstacleIterator.next();
+            if(obstacle.isLive()){
+                obstacle.paint(graphics);
+            }else{
+                obstacleIterator.remove();
             }
         }
         for (int i = 0; i < this.tanks.size(); i++) {
