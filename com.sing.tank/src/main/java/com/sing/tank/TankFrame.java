@@ -16,7 +16,7 @@ import java.util.Random;
 /**
  * 坦克主窗口
  * <p>
- * 7 子弹消亡（飞出游戏区）（1） 18:00
+ * 8
  *
  * @author songbo
  * @since 2022-07-07
