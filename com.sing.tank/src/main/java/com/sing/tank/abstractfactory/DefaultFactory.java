@@ -1,15 +1,18 @@
 package com.sing.tank.abstractfactory;
 
 import com.sing.tank.*;
+import com.sing.tank.enums.DirectionEnum;
+import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
 
 /**
  * @author songbo
  * @since 2022-07-15
  */
-public class DefaultFactory extends AbstractGameFactory{
+public class DefaultFactory extends AbstractGameFactory {
     @Override
-    public BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, TankFrame tankFrame) {
-        return new Tank(x,y,directionEnum,groupEnum,tankFrame);
+    public BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, GameModel gameModel) {
+        return new Tank(x, y, directionEnum, groupEnum, gameModel);
     }
 
     @Override
@@ -19,7 +22,7 @@ public class DefaultFactory extends AbstractGameFactory{
 
     @Override
     public BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank) {
-        return new Bullet(directionEnum,baseTank);
+        return new Bullet(directionEnum, baseTank);
     }
 
 }

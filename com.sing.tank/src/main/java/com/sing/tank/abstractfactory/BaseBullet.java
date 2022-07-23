@@ -1,6 +1,11 @@
 package com.sing.tank.abstractfactory;
 
 import com.sing.tank.*;
+import com.sing.tank.enums.DirectionEnum;
+import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
+import com.sing.tank.manager.PropertyManager;
+import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
 
@@ -8,73 +13,70 @@ import java.awt.*;
  * @author songbo
  * @since 2022-07-15
  */
-public abstract class BaseBullet {
+public abstract class BaseBullet extends GameObject {
     private int speed = PropertyManager.getInstance().bulletSpeed;
-    private int x, y;
     private DirectionEnum directionEnum;
-    private Color color;
     private boolean live = true;
-    private TankFrame tankFrame;
+    private GameModel gameModel;
     private BaseTank tank;
     private int width;
     private int height;
-    private Rectangle rectangle = new Rectangle();
-    public abstract void paint(Graphics graphics);
 
-    public BaseBullet(DirectionEnum directionEnum,BaseTank tank) {
+
+    public BaseBullet(DirectionEnum directionEnum, BaseTank tank) {
         this.directionEnum = directionEnum;
-        this.tankFrame = tank.getTankFrame();
+        this.gameModel = tank.getGameModel();
         this.tank = tank;
         switch (directionEnum) {
             case UP:
-                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                if (GroupEnum.GOOD == this.tank.getGroupEnum()) {
                     this.width = ResourceManager.goodBulletU.getWidth();
                     this.height = ResourceManager.goodBulletU.getHeight();
-                }else {
+                } else {
                     this.width = ResourceManager.bulletU.getWidth();
                     this.height = ResourceManager.bulletU.getHeight();
                 }
-                this.x = tank.getX() + (tank.getWidth() - this.width) / 2;
-                this.x += 1;
-                this.y = tank.getY();
+                this.setX(tank.getX() + (tank.getWidth() - this.width) / 2);
+                this.setX(this.getX() + 1);
+                this.setY(tank.getY());
                 break;
             case DOWN:
-                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                if (GroupEnum.GOOD == this.tank.getGroupEnum()) {
                     this.width = ResourceManager.goodBulletD.getWidth();
                     this.height = ResourceManager.goodBulletD.getHeight();
-                }else {
+                } else {
                     this.width = ResourceManager.bulletD.getWidth();
                     this.height = ResourceManager.bulletD.getHeight();
                 }
-                this.x = tank.getX() + (tank.getWidth() - this.width) / 2;
-                this.x -= 1;
-                this.y = tank.getY() + tank.getHeight() - this.height;
+                this.setX(tank.getX() + (tank.getWidth() - this.width) / 2);
+                this.setX(this.getX() - 1);
+                this.setY(tank.getY() + tank.getHeight() - this.height);
                 break;
             case LEFT:
-                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                if (GroupEnum.GOOD == this.tank.getGroupEnum()) {
                     this.width = ResourceManager.goodBulletL.getWidth();
                     this.height = ResourceManager.goodBulletL.getHeight();
-                }else {
+                } else {
                     this.width = ResourceManager.bulletL.getWidth();
                     this.height = ResourceManager.bulletL.getHeight();
                 }
-                this.x = tank.getX();
-                this.y = tank.getY() + (tank.getHeight() - this.height) / 2;
+                this.setX(tank.getX());
+                this.setY(tank.getY() + (tank.getHeight() - this.height) / 2);
                 break;
             case RIGHT:
-                if(GroupEnum.GOOD == this.tank.getGroupEnum()){
+                if (GroupEnum.GOOD == this.tank.getGroupEnum()) {
                     this.width = ResourceManager.goodBulletR.getWidth();
                     this.height = ResourceManager.goodBulletR.getHeight();
-                }else {
+                } else {
                     this.width = ResourceManager.bulletR.getWidth();
                     this.height = ResourceManager.bulletR.getHeight();
                 }
-                this.x = tank.getX() + tank.getWidth() - this.width;
-                this.y = tank.getY() + (tank.getHeight() - this.height) / 2;
-                this.y += 1;
+                this.setX(tank.getX() + tank.getWidth() - this.width);
+                this.setY(tank.getY() + (tank.getHeight() - this.height) / 2);
+                this.setY(this.getY() + 1);
                 break;
         }
-        this.tankFrame.getBullets().add(this);
+        this.gameModel.add(this);
     }
 
     /**
@@ -109,31 +111,31 @@ public abstract class BaseBullet {
     private void collide() {
         // 通过是否相交来判断是否相撞
         Rectangle bulletRect = this.getRectangle();
-        for (BaseTank tank : this.getTankFrame().getTanks()) {
-            // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
-            if (tank == this.getTank() || tank.getGroupEnum().equals(this.getTank().getGroupEnum())) {
-                continue;
-            }
-            Rectangle tankRect = tank.getRectangle();
-            if (bulletRect.intersects(tankRect)) {
-                tank.setLive(false);
-
-                this.setLive(false);
-                //在坦克中心位置爆炸
-                BaseExplode explode = this.getTankFrame().getGameFactory().createExplode(tank);
-                this.getTankFrame().getExplodes().add(explode);
-                return;
-            }
-        }
-        if (this.isLive()) {
-            for (Obstacle obstacle : this.getTankFrame().getObstacles()) {
-                if(bulletRect.intersects(obstacle.getRectangle())){
-                    this.setLive(false);
-                    obstacle.setLive(false);
-                    return;
-                }
-            }
-        }
+        // for (BaseTank tank : this.getGameModel().getTanks()) {
+        //     // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
+        //     if (tank == this.getTank() || tank.getGroupEnum().equals(this.getTank().getGroupEnum())) {
+        //         continue;
+        //     }
+        //     Rectangle tankRect = tank.getRectangle();
+        //     if (bulletRect.intersects(tankRect)) {
+        //         tank.setLive(false);
+        //
+        //         this.setLive(false);
+        //         //在坦克中心位置爆炸
+        //         BaseExplode explode = this.getGameModel().getGameFactory().createExplode(tank);
+        //         this.getGameModel().getExplodes().add(explode);
+        //         return;
+        //     }
+        // }
+        // if (this.isLive()) {
+        //     for (Obstacle obstacle : this.getGameModel().getObstacles()) {
+        //         if (bulletRect.intersects(obstacle.getRectangle())) {
+        //             this.setLive(false);
+        //             obstacle.setLive(false);
+        //             return;
+        //         }
+        //     }
+        // }
         // 计算x,y来判断是否碰撞
         // for (Tank tank1 : tankFrame.tanks) {
         //     if (tank1 == this.tank) {
@@ -159,36 +161,12 @@ public abstract class BaseBullet {
         this.speed = speed;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public DirectionEnum getDirectionEnum() {
         return directionEnum;
     }
 
     public void setDirectionEnum(DirectionEnum directionEnum) {
         this.directionEnum = directionEnum;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     public boolean isLive() {
@@ -199,12 +177,12 @@ public abstract class BaseBullet {
         this.live = live;
     }
 
-    public TankFrame getTankFrame() {
-        return tankFrame;
+    public GameModel getGameModel() {
+        return gameModel;
     }
 
-    public void setTankFrame(TankFrame tankFrame) {
-        this.tankFrame = tankFrame;
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
 
     public BaseTank getTank() {
@@ -229,13 +207,5 @@ public abstract class BaseBullet {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
     }
 }

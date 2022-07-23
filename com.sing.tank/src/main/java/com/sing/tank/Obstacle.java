@@ -1,25 +1,25 @@
 package com.sing.tank;
 
-import com.sing.tank.ResourceManager;
+import com.sing.tank.abstractfactory.GameObject;
+import com.sing.tank.facade.GameModel;
 
 import java.awt.*;
 
-public class Obstacle {
-    private int x;
-    private int y;
+public class Obstacle extends GameObject {
     private int width =200;
     private int height=20;
-    private boolean live = true;
     private Rectangle rectangle = new Rectangle();
+    private GameModel gameModel;
 
-    public Obstacle(int x, int y){
-        this.x = x;
-        this.y = y;
+    public Obstacle(int x, int y,GameModel gameModel){
+        this.setX(x);
+        this.setY(y);
+        this.gameModel = gameModel;
     }
 
     public void paint(Graphics graphics) {
-        if (!this.live) {
-
+        if(!this.getLive()){
+            this.getGameModel().remove(this);
             return;
         }
 //        graphics.drawImage(ResourceManager.obstacle, x, y, this.width, this.height, null);
@@ -29,28 +29,11 @@ public class Obstacle {
         this.setHeight(30);
         graphics.fillRect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
         graphics.setColor(color);
-        rectangle.x = this.x;
-        rectangle.y = this.y;
+        rectangle.x = this.getX();
+        rectangle.y = this.getY();
         rectangle.width = this.width;
         rectangle.height = this.height;
     }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public int getWidth() {
         return width;
     }
@@ -75,11 +58,11 @@ public class Obstacle {
         this.rectangle = rectangle;
     }
 
-    public boolean isLive() {
-        return live;
+    public GameModel getGameModel() {
+        return gameModel;
     }
 
-    public void setLive(boolean live) {
-        this.live = live;
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
 }

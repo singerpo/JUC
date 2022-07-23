@@ -1,4 +1,4 @@
-package com.sing.tank;
+package com.sing.tank.manager;
 
 import java.io.IOException;
 import java.util.Properties;

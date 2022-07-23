@@ -1,5 +1,7 @@
-package com.sing.tank;
+package com.sing.tank.manager;
 
+
+import com.sing.tank.util.ImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

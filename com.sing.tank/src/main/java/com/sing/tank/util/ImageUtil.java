@@ -1,4 +1,4 @@
-package com.sing.tank;
+package com.sing.tank.util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

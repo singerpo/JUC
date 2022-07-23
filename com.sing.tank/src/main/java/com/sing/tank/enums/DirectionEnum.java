@@ -1,4 +1,4 @@
-package com.sing.tank;
+package com.sing.tank.enums;
 
 /**
  * 方向枚举类

@@ -1,22 +1,21 @@
 package com.sing.tank;
 
 
-import com.sing.tank.abstractfactory.*;
+import com.sing.tank.enums.DirectionEnum;
+import com.sing.tank.facade.GameModel;
+import com.sing.tank.manager.PropertyManager;
+import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 /**
  * 坦克主窗口
  * <p>
- * 8
+ * 8 分离玩家和机器人，对边界进行不同的处理（1）
  *
  * @author songbo
  * @since 2022-07-07
@@ -25,40 +24,7 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = PropertyManager.getInstance().gameWidth;
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
-
-    private List<BaseTank> tanks;
-    private List<BaseBullet> bullets;
-    private List<BaseExplode> explodes;
-    private BaseTank mainTank;
-    private BaseTank otherTank;
-    private List<Obstacle> obstacles;
-    private AbstractGameFactory gameFactory = new DefaultFactory();
-
-    public void init() {
-        obstacles = new ArrayList<>();
-        Obstacle obstacle = new Obstacle(100, 200);
-        obstacles.add(obstacle);
-        obstacle = new Obstacle(131, 200);
-        obstacles.add(obstacle);
-        obstacle = new Obstacle(162, 200);
-        obstacles.add(obstacle);
-        tanks = new ArrayList<>();
-        bullets = new ArrayList<>();
-        explodes = new ArrayList<>();
-        mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-        otherTank = this.gameFactory.createTank(GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-        tanks.add(mainTank);
-        tanks.add(otherTank);
-        //60为间距
-        int max = GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
-        for (int i = 1; i <= max; i++) {
-            tanks.add(this.gameFactory.createTank(GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
-        }
-        Random random = new Random();
-        for (int i = 0; i < PropertyManager.getInstance().initTankCount - 2 - max; i++) {
-            tanks.add(this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
-        }
-    }
+    GameModel gameModel = new GameModel();
 
     public TankFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -66,7 +32,7 @@ public class TankFrame extends Frame {
         setTitle("坦克大战");
         setIconImage(ResourceManager.tankD);
         setVisible(true);
-        init();
+        gameModel.init();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -102,13 +68,13 @@ public class TankFrame extends Frame {
                     right = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    TankFrame.this.mainTank.fire();
+                    TankFrame.this.gameModel.getMainTank().fire();
                     break;
                 case KeyEvent.VK_L:
-                    TankFrame.this.otherTank.fire();
+                    TankFrame.this.gameModel.getOtherTank().fire();
                     break;
                 case KeyEvent.VK_R:
-                    TankFrame.this.init();
+                    TankFrame.this.gameModel.init();
                     break;
             }
             new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
@@ -117,26 +83,26 @@ public class TankFrame extends Frame {
 
         private void setMainTankDirection() {
             if (!up && !down && !left && !right) {
-                TankFrame.this.mainTank.setMoving(false);
-                TankFrame.this.otherTank.setMoving(false);
+                TankFrame.this.gameModel.getMainTank().setMoving(false);
+                TankFrame.this.gameModel.getOtherTank().setMoving(false);
             } else {
-                TankFrame.this.mainTank.setMoving(true);
-                TankFrame.this.otherTank.setMoving(true);
+                TankFrame.this.gameModel.getMainTank().setMoving(true);
+                TankFrame.this.gameModel.getOtherTank().setMoving(true);
                 if (up) {
-                    TankFrame.this.mainTank.setDirectionEnum(DirectionEnum.UP);
-                    TankFrame.this.otherTank.setDirectionEnum(DirectionEnum.UP);
+                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.UP);
+                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.UP);
                 }
                 if (down) {
-                    TankFrame.this.mainTank.setDirectionEnum(DirectionEnum.DOWN);
-                    TankFrame.this.otherTank.setDirectionEnum(DirectionEnum.DOWN);
+                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.DOWN);
+                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
                 }
                 if (left) {
-                    TankFrame.this.mainTank.setDirectionEnum(DirectionEnum.LEFT);
-                    TankFrame.this.otherTank.setDirectionEnum(DirectionEnum.LEFT);
+                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.LEFT);
+                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
                 }
                 if (right) {
-                    TankFrame.this.mainTank.setDirectionEnum(DirectionEnum.RIGHT);
-                    TankFrame.this.otherTank.setDirectionEnum(DirectionEnum.RIGHT);
+                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.RIGHT);
+                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
                 }
             }
         }
@@ -181,93 +147,6 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        Color color = graphics.getColor();
-        graphics.setColor(Color.YELLOW);
-        graphics.drawString("子弹的数量：" + bullets.size(), 10, 60);
-        graphics.drawString("坦克的数量：" + tanks.size(), 100, 60);
-        graphics.setColor(color);
-        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
-        Obstacle obstacle;
-        while (obstacleIterator.hasNext()){
-            obstacle = obstacleIterator.next();
-            if(obstacle.isLive()){
-                obstacle.paint(graphics);
-            }else{
-                obstacleIterator.remove();
-            }
-        }
-        for (int i = 0; i < this.tanks.size(); i++) {
-            this.tanks.get(i).paint(graphics);
-        }
-        for (int i = 0; i < this.bullets.size(); i++) {
-            this.bullets.get(i).paint(graphics);
-        }
-        for (int i = 0; i < this.explodes.size(); i++) {
-            this.explodes.get(i).paint(graphics);
-        }
-    }
-
-    public List<BaseTank> getTanks() {
-        return tanks;
-    }
-
-    public void setTanks(List<BaseTank> tanks) {
-        this.tanks = tanks;
-    }
-
-    public List<BaseBullet> getBullets() {
-        return bullets;
-    }
-
-    public void setBullets(List<BaseBullet> bullets) {
-        this.bullets = bullets;
-    }
-
-    public List<BaseExplode> getExplodes() {
-        return explodes;
-    }
-
-    public void setExplodes(List<BaseExplode> explodes) {
-        this.explodes = explodes;
-    }
-
-    public BaseTank getMainTank() {
-        return mainTank;
-    }
-
-    public void setMainTank(BaseTank mainTank) {
-        this.mainTank = mainTank;
-    }
-
-    public BaseTank getOtherTank() {
-        return otherTank;
-    }
-
-    public void setOtherTank(Tank otherTank) {
-        this.otherTank = otherTank;
-    }
-
-    public Image getOffScreenImage() {
-        return offScreenImage;
-    }
-
-    public void setOffScreenImage(Image offScreenImage) {
-        this.offScreenImage = offScreenImage;
-    }
-
-    public List<Obstacle> getObstacles() {
-        return obstacles;
-    }
-
-    public void setObstacles(List<Obstacle> obstacles) {
-        this.obstacles = obstacles;
-    }
-
-    public AbstractGameFactory getGameFactory() {
-        return gameFactory;
-    }
-
-    public void setGameFactory(AbstractGameFactory gameFactory) {
-        this.gameFactory = gameFactory;
+        gameModel.paint(graphics);
     }
 }

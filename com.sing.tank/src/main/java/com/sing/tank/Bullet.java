@@ -2,6 +2,9 @@ package com.sing.tank;
 
 import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseTank;
+import com.sing.tank.enums.DirectionEnum;
+import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,8 +28,8 @@ public class Bullet extends BaseBullet {
 
 
     public void paint(Graphics graphics) {
-        if (!this.isLive()) {
-            this.getTankFrame().getBullets().remove(this);
+        if(!this.getLive()){
+            this.getGameModel().remove(this);
             return;
         }
         switch (this.getDirectionEnum()) {

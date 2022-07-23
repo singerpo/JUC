@@ -13,6 +13,5 @@ public class Main {
             Thread.sleep(TankFrame.PAINT_DIFF);
             tankFrame.repaint();
         }
-
     }
 }

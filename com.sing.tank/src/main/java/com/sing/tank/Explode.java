@@ -2,6 +2,8 @@ package com.sing.tank;
 
 import com.sing.tank.abstractfactory.BaseExplode;
 import com.sing.tank.abstractfactory.BaseTank;
+import com.sing.tank.facade.GameModel;
+import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +17,7 @@ import java.awt.image.BufferedImage;
 public class Explode extends BaseExplode {
     private int x, y;
     private boolean live = true;
-    private TankFrame tankFrame;
+    private GameModel gameModel;
     private int width = 71;
     private int height = 100;
     private int step = 0;
@@ -23,13 +25,13 @@ public class Explode extends BaseExplode {
 
     public Explode(BaseTank tank) {
         this.tank = tank;
-        this.tankFrame = tank.getTankFrame();
+        this.gameModel = tank.getGameModel();
         new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 
     public void paint(Graphics graphics) {
-        if (!live) {
-            tankFrame.getExplodes().remove(this);
+        if(!this.getLive()){
+            this.getGameModel().remove(this);
             return;
         }
         BufferedImage bufferedImage = ResourceManager.explodes[step++];
@@ -40,5 +42,75 @@ public class Explode extends BaseExplode {
             step = 0;
             this.live = false;
         }
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @Override
+    public boolean getLive() {
+        return live;
+    }
+
+    @Override
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public BaseTank getTank() {
+        return tank;
+    }
+
+    public void setTank(BaseTank tank) {
+        this.tank = tank;
     }
 }

@@ -2,6 +2,7 @@ package com.sing.tank.strategy;
 
 import com.sing.tank.*;
 import com.sing.tank.abstractfactory.BaseTank;
+import com.sing.tank.enums.GroupEnum;
 
 /**
  * 默认开火策略
@@ -18,7 +19,7 @@ public class DefaultFireStrategy implements FireStrategy {
         }
         if (tank.getPaintCount() > diff / TankFrame.PAINT_DIFF) {
             tank.setPaintCount(0);
-            tank.getTankFrame().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
+            tank.getGameModel().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
             if (tank.getGroupEnum() == GroupEnum.GOOD) {
                 new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
             }
