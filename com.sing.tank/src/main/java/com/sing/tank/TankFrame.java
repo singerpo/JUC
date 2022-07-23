@@ -15,7 +15,7 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 8 分离玩家和机器人，对边界进行不同的处理（1）
+ * 8 分离玩家和机器人，对边界进行不同的处理（1）  00:32
  *
  * @author songbo
  * @since 2022-07-07
