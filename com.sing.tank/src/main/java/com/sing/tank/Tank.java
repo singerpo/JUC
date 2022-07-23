@@ -21,7 +21,7 @@ public class Tank extends BaseTank {
     }
 
     public void paint(Graphics graphics) {
-        if(!this.getLive()){
+        if (!this.getLive()) {
             this.getGameModel().remove(this);
             return;
         }
@@ -81,9 +81,9 @@ public class Tank extends BaseTank {
      * 坦克移动
      */
     private void move() {
+        this.setOldX(this.getX());
+        this.setOldY(this.getY());
         if (this.getDirectionEnum() != null && this.getMoving()) {
-            int oldX = this.getX();
-            int oldY = this.getY();
             switch (this.getDirectionEnum()) {
                 case UP:
                     this.setY(this.getY() - this.getSpeed());
@@ -98,27 +98,6 @@ public class Tank extends BaseTank {
                     this.setX(this.getX() + this.getSpeed());
                     break;
             }
-
-            // for (Obstacle obstacle : this.getGameModel().getObstacles()) {
-            //     if (this.getRectangle().intersects(obstacle.getRectangle())) {
-            //         if (oldY < obstacle.getY() && (this.getX() >= obstacle.getX() - this.getWidth()) && (this.getX() <= obstacle.getX() + this.getWidth() + obstacle.getWidth())) {
-            //             this.setY(oldY - 1);
-            //             this.setX(oldX);
-            //         } else if (oldY > (obstacle.getY() + obstacle.getHeight()) && (this.getX() >= obstacle.getX() - this.getWidth()) && (this.getX() <= obstacle.getX() + this.getWidth() + obstacle.getWidth())) {
-            //             this.setY(oldY + 1);
-            //             this.setX(oldX);
-            //         } else if (oldX < obstacle.getX() && (this.getY() >= obstacle.getY() - this.getHeight()) && (this.getY() <= obstacle.getY() + this.getHeight() + obstacle.getHeight())) {
-            //             this.setY(oldY);
-            //             this.setX(oldX - 1);
-            //         } else if (oldX > (obstacle.getX() + obstacle.getWidth()) && (this.getY() >= obstacle.getY() - this.getHeight()) && (this.getY() <= obstacle.getY() + this.getHeight() + obstacle.getHeight())) {
-            //             this.setY(oldY);
-            //             this.setX(oldX + 1);
-            //         }
-            //         break;
-            //     }
-            //
-            // }
-
         }
         boundCheck();
         this.setPaintCount(this.getPaintCount() + 1);

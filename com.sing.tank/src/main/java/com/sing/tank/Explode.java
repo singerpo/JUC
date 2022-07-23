@@ -15,8 +15,6 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class Explode extends BaseExplode {
-    private int x, y;
-    private boolean live = true;
     private GameModel gameModel;
     private int width = 71;
     private int height = 100;
@@ -26,52 +24,22 @@ public class Explode extends BaseExplode {
     public Explode(BaseTank tank) {
         this.tank = tank;
         this.gameModel = tank.getGameModel();
-        new Thread(()->new Audio("audio/explode.wav").play()).start();
+        new Thread(() -> new Audio("audio/explode.wav").play()).start();
     }
 
     public void paint(Graphics graphics) {
-        if(!this.getLive()){
+        if (!this.getLive()) {
             this.getGameModel().remove(this);
             return;
         }
         BufferedImage bufferedImage = ResourceManager.explodes[step++];
-        this.x = this.tank.getX() - (bufferedImage.getWidth() - this.tank.getWidth()) / 2;
-        this.y = this.tank.getY() - (bufferedImage.getHeight() - this.tank.getHeight()) / 2;
-        graphics.drawImage(bufferedImage, x, y, null);
+        this.setX(this.tank.getX() - (bufferedImage.getWidth() - this.tank.getWidth()) / 2);
+        this.setY(this.tank.getY() - (bufferedImage.getHeight() - this.tank.getHeight()) / 2);
+        graphics.drawImage(bufferedImage, this.getX(), this.getY(), null);
         if (step >= ResourceManager.explodes.length) {
             step = 0;
-            this.live = false;
+            this.setLive(false);
         }
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
-    public boolean getLive() {
-        return live;
-    }
-
-    @Override
-    public void setLive(boolean live) {
-        this.live = live;
     }
 
     public GameModel getGameModel() {

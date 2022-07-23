@@ -48,6 +48,14 @@ public abstract class BaseTank extends GameObject {
 
     public abstract void fire();
 
+    /**
+     * 退回保持上一次位置
+     */
+    public void stay(){
+        this.setX(this.getOldX());
+        this.setY(this.getOldY());
+    }
+
     public GameModel getGameModel() {
         return gameModel;
     }

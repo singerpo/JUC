@@ -6,6 +6,7 @@ import com.sing.tank.abstractfactory.AbstractGameFactory;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.DefaultFactory;
 import com.sing.tank.abstractfactory.GameObject;
+import com.sing.tank.cor.*;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.manager.PropertyManager;
@@ -20,20 +21,27 @@ import java.util.Random;
  * @since 2022-07-22
  */
 public class GameModel {
-    private List<GameObject> gameObjects = new ArrayList<>();
+    private List<GameObject> gameObjects;
     private BaseTank mainTank;
     private BaseTank otherTank;
     private AbstractGameFactory gameFactory = new DefaultFactory();
 
+    Collider collider = new BulletTankCollider();
+    Collider collider1 = new TankTankCollider();
+    Collider collider2 = new ObstacleTankCollider();
+    Collider collider3 = new ObstacleBulletCollider();
+
+    public GameModel() {
+
+    }
 
     public void init() {
+        gameObjects = new ArrayList<>();
+        for (int x = 100; x <= TankFrame.GAME_WIDTH - 100 - 30; x += 31) {
+            Obstacle obstacle = new Obstacle(x, 200, this);
+            add(obstacle);
+        }
 
-        Obstacle obstacle = new Obstacle(100, 200, this);
-        add(obstacle);
-        obstacle = new Obstacle(131, 200, this);
-        add(obstacle);
-        obstacle = new Obstacle(162, 200, this);
-        add(obstacle);
 
         mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
         otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
@@ -73,7 +81,14 @@ public class GameModel {
         }
         //互相碰撞
         for (int i = 0; i < gameObjects.size(); i++) {
-
+            GameObject gameObject1 = gameObjects.get(i);
+            for (int j = i + 1; j < gameObjects.size(); j++) {
+                GameObject gameObject2 = gameObjects.get(j);
+                collider.collide(gameObject1, gameObject2, this);
+                collider1.collide(gameObject1, gameObject2, this);
+                collider2.collide(gameObject1, gameObject2, this);
+                collider3.collide(gameObject1, gameObject2, this);
+            }
         }
     }
 

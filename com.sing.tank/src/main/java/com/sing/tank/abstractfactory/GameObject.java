@@ -8,6 +8,7 @@ import java.awt.*;
  */
 public abstract class GameObject {
     private int x, y;
+    private int oldX, oldY;
     /*** 是否存活 **/
     private boolean live = true;
     private Rectangle rectangle = new Rectangle();
@@ -44,5 +45,21 @@ public abstract class GameObject {
 
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
+    }
+
+    public int getOldX() {
+        return oldX;
+    }
+
+    public void setOldX(int oldX) {
+        this.oldX = oldX;
+    }
+
+    public int getOldY() {
+        return oldY;
+    }
+
+    public void setOldY(int oldY) {
+        this.oldY = oldY;
     }
 }

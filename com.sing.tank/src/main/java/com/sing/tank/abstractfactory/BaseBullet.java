@@ -16,7 +16,6 @@ import java.awt.*;
 public abstract class BaseBullet extends GameObject {
     private int speed = PropertyManager.getInstance().bulletSpeed;
     private DirectionEnum directionEnum;
-    private boolean live = true;
     private GameModel gameModel;
     private BaseTank tank;
     private int width;
@@ -101,57 +100,10 @@ public abstract class BaseBullet extends GameObject {
             if (this.getX() < 0 || this.getY() < 0 || this.getX() > TankFrame.GAME_WIDTH || this.getY() > TankFrame.GAME_HEIGHT) {
                 this.setLive(false);
             }
-            collide();
         }
     }
 
-    /**
-     * 判断子弹和坦克碰撞
-     */
-    private void collide() {
-        // 通过是否相交来判断是否相撞
-        Rectangle bulletRect = this.getRectangle();
-        // for (BaseTank tank : this.getGameModel().getTanks()) {
-        //     // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
-        //     if (tank == this.getTank() || tank.getGroupEnum().equals(this.getTank().getGroupEnum())) {
-        //         continue;
-        //     }
-        //     Rectangle tankRect = tank.getRectangle();
-        //     if (bulletRect.intersects(tankRect)) {
-        //         tank.setLive(false);
-        //
-        //         this.setLive(false);
-        //         //在坦克中心位置爆炸
-        //         BaseExplode explode = this.getGameModel().getGameFactory().createExplode(tank);
-        //         this.getGameModel().getExplodes().add(explode);
-        //         return;
-        //     }
-        // }
-        // if (this.isLive()) {
-        //     for (Obstacle obstacle : this.getGameModel().getObstacles()) {
-        //         if (bulletRect.intersects(obstacle.getRectangle())) {
-        //             this.setLive(false);
-        //             obstacle.setLive(false);
-        //             return;
-        //         }
-        //     }
-        // }
-        // 计算x,y来判断是否碰撞
-        // for (Tank tank1 : tankFrame.tanks) {
-        //     if (tank1 == this.tank) {
-        //         continue;
-        //     }
-        //     if (x >= tank.getX() && x <= tank.getX() + tank.getWidth() &&
-        //             (y >= tank1.getY()
-        //                     && y <= tank.getY() + tank.getHeight()
-        //             )
-        //     ) {
-        //         tank.setLive(false);
-        //         this.live = false;
-        //     }
-        //
-        // }
-    }
+
 
     public int getSpeed() {
         return speed;
@@ -167,14 +119,6 @@ public abstract class BaseBullet extends GameObject {
 
     public void setDirectionEnum(DirectionEnum directionEnum) {
         this.directionEnum = directionEnum;
-    }
-
-    public boolean isLive() {
-        return live;
-    }
-
-    public void setLive(boolean live) {
-        this.live = live;
     }
 
     public GameModel getGameModel() {

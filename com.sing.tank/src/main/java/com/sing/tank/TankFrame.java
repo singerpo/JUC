@@ -77,7 +77,7 @@ public class TankFrame extends Frame {
                     TankFrame.this.gameModel.init();
                     break;
             }
-            new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
+           // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
             setMainTankDirection();
         }
 
