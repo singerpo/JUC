@@ -32,7 +32,6 @@ public class TankFrame extends Frame {
         setTitle("坦克大战");
         setIconImage(ResourceManager.tankD);
         setVisible(true);
-        gameModel.init();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

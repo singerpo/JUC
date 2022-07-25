@@ -1,4 +1,4 @@
-package com.sing.tank.cor;
+package com.sing.tank.chainofresponsibility;
 
 import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseExplode;
@@ -12,14 +12,14 @@ import com.sing.tank.facade.GameModel;
  */
 public class BulletTankCollider implements Collider {
     @Override
-    public void collide(GameObject gameObject1, GameObject gameObject2, GameModel gameModel) {
+    public boolean collide(GameObject gameObject1, GameObject gameObject2, GameModel gameModel) {
         if (gameObject1.getLive() && gameObject2.getLive()) {
             if (gameObject1 instanceof BaseBullet && gameObject2 instanceof BaseTank) {
                 BaseBullet baseBullet = (BaseBullet) gameObject1;
                 BaseTank baseTank = (BaseTank) gameObject2;
                 // 坦克自己的子弹不会打自己;同一个组的坦克子弹不打自己组的
                 if (baseBullet.getTank() == baseTank || baseBullet.getTank().getGroupEnum() == baseTank.getGroupEnum()) {
-                    return;
+                    return true;
                 }
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
                     gameObject1.setLive(false);
@@ -27,10 +27,12 @@ public class BulletTankCollider implements Collider {
                     //在坦克中心位置爆炸
                     BaseExplode explode = gameModel.getGameFactory().createExplode(baseTank);
                     gameModel.add(explode);
+                    return true;
                 }
             } else if (gameObject1 instanceof BaseTank && gameObject2 instanceof BaseBullet) {
                 collide(gameObject2, gameObject1, gameModel);
             }
         }
+        return true;
     }
 }
