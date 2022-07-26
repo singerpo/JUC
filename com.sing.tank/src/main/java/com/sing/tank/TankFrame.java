@@ -15,7 +15,7 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 8 分离玩家和机器人，对边界进行不同的处理（1）  00:32
+ * 8 做碰撞检测（1）.mp4
  *
  * @author songbo
  * @since 2022-07-07
@@ -24,7 +24,6 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = PropertyManager.getInstance().gameWidth;
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
-    GameModel gameModel = new GameModel();
 
     public TankFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -67,13 +66,13 @@ public class TankFrame extends Frame {
                     right = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    TankFrame.this.gameModel.getMainTank().fire();
+                    GameModel.getInstance().getMainTank().fire();
                     break;
                 case KeyEvent.VK_L:
-                    TankFrame.this.gameModel.getOtherTank().fire();
+                    GameModel.getInstance().getOtherTank().fire();
                     break;
                 case KeyEvent.VK_R:
-                    TankFrame.this.gameModel.init();
+                    GameModel.getInstance().init();
                     break;
             }
            // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
@@ -82,26 +81,26 @@ public class TankFrame extends Frame {
 
         private void setMainTankDirection() {
             if (!up && !down && !left && !right) {
-                TankFrame.this.gameModel.getMainTank().setMoving(false);
-                TankFrame.this.gameModel.getOtherTank().setMoving(false);
+                GameModel.getInstance().getMainTank().setMoving(false);
+                GameModel.getInstance().getOtherTank().setMoving(false);
             } else {
-                TankFrame.this.gameModel.getMainTank().setMoving(true);
-                TankFrame.this.gameModel.getOtherTank().setMoving(true);
+                GameModel.getInstance().getMainTank().setMoving(true);
+                GameModel.getInstance().getOtherTank().setMoving(true);
                 if (up) {
-                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.UP);
-                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.UP);
+                    GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.UP);
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.UP);
                 }
                 if (down) {
-                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.DOWN);
-                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
+                    GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.DOWN);
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
                 }
                 if (left) {
-                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.LEFT);
-                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
+                    GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.LEFT);
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
                 }
                 if (right) {
-                    TankFrame.this.gameModel.getMainTank().setDirectionEnum(DirectionEnum.RIGHT);
-                    TankFrame.this.gameModel.getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
+                    GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.RIGHT);
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
                 }
             }
         }
@@ -146,6 +145,6 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        gameModel.paint(graphics);
+        GameModel.getInstance().paint(graphics);
     }
 }

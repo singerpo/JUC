@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 责任链
  * @author songbo
  * @since 2022-07-25
  */
@@ -26,9 +27,9 @@ public class ColliderChain implements Collider{
     }
 
     @Override
-    public boolean collide(GameObject gameObject1, GameObject gameObject2, GameModel gameModel) {
+    public boolean collide(GameObject gameObject1, GameObject gameObject2) {
         for (Collider collider : colliders) {
-            if(!collider.collide(gameObject1, gameObject2, gameModel)){
+            if(!collider.collide(gameObject1, gameObject2)){
                 return false;
             }
         }

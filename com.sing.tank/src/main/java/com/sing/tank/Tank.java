@@ -16,13 +16,13 @@ import java.awt.*;
  */
 public class Tank extends BaseTank {
 
-    public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, GameModel gameModel) {
-        super(x, y, directionEnum, groupEnum, gameModel);
+    public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
+        super(x, y, directionEnum, groupEnum);
     }
 
     public void paint(Graphics graphics) {
         if (!this.getLive()) {
-            this.getGameModel().remove(this);
+            GameModel.getInstance().remove(this);
             return;
         }
         switch (this.getDirectionEnum()) {

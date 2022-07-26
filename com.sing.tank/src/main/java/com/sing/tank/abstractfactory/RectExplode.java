@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class RectExplode extends BaseExplode {
-    private GameModel gameModel;
     private int width = 71;
     private int height = 100;
     private int step = 0;
@@ -22,7 +21,6 @@ public class RectExplode extends BaseExplode {
 
     public RectExplode(BaseTank tank) {
         this.tank = tank;
-        this.gameModel = tank.getGameModel();
         new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 

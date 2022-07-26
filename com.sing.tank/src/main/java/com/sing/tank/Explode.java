@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class Explode extends BaseExplode {
-    private GameModel gameModel;
     private int width = 71;
     private int height = 100;
     private int step = 0;
@@ -23,13 +22,13 @@ public class Explode extends BaseExplode {
 
     public Explode(BaseTank tank) {
         this.tank = tank;
-        this.gameModel = tank.getGameModel();
         new Thread(() -> new Audio("audio/explode.wav").play()).start();
+        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics graphics) {
         if (!this.getLive()) {
-            this.getGameModel().remove(this);
+            GameModel.getInstance().remove(this);
             return;
         }
         BufferedImage bufferedImage = ResourceManager.explodes[step++];
@@ -40,14 +39,6 @@ public class Explode extends BaseExplode {
             step = 0;
             this.setLive(false);
         }
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     public int getWidth() {

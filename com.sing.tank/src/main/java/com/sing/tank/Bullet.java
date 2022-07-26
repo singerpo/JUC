@@ -4,6 +4,7 @@ import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
 import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
@@ -29,7 +30,7 @@ public class Bullet extends BaseBullet {
 
     public void paint(Graphics graphics) {
         if(!this.getLive()){
-            this.getGameModel().remove(this);
+            GameModel.getInstance().remove(this);
             return;
         }
         switch (this.getDirectionEnum()) {

@@ -3,6 +3,10 @@ package com.sing.tank.manager;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 同步双检查的单例模式
+ * 加载property配置文件
+ */
 public class PropertyManager {
     private static PropertyManager propertyManager;
     public Integer initTankCount;

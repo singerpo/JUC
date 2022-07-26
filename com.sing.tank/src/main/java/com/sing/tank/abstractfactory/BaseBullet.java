@@ -16,7 +16,6 @@ import java.awt.*;
 public abstract class BaseBullet extends GameObject {
     private int speed = PropertyManager.getInstance().bulletSpeed;
     private DirectionEnum directionEnum;
-    private GameModel gameModel;
     private BaseTank tank;
     private int width;
     private int height;
@@ -24,7 +23,6 @@ public abstract class BaseBullet extends GameObject {
 
     public BaseBullet(DirectionEnum directionEnum, BaseTank tank) {
         this.directionEnum = directionEnum;
-        this.gameModel = tank.getGameModel();
         this.tank = tank;
         switch (directionEnum) {
             case UP:
@@ -75,7 +73,7 @@ public abstract class BaseBullet extends GameObject {
                 this.setY(this.getY() + 1);
                 break;
         }
-        this.gameModel.add(this);
+        GameModel.getInstance().add(this);
     }
 
     /**
@@ -119,14 +117,6 @@ public abstract class BaseBullet extends GameObject {
 
     public void setDirectionEnum(DirectionEnum directionEnum) {
         this.directionEnum = directionEnum;
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     public BaseTank getTank() {

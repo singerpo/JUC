@@ -15,8 +15,6 @@ import java.util.Random;
  * @since 2022-07-15
  */
 public abstract class BaseTank extends GameObject {
-    /*** 主窗口 **/
-    private GameModel gameModel;
     /*** 坦克方向 **/
     private DirectionEnum directionEnum;
     /*** 坦克速度 **/
@@ -36,12 +34,12 @@ public abstract class BaseTank extends GameObject {
     private int paintCount = 0;
     private FireStrategy fireStrategy = new FourDirectionFireStrategy();
 
-    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, GameModel gameModel) {
+    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
         this.setX(x);
         this.setY(y);
         this.directionEnum = directionEnum;
-        this.gameModel = gameModel;
         this.groupEnum = groupEnum;
+        GameModel.getInstance().add(this);
     }
 
     public abstract void paint(Graphics graphics);
@@ -49,19 +47,11 @@ public abstract class BaseTank extends GameObject {
     public abstract void fire();
 
     /**
-     * 退回保持上一次位置
+     * 退回上一次位置
      */
-    public void stay(){
+    public void back(){
         this.setX(this.getOldX());
         this.setY(this.getOldY());
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
-    }
-
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     public DirectionEnum getDirectionEnum() {

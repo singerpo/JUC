@@ -7,12 +7,13 @@ import com.sing.tank.abstractfactory.GameObject;
 import com.sing.tank.facade.GameModel;
 
 /**
+ * 子弹和坦克碰撞
  * @author songbo
  * @since 2022-07-23
  */
 public class BulletTankCollider implements Collider {
     @Override
-    public boolean collide(GameObject gameObject1, GameObject gameObject2, GameModel gameModel) {
+    public boolean collide(GameObject gameObject1, GameObject gameObject2) {
         if (gameObject1.getLive() && gameObject2.getLive()) {
             if (gameObject1 instanceof BaseBullet && gameObject2 instanceof BaseTank) {
                 BaseBullet baseBullet = (BaseBullet) gameObject1;
@@ -25,12 +26,11 @@ public class BulletTankCollider implements Collider {
                     gameObject1.setLive(false);
                     gameObject2.setLive(false);
                     //在坦克中心位置爆炸
-                    BaseExplode explode = gameModel.getGameFactory().createExplode(baseTank);
-                    gameModel.add(explode);
+                    GameModel.getInstance().getGameFactory().createExplode(baseTank);
                     return true;
                 }
             } else if (gameObject1 instanceof BaseTank && gameObject2 instanceof BaseBullet) {
-                collide(gameObject2, gameObject1, gameModel);
+                collide(gameObject2, gameObject1);
             }
         }
         return true;

@@ -4,6 +4,7 @@ import com.sing.tank.*;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
 
 /**
  * 四个方向开火策略
@@ -25,7 +26,7 @@ public class FourDirectionFireStrategy implements FireStrategy {
             // } else {
             //     tank.getGameModel().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
             // }
-            tank.getGameModel().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
+            GameModel.getInstance().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
         }
     }
 }

@@ -21,15 +21,24 @@ import java.util.Random;
  * @since 2022-07-22
  */
 public class GameModel {
+    private static final GameModel INSTANCE = new GameModel();
     private List<GameObject> gameObjects;
     private BaseTank mainTank;
     private BaseTank otherTank;
     private AbstractGameFactory gameFactory = new DefaultFactory();
-
     ColliderChain colliderChain = new ColliderChain();
 
-    public GameModel() {
-        init();
+    static {
+        INSTANCE.init();
+    }
+
+    private GameModel() {
+
+    }
+
+
+    public static GameModel getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -38,21 +47,18 @@ public class GameModel {
     public void init() {
         gameObjects = new ArrayList<>();
         for (int x = 100; x <= TankFrame.GAME_WIDTH - 100 - 30; x += 31) {
-            Obstacle obstacle = new Obstacle(x, 200, this);
-            add(obstacle);
+            new Obstacle(x, 200, this);
         }
-        mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD, this);
-        add(mainTank);
-        add(otherTank);
+        mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
+        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
         //60为间距
         int max = TankFrame.GAME_HEIGHT / (60 + mainTank.getHeight()) - 1;
         for (int i = 1; i <= max; i++) {
-            add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD, this));
+            this.gameFactory.createTank(TankFrame.GAME_WIDTH - mainTank.getWidth() * 2, (60 + mainTank.getHeight()) * i + 60, DirectionEnum.DOWN, GroupEnum.BAD);
         }
         Random random = new Random();
         for (int i = 0; i < PropertyManager.getInstance().initTankCount - 2 - max; i++) {
-            add(this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD, this));
+            this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD);
         }
     }
 
@@ -82,7 +88,7 @@ public class GameModel {
             GameObject gameObject1 = gameObjects.get(i);
             for (int j = i + 1; j < gameObjects.size(); j++) {
                 GameObject gameObject2 = gameObjects.get(j);
-                colliderChain.collide(gameObject1, gameObject2, this);
+                colliderChain.collide(gameObject1, gameObject2);
             }
         }
     }
