@@ -21,16 +21,17 @@ public class FourDirectionFireStrategy implements FireStrategy {
         int diff = 500;
         if (tank.getPaintCount() > diff / TankFrame.PAINT_DIFF) {
             tank.setPaintCount(0);
-            // if (tank.getGroupEnum() == GroupEnum.GOOD) {
-            //     for (DirectionEnum directionEnum : DirectionEnum.values()) {
-            //         tank.getGameModel().getGameFactory().createBullet(directionEnum, tank);
-            //     }
-            //     new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
-            // } else {
-            //     tank.getGameModel().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
-            // }
-            BaseBullet baseBullet = GameModel.getInstance().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
-            GameModel.getInstance().add(baseBullet);
+             if (tank.getGroupEnum() == GroupEnum.GOOD) {
+                 for (DirectionEnum directionEnum : DirectionEnum.values()) {
+                     BaseBullet baseBullet = GameModel.getInstance().getGameFactory().createBullet(directionEnum, tank);
+                     GameModel.getInstance().add(baseBullet);
+                 }
+                 new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
+             } else {
+                 BaseBullet baseBullet = GameModel.getInstance().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
+                 GameModel.getInstance().add(baseBullet);
+             }
+
         }
     }
 }
