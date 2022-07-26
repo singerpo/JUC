@@ -9,6 +9,10 @@ import java.awt.*;
 public abstract class GameObject {
     private int x, y;
     private int oldX, oldY;
+    /*** 宽度 **/
+    private int width;
+    /*** 高度 **/
+    private int height;
     /*** 是否存活 **/
     private boolean live = true;
     private Rectangle rectangle = new Rectangle();
@@ -61,5 +65,21 @@ public abstract class GameObject {
 
     public void setOldY(int oldY) {
         this.oldY = oldY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

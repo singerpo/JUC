@@ -22,10 +22,6 @@ public abstract class BaseTank extends GameObject {
     /*** 是否移动 **/
     private boolean moving = false;
 
-    /*** 坦克宽度 **/
-    private int width = 60;
-    /*** 坦克高度 **/
-    private int height = 60;
     /*** 坦克分组 **/
     private GroupEnum groupEnum;
     /*** random **/
@@ -39,7 +35,6 @@ public abstract class BaseTank extends GameObject {
         this.setY(y);
         this.directionEnum = directionEnum;
         this.groupEnum = groupEnum;
-        GameModel.getInstance().add(this);
     }
 
     public abstract void paint(Graphics graphics);
@@ -76,22 +71,6 @@ public abstract class BaseTank extends GameObject {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public GroupEnum getGroupEnum() {

@@ -14,8 +14,6 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class RectExplode extends BaseExplode {
-    private int width = 71;
-    private int height = 100;
     private int step = 0;
     private BaseTank tank;
 

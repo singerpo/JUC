@@ -15,15 +15,12 @@ import java.awt.image.BufferedImage;
  * @since 2022-07-08
  */
 public class Explode extends BaseExplode {
-    private int width = 71;
-    private int height = 100;
     private int step = 0;
     private BaseTank tank;
 
     public Explode(BaseTank tank) {
         this.tank = tank;
         new Thread(() -> new Audio("audio/explode.wav").play()).start();
-        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics graphics) {
@@ -34,27 +31,13 @@ public class Explode extends BaseExplode {
         BufferedImage bufferedImage = ResourceManager.explodes[step++];
         this.setX(this.tank.getX() - (bufferedImage.getWidth() - this.tank.getWidth()) / 2);
         this.setY(this.tank.getY() - (bufferedImage.getHeight() - this.tank.getHeight()) / 2);
+        this.setWidth(bufferedImage.getWidth());
+        this.setHeight(bufferedImage.getHeight());
         graphics.drawImage(bufferedImage, this.getX(), this.getY(), null);
         if (step >= ResourceManager.explodes.length) {
             step = 0;
             this.setLive(false);
         }
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public int getStep() {

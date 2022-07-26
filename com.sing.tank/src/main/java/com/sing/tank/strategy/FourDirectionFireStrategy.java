@@ -1,7 +1,10 @@
 package com.sing.tank.strategy;
 
 import com.sing.tank.*;
+import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseTank;
+import com.sing.tank.decotator.RectDecorator;
+import com.sing.tank.decotator.TailDecorator;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
@@ -26,7 +29,8 @@ public class FourDirectionFireStrategy implements FireStrategy {
             // } else {
             //     tank.getGameModel().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
             // }
-            GameModel.getInstance().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
+            BaseBullet baseBullet = GameModel.getInstance().getGameFactory().createBullet(tank.getDirectionEnum(), tank);
+            GameModel.getInstance().add(baseBullet);
         }
     }
 }
