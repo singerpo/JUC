@@ -139,9 +139,6 @@ public class Tank extends BaseTank {
         }
     }
 
-    @Override
-    public void fire() {
-        this.getFireStrategy().fire(this);
-    }
+
 
 }

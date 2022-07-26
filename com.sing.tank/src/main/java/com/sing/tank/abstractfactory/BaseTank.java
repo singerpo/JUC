@@ -1,13 +1,19 @@
 package com.sing.tank.abstractfactory;
 
+import com.sing.tank.Tank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.observer.ITankFireObserver;
+import com.sing.tank.observer.TankFireEvent;
+import com.sing.tank.observer.TankFireObserver;
 import com.sing.tank.strategy.FireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -39,14 +45,28 @@ public abstract class BaseTank extends GameObject {
 
     public abstract void paint(Graphics graphics);
 
-    public abstract void fire();
+    public void fire() {
+        this.getFireStrategy().fire(this);
+    }
 
     /**
      * 退回上一次位置
      */
-    public void back(){
+    public void back() {
         this.setX(this.getOldX());
         this.setY(this.getOldY());
+    }
+
+    List<ITankFireObserver> tankFireObserverList = new ArrayList<>();
+    {
+        tankFireObserverList.add(new TankFireObserver());
+    }
+
+    public void handleFireKey() {
+        TankFireEvent tankFireEvent = new TankFireEvent(this);
+        for (ITankFireObserver tankFireObserver : tankFireObserverList) {
+            tankFireObserver.actionOnFire(tankFireEvent);
+        }
     }
 
     public DirectionEnum getDirectionEnum() {
