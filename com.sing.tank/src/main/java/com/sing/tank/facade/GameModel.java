@@ -14,6 +14,7 @@ import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.manager.ResourceManager;
 import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
+import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class GameModel {
     // 工厂方法
     private AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
-    private FireStrategy fireStrategy = new DefaultFireStrategy();
+    private FireStrategy fireStrategy = new FourDirectionFireStrategy();
     //碰撞责任链
     ColliderChain colliderChain = new ColliderChain();
 
@@ -63,12 +64,12 @@ public class GameModel {
         add(mainTank);
         add(otherTank);
         //60为间距
-        int max = TankFrame.GAME_HEIGHT / (60 + 60) - 2;
+        int max = TankFrame.GAME_HEIGHT / (60 + 60) - 1;
         for (int i = 1; i <= max; i++) {
-            add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60 * 2, (60 + 60) * i, DirectionEnum.DOWN, GroupEnum.BAD));
-            System.out.println(i);
+            add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60 * 2+5, (60 + 60) * i, DirectionEnum.DOWN, GroupEnum.BAD));
         }
     }
+
 
     /**
      * 初始化障碍物
