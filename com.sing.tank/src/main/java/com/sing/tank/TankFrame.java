@@ -74,6 +74,9 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_R:
                     GameModel.getInstance().init();
                     break;
+                case KeyEvent.VK_P:
+                    GameModel.getInstance().setPause(!GameModel.getInstance().getPause());
+                    break;
             }
            // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
             setMainTankDirection();

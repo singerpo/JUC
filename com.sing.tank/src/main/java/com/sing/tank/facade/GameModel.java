@@ -11,6 +11,8 @@ import com.sing.tank.decotator.RectDecorator;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.manager.PropertyManager;
+import com.sing.tank.strategy.DefaultFireStrategy;
+import com.sing.tank.strategy.FireStrategy;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,8 +28,15 @@ public class GameModel {
     private List<GameObject> gameObjects;
     private BaseTank mainTank;
     private BaseTank otherTank;
+    /*** 是否暂停 **/
+    private boolean pause = false;
+    // 工厂方法
     private AbstractGameFactory gameFactory = new DefaultFactory();
+    // 开火策略
+    private FireStrategy fireStrategy = new DefaultFireStrategy();
+    //碰撞责任链
     ColliderChain colliderChain = new ColliderChain();
+
 
     static {
         INSTANCE.init();
@@ -47,9 +56,7 @@ public class GameModel {
      */
     public void init() {
         gameObjects = new ArrayList<>();
-        for (int x = 100; x <= TankFrame.GAME_WIDTH - 100 - 30; x += 31) {
-            add(new Obstacle(x, 200, this));
-        }
+        initObstacle();
         mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
         otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
         add(mainTank);
@@ -61,7 +68,39 @@ public class GameModel {
         }
         Random random = new Random();
         for (int i = 0; i < PropertyManager.getInstance().initTankCount - 2 - max; i++) {
-            add( this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD));
+            add(this.gameFactory.createTank(random.nextInt(TankFrame.GAME_WIDTH - 100), random.nextInt(TankFrame.GAME_HEIGHT - 100), DirectionEnum.DOWN, GroupEnum.BAD));
+        }
+    }
+
+    /**
+     * 初始化障碍物
+     */
+    private void initObstacle(){
+        for (int x = 100; x <= TankFrame.GAME_WIDTH - 100 - 35; x += 36) {
+            add(new Obstacle(x, 200));
+            add(new Obstacle(x, 380));
+            add(new Obstacle(x, 598));
+            add(new Obstacle(x, 780));
+        }
+        for (int y = 55; y <= 200 - 36; y += 36) {
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
+        }
+        for (int y = 200 + 36; y <= 400 - 36; y += 36) {
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
+        }
+        for (int y = 380 + 36; y <= 600 - 36; y += 36) {
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
+        }
+        for (int y = 598 + 36; y <= 800 - 36; y += 36) {
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
+            add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
         }
     }
 
@@ -118,5 +157,21 @@ public class GameModel {
 
     public void setGameFactory(AbstractGameFactory gameFactory) {
         this.gameFactory = gameFactory;
+    }
+
+    public boolean getPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public FireStrategy getFireStrategy() {
+        return fireStrategy;
+    }
+
+    public void setFireStrategy(FireStrategy fireStrategy) {
+        this.fireStrategy = fireStrategy;
     }
 }

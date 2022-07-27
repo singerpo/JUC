@@ -8,6 +8,7 @@ import com.sing.tank.facade.GameModel;
 import com.sing.tank.observer.ITankFireObserver;
 import com.sing.tank.observer.TankFireEvent;
 import com.sing.tank.observer.TankFireObserver;
+import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
@@ -34,7 +35,7 @@ public abstract class BaseTank extends GameObject {
     private Random random = new Random();
 
     private int paintCount = 0;
-    private FireStrategy fireStrategy = new FourDirectionFireStrategy();
+
 
     public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
         this.setX(x);
@@ -46,7 +47,7 @@ public abstract class BaseTank extends GameObject {
     public abstract void paint(Graphics graphics);
 
     public void fire() {
-        this.getFireStrategy().fire(this);
+        GameModel.getInstance().getFireStrategy().fire(this);
     }
 
     /**
@@ -116,14 +117,5 @@ public abstract class BaseTank extends GameObject {
     public void setPaintCount(int paintCount) {
         this.paintCount = paintCount;
     }
-
-    public FireStrategy getFireStrategy() {
-        return fireStrategy;
-    }
-
-    public void setFireStrategy(FireStrategy fireStrategy) {
-        this.fireStrategy = fireStrategy;
-    }
-
 
 }

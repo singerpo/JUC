@@ -9,7 +9,7 @@ import java.awt.*;
  * 障碍物
  */
 public class Obstacle extends GameObject {
-    public Obstacle(int x, int y, GameModel gameModel) {
+    public Obstacle(int x, int y) {
         this.setX(x);
         this.setY(y);
     }
@@ -20,8 +20,8 @@ public class Obstacle extends GameObject {
             return;
         }
 //        graphics.drawImage(ResourceManager.obstacle, x, y, this.width, this.height, null);
-        this.setWidth(30);
-        this.setHeight(30);
+        this.setWidth(35);
+        this.setHeight(35);
         Color color = graphics.getColor();
         graphics.setColor(Color.BLUE);
         graphics.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());

@@ -1,5 +1,7 @@
 package com.sing.tank;
 
+import com.sing.tank.facade.GameModel;
+
 /**
  * @author songbo
  * @since 2022-07-07
@@ -11,7 +13,9 @@ public class Main {
         // new Thread(() -> new Audio("audio/war1.wav").loop()).start();
         while (true) {
             Thread.sleep(TankFrame.PAINT_DIFF);
-            tankFrame.repaint();
+            if (!GameModel.getInstance().getPause()) {
+                tankFrame.repaint();
+            }
         }
     }
 }
