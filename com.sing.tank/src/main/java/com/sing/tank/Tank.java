@@ -72,8 +72,8 @@ public class Tank extends BaseTank {
                 break;
 
         }
-        randomDirection();
-        move();
+        //randomDirection();
+       // move();
         this.getRectangle().x = this.getX();
         this.getRectangle().y = this.getY();
         this.getRectangle().width = this.getWidth();
