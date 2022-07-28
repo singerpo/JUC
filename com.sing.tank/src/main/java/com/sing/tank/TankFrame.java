@@ -5,6 +5,8 @@ import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.facade.GameModel;
 import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.manager.ResourceManager;
+import com.sing.tank.strategy.DefaultFireStrategy;
+import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -130,6 +132,14 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_9:
                     // 品红色
                     GameModel.getInstance().setObstacleColor(Color.MAGENTA);
+                    break;
+                case KeyEvent.VK_G:
+                    // 切换开火策略
+                    if(GameModel.getInstance().getFireStrategy() instanceof DefaultFireStrategy){
+                        GameModel.getInstance().setFireStrategy(new FourDirectionFireStrategy());
+                    }else{
+                        GameModel.getInstance().setFireStrategy(new DefaultFireStrategy());
+                    }
                     break;
             }
             // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();

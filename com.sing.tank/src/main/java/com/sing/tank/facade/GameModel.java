@@ -9,6 +9,7 @@ import com.sing.tank.abstractfactory.GameObject;
 import com.sing.tank.chainofresponsibility.ColliderChain;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
@@ -32,7 +33,7 @@ public class GameModel {
     // 工厂方法
     private AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
-    private FireStrategy fireStrategy = new FourDirectionFireStrategy();
+    private FireStrategy fireStrategy = new DefaultFireStrategy();
     //碰撞责任链
     ColliderChain colliderChain = new ColliderChain();
 
@@ -152,6 +153,18 @@ public class GameModel {
         // graphics.drawString("子弹的数量：" + bullets.size(), 10, 60);
         // graphics.drawString("坦克的数量：" + tanks.size(), 100, 60);
         graphics.setColor(color);
+        boolean isVectory = false;
+        if (gameObjects.size() == 1 && this.getMainTank().getLive()) {
+            isVectory = true;
+        }
+        if (gameObjects.size() == 2 && this.getMainTank().getLive() && this.getOtherTank().getLive()) {
+            isVectory = true;
+        }
+        if (isVectory) {
+            graphics.setColor(Color.RED);
+            graphics.setFont(new Font(null, Font.BOLD, 70));
+            graphics.drawString("恭喜您,获得了最终的胜利", TankFrame.GAME_WIDTH / 2 - 450, TankFrame.GAME_HEIGHT / 2 - 100);
+        }
         GameObject gameObject;
         for (int i = 0; i < gameObjects.size(); i++) {
             gameObject = gameObjects.get(i);
