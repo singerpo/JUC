@@ -11,7 +11,6 @@ import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
-import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,7 +23,10 @@ import java.util.List;
 public class GameModel {
     private static final GameModel INSTANCE = new GameModel();
     private List<GameObject> gameObjects;
+
+    /*** 主站坦克 **/
     private BaseTank mainTank;
+    /*** 副坦克 **/
     private BaseTank otherTank;
     /*** 是否暂停 **/
     private boolean pause = false;
@@ -163,14 +165,13 @@ public class GameModel {
         if (isVectory) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 70));
-            graphics.drawString("恭喜您,获得了最终的胜利", TankFrame.GAME_WIDTH / 2 - 450, TankFrame.GAME_HEIGHT / 2 - 100);
+            graphics.drawString("恭喜您,获得了最伟大的胜利", TankFrame.GAME_WIDTH / 2 - 450, TankFrame.GAME_HEIGHT / 2 - 100);
+            return;
         }
         GameObject gameObject;
         for (int i = 0; i < gameObjects.size(); i++) {
             gameObject = gameObjects.get(i);
-            if (gameObject.getLive()) {
-                gameObject.paint(graphics);
-            }
+            gameObject.paint(graphics);
         }
         //互相碰撞
         for (int i = 0; i < gameObjects.size(); i++) {
@@ -229,4 +230,5 @@ public class GameModel {
     public void setObstacleColor(Color obstacleColor) {
         this.obstacleColor = obstacleColor;
     }
+
 }
