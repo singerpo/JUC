@@ -56,48 +56,86 @@ public class GameModel {
     public void init() {
         gameObjects = new ArrayList<>();
         initObstacle();
-        mainTank = this.gameFactory.createTank(50, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
-        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH - 50 * 4, 60, DirectionEnum.DOWN, GroupEnum.GOOD);
+        mainTank = this.gameFactory.createTank(40, 190, DirectionEnum.DOWN, GroupEnum.GOOD);
+        otherTank = this.gameFactory.createTank(20, 50, DirectionEnum.DOWN, GroupEnum.GOOD);
         add(mainTank);
         add(otherTank);
+        initBadTank();
+    }
+
+    /**
+     * 初始化敌对坦克
+     */
+    private void initBadTank() {
         //60为间距
         int max = TankFrame.GAME_HEIGHT / (60 + 60) - 1;
         for (int i = 1; i <= max; i++) {
             add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60 * 2 + 5, (60 + 60) * i, DirectionEnum.DOWN, GroupEnum.BAD));
         }
+        initObstacleTank();
     }
 
+    /**
+     * 初始化障碍物之间的敌对坦克
+     */
+    private void initObstacleTank() {
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - 100, 200 - 100, DirectionEnum.UP, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + 100, 200 - 100, DirectionEnum.DOWN, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - 100, 400 - 100, DirectionEnum.UP, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + 100, 400 - 100, DirectionEnum.DOWN, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - 100, 600 - 100, DirectionEnum.UP, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + 100, 600 - 100, DirectionEnum.DOWN, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - 100, 800 - 100, DirectionEnum.UP, GroupEnum.BAD));
+        add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + 100, 800 - 100, DirectionEnum.DOWN, GroupEnum.BAD));
+    }
 
     /**
      * 初始化障碍物
      */
     private void initObstacle() {
+        //otherTank周围的障碍物
+        add(new Obstacle(13 + 81, 50));
+        add(new Obstacle(13 + 81, 50 + 36));
+        add(new Obstacle(13 + 81 + 36, 50));
+        add(new Obstacle(13 + 81 + 36, 50 + 36));
+        add(new Obstacle(13 + 81 + 36 + 36, 50));
+        add(new Obstacle(13 + 81 + 36 + 36, 50 + 36));
+        add(new Obstacle(20, 110));
+        add(new Obstacle(20 + 36, 110));
+        add(new Obstacle(20, 110 + 36));
+        add(new Obstacle(20 + 36, 110 + 36));
+        // 四行障碍物
         for (int x = 100; x <= TankFrame.GAME_WIDTH - 100 - 35; x += 36) {
             add(new Obstacle(x, 200));
             add(new Obstacle(x, 380));
             add(new Obstacle(x, 598));
             add(new Obstacle(x, 780));
         }
+
         for (int y = 55; y <= 200 - 36; y += 36) {
             add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
         }
+
         for (int y = 200 + 36; y <= 400 - 36; y += 36) {
             add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
         }
+
         for (int y = 380 + 36; y <= 600 - 36; y += 36) {
             add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
         }
+
         for (int y = 598 + 36; y <= 800 - 36; y += 36) {
             add(new Obstacle(TankFrame.GAME_WIDTH / 2, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 - 200, y));
             add(new Obstacle(TankFrame.GAME_WIDTH / 2 + 200, y));
         }
+
     }
 
     public void add(GameObject gameObject) {

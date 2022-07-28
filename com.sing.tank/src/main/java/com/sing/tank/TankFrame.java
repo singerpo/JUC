@@ -47,6 +47,10 @@ public class TankFrame extends Frame {
         boolean down = false;
         boolean left = false;
         boolean right = false;
+        boolean upOther = false;
+        boolean downOther = false;
+        boolean leftOther = false;
+        boolean rightOther = false;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -68,7 +72,19 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_CONTROL:
                     GameModel.getInstance().getMainTank().handleFireKey();
                     break;
-                case KeyEvent.VK_L:
+                case KeyEvent.VK_W:
+                    upOther = true;
+                    break;
+                case KeyEvent.VK_S:
+                    downOther = true;
+                    break;
+                case KeyEvent.VK_A:
+                    leftOther = true;
+                    break;
+                case KeyEvent.VK_D:
+                    rightOther = true;
+                    break;
+                case KeyEvent.VK_F:
                     GameModel.getInstance().getOtherTank().handleFireKey();
                     break;
                 case KeyEvent.VK_R:
@@ -123,24 +139,35 @@ public class TankFrame extends Frame {
         private void setMainTankDirection() {
             if (!up && !down && !left && !right) {
                 GameModel.getInstance().getMainTank().setMoving(false);
-                GameModel.getInstance().getOtherTank().setMoving(false);
             } else {
                 GameModel.getInstance().getMainTank().setMoving(true);
-                GameModel.getInstance().getOtherTank().setMoving(true);
                 if (up) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.UP);
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.UP);
                 }
                 if (down) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.DOWN);
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
                 }
                 if (left) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.LEFT);
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
                 }
                 if (right) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.RIGHT);
+                }
+            }
+            if (!upOther && !downOther && !leftOther && !rightOther) {
+                GameModel.getInstance().getOtherTank().setMoving(false);
+            } else {
+                GameModel.getInstance().getOtherTank().setMoving(true);
+                if (upOther) {
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.UP);
+                }
+                if (downOther) {
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
+                }
+                if (leftOther) {
+                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
+                }
+                if (rightOther) {
                     GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
                 }
             }
@@ -161,6 +188,18 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_RIGHT:
                     right = false;
+                    break;
+                case KeyEvent.VK_W:
+                    upOther = false;
+                    break;
+                case KeyEvent.VK_S:
+                    downOther = false;
+                    break;
+                case KeyEvent.VK_A:
+                    leftOther = false;
+                    break;
+                case KeyEvent.VK_D:
+                    rightOther = false;
                     break;
             }
             setMainTankDirection();
