@@ -4,6 +4,7 @@ import com.sing.tank.*;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.flyweight.BulletPool;
 
 /**
  * @author songbo
@@ -22,7 +23,9 @@ public class DefaultFactory extends AbstractGameFactory {
 
     @Override
     public BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank) {
-        return new Bullet(directionEnum, baseTank);
+        BaseBullet baseBullet = BulletPool.getBullet();
+        baseBullet.initBaseBullet(directionEnum,baseTank);
+        return baseBullet;
     }
 
 }

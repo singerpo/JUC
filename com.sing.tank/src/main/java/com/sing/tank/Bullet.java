@@ -19,6 +19,9 @@ import java.awt.image.BufferedImage;
 public class Bullet extends BaseBullet {
 
 
+    public Bullet(){
+        super();
+    }
     public Bullet(BaseTank tank) {
         this(tank.getDirectionEnum(), tank);
     }

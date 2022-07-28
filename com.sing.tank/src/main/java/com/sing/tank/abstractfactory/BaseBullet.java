@@ -3,7 +3,6 @@ package com.sing.tank.abstractfactory;
 import com.sing.tank.TankFrame;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
-import com.sing.tank.facade.GameModel;
 import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.manager.ResourceManager;
 
@@ -16,8 +15,16 @@ public abstract class BaseBullet extends GameObject {
     private DirectionEnum directionEnum;
     private BaseTank tank;
 
+    public BaseBullet() {
+        setLive(false);
+    }
 
     public BaseBullet(DirectionEnum directionEnum, BaseTank tank) {
+        initBaseBullet(directionEnum, tank);
+    }
+
+    public void initBaseBullet(DirectionEnum directionEnum, BaseTank tank) {
+        this.setLive(true);
         this.directionEnum = directionEnum;
         this.tank = tank;
         switch (directionEnum) {
