@@ -23,7 +23,7 @@ public class Obstacle extends GameObject {
         this.setWidth(35);
         this.setHeight(35);
         Color color = graphics.getColor();
-        graphics.setColor(Color.YELLOW);
+        graphics.setColor(GameModel.getInstance().getObstacleColor());
         graphics.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         graphics.setColor(color);
         this.getRectangle().x = this.getX();

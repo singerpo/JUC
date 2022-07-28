@@ -77,8 +77,46 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_P:
                     GameModel.getInstance().setPause(!GameModel.getInstance().getPause());
                     break;
+                case KeyEvent.VK_0:
+                    GameModel.getInstance().setObstacleColor(Color.BLUE);
+                    break;
+                case KeyEvent.VK_1:
+                    GameModel.getInstance().setObstacleColor(Color.YELLOW);
+                    break;
+                case KeyEvent.VK_2:
+                    // 紫色
+                    GameModel.getInstance().setObstacleColor(new Color(128, 0, 128));
+                    break;
+                case KeyEvent.VK_3:
+                    // 棕色
+                    GameModel.getInstance().setObstacleColor(new Color(128, 64, 0));
+                    break;
+                case KeyEvent.VK_4:
+                    // 粉红色
+                    GameModel.getInstance().setObstacleColor(Color.PINK);
+                    break;
+                case KeyEvent.VK_5:
+                    // 褐色
+                    GameModel.getInstance().setObstacleColor(new Color(150, 75, 0));
+                    break;
+                case KeyEvent.VK_6:
+                    // 绿色
+                    GameModel.getInstance().setObstacleColor(Color.GREEN);
+                    break;
+                case KeyEvent.VK_7:
+                    // 橙色
+                    GameModel.getInstance().setObstacleColor(Color.ORANGE);
+                    break;
+                case KeyEvent.VK_8:
+                    // 青色
+                    GameModel.getInstance().setObstacleColor(Color.CYAN);
+                    break;
+                case KeyEvent.VK_9:
+                    // 品红色
+                    GameModel.getInstance().setObstacleColor(Color.MAGENTA);
+                    break;
             }
-           // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
+            // new Thread(() -> new Audio("audio/tank_move.wav").play()).start();
             setMainTankDirection();
         }
 

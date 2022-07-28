@@ -6,20 +6,15 @@ import com.sing.tank.abstractfactory.AbstractGameFactory;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.DefaultFactory;
 import com.sing.tank.abstractfactory.GameObject;
-import com.sing.tank.chainofresponsibility.*;
-import com.sing.tank.decotator.RectDecorator;
+import com.sing.tank.chainofresponsibility.ColliderChain;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
-import com.sing.tank.manager.PropertyManager;
-import com.sing.tank.manager.ResourceManager;
-import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author songbo
@@ -32,6 +27,8 @@ public class GameModel {
     private BaseTank otherTank;
     /*** 是否暂停 **/
     private boolean pause = false;
+    /*** 障碍物颜色**/
+    private Color obstacleColor = Color.BLUE;
     // 工厂方法
     private AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
@@ -66,7 +63,7 @@ public class GameModel {
         //60为间距
         int max = TankFrame.GAME_HEIGHT / (60 + 60) - 1;
         for (int i = 1; i <= max; i++) {
-            add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60 * 2+5, (60 + 60) * i, DirectionEnum.DOWN, GroupEnum.BAD));
+            add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60 * 2 + 5, (60 + 60) * i, DirectionEnum.DOWN, GroupEnum.BAD));
         }
     }
 
@@ -172,5 +169,13 @@ public class GameModel {
 
     public void setFireStrategy(FireStrategy fireStrategy) {
         this.fireStrategy = fireStrategy;
+    }
+
+    public Color getObstacleColor() {
+        return obstacleColor;
+    }
+
+    public void setObstacleColor(Color obstacleColor) {
+        this.obstacleColor = obstacleColor;
     }
 }
