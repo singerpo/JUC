@@ -7,8 +7,8 @@ import com.sing.tank.facade.GameModel;
 
 public class RectFactory extends AbstractGameFactory {
     @Override
-    public BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
-        return new Tank(x,y,directionEnum,groupEnum);
+    public BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, boolean repeat) {
+        return new Tank(x,y,directionEnum,groupEnum,repeat);
     }
 
     @Override

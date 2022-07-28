@@ -16,13 +16,27 @@ import java.awt.*;
  */
 public class Tank extends BaseTank {
 
-    public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
-        super(x, y, directionEnum, groupEnum);
+    public Tank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, boolean repeat) {
+        super(x, y, directionEnum, groupEnum, repeat);
     }
 
     public void paint(Graphics graphics) {
         if (!this.getLive()) {
-            GameModel.getInstance().remove(this);
+            if (this.getGroupEnum() == GroupEnum.BAD) {
+                GameModel.getInstance().setBeatTankNum(GameModel.getInstance().getBeatTankNum() + 1);
+            }
+            if (GameModel.getInstance().getEndless()) {
+                if (this.getRepeat() && this.getGroupEnum() == GroupEnum.BAD) {
+                    this.setLive(true);
+                    this.setX(this.getInitX());
+                    this.setY(this.getInitY());
+                    this.setDirectionEnum(DirectionEnum.DOWN);
+                } else {
+                    GameModel.getInstance().remove(this);
+                }
+            } else {
+                GameModel.getInstance().remove(this);
+            }
             return;
         }
         switch (this.getDirectionEnum()) {
@@ -138,7 +152,6 @@ public class Tank extends BaseTank {
             this.setY(TankFrame.GAME_HEIGHT - this.getHeight() - 2);
         }
     }
-
 
 
 }

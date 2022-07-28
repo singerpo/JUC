@@ -9,6 +9,7 @@ import java.awt.*;
 public abstract class GameObject {
     private int x, y;
     private int oldX, oldY;
+    private int initX, initY;
     /*** 宽度 **/
     private int width;
     /*** 高度 **/
@@ -81,5 +82,21 @@ public abstract class GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public int getInitX() {
+        return initX;
+    }
+
+    public void setInitX(int initX) {
+        this.initX = initX;
+    }
+
+    public int getInitY() {
+        return initY;
+    }
+
+    public void setInitY(int initY) {
+        this.initY = initY;
     }
 }

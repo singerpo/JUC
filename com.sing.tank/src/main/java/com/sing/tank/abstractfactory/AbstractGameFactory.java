@@ -10,7 +10,7 @@ import com.sing.tank.facade.GameModel;
  * @since 2022-07-15
  */
 public abstract class AbstractGameFactory {
-    public abstract BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum);
+    public abstract BaseTank createTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, boolean repeat);
 
     public abstract BaseExplode createExplode(BaseTank baseTank);
 

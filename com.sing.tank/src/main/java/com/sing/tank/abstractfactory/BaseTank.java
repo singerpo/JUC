@@ -35,13 +35,18 @@ public abstract class BaseTank extends GameObject {
     private Random random = new Random();
 
     private int paintCount = 0;
+    /*** 是否重复复活 */
+    private boolean repeat = false;
 
 
-    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum) {
+    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum,boolean repeat) {
         this.setX(x);
         this.setY(y);
+        this.setInitX(x);
+        this.setInitY(y);
         this.directionEnum = directionEnum;
         this.groupEnum = groupEnum;
+        this.repeat = repeat;
     }
 
     public abstract void paint(Graphics graphics);
@@ -118,4 +123,11 @@ public abstract class BaseTank extends GameObject {
         this.paintCount = paintCount;
     }
 
+    public boolean getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
+    }
 }
