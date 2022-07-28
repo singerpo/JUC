@@ -28,9 +28,15 @@ public class Tank extends BaseTank {
             if (GameModel.getInstance().getEndless()) {
                 if (this.getRepeat() && this.getGroupEnum() == GroupEnum.BAD) {
                     this.setLive(true);
-                    this.setX(this.getInitX());
-                    this.setY(this.getInitY());
-                    this.setDirectionEnum(DirectionEnum.DOWN);
+                    Location location = Location.getRandomLocation();
+                    this.setX(location.getX());
+                    this.setY(location.getY());
+                    while (this.getRectangle().intersects(GameModel.getInstance().getMainTank().getRectangle()) || this.getRectangle().intersects(GameModel.getInstance().getOtherTank().getRectangle())){
+                        location = Location.getRandomLocation();
+                        this.setX(location.getX());
+                        this.setY(location.getY());
+                    }
+                    // this.setDirectionEnum(DirectionEnum.DOWN);
                 } else {
                     GameModel.getInstance().remove(this);
                 }

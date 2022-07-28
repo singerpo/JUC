@@ -67,6 +67,9 @@ public class GameModel {
      */
     public void init() {
         gameObjects = new ArrayList<>();
+        this.badTankNum = 0;
+        this.beatTankNum = 0;
+        this.obstacleNum = 0;
         initObstacle();
         mainTank = this.gameFactory.createTank(40, 190, DirectionEnum.DOWN, GroupEnum.GOOD, false);
         otherTank = this.gameFactory.createTank(20, 50, DirectionEnum.DOWN, GroupEnum.GOOD, false);
