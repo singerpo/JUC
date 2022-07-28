@@ -20,6 +20,10 @@ public class Location {
         locations.add(new Location(870,820));
         locations.add(new Location(120,125));
         locations.add(new Location(870,125));
+        locations.add(new Location(120,820));
+        locations.add(new Location(870,820));
+        locations.add(new Location(120,125));
+        locations.add(new Location(870,125));
     }
 
     public Location(int x, int y) {
@@ -29,7 +33,7 @@ public class Location {
 
     public static Location getRandomLocation(){
         Random random = new Random();
-        int i = random.nextInt(4);
+        int i = random.nextInt(8);
         return locations.get(i);
     }
 
