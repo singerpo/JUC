@@ -17,7 +17,7 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 8 做碰撞检测（1）.mp4
+ * 11 测试Properties类的使用（1）
  *
  * @author songbo
  * @since 2022-07-07
