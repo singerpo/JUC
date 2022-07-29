@@ -17,7 +17,9 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 11 测试Properties类的使用（1）
+ * 12 MV分开ModelView分离（1）.mp4  00:08
+ * 12 GameModel改成单例模式（1）.mp4
+ * 12 对于碰撞的处理（1）.mp4
  *
  * @author songbo
  * @since 2022-07-07
