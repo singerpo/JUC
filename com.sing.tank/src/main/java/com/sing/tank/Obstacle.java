@@ -26,8 +26,8 @@ public class Obstacle extends GameObject {
             return;
         }
 //        graphics.drawImage(ResourceManager.obstacle, x, y, this.width, this.height, null);
-        this.setWidth(35);
-        this.setHeight(35);
+        this.setWidth(60);
+        this.setHeight(60);
         Color color = graphics.getColor();
         if(this.stable){
             graphics.setColor(Color.WHITE);

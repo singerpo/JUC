@@ -145,7 +145,7 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_E:
                     // 切换无尽模式
-                    GameModel.getInstance().setEndless(!GameModel.getInstance().getEndless());
+//                    GameModel.getInstance().setEndless(!GameModel.getInstance().getEndless());
                     break;
 
             }

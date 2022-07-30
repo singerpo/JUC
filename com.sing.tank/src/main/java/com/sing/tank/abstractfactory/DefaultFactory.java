@@ -23,8 +23,9 @@ public class DefaultFactory extends AbstractGameFactory {
 
     @Override
     public BaseBullet createBullet(DirectionEnum directionEnum, BaseTank baseTank) {
-        BaseBullet baseBullet = BulletPool.getBullet();
-        baseBullet.initBaseBullet(directionEnum,baseTank);
+//        BaseBullet baseBullet = BulletPool.getBullet();
+//        baseBullet.initBaseBullet(directionEnum,baseTank);
+        BaseBullet baseBullet = new Bullet(directionEnum, baseTank);
         return baseBullet;
     }
 

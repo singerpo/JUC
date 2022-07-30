@@ -25,68 +25,62 @@ public class Tank extends BaseTank {
             if (this.getGroupEnum() == GroupEnum.BAD) {
                 GameModel.getInstance().setBeatTankNum(GameModel.getInstance().getBeatTankNum() + 1);
             }
-            if (GameModel.getInstance().getEndless()) {
-                if (this.getRepeat() && this.getGroupEnum() == GroupEnum.BAD) {
-                    this.setLive(true);
-                    Location location = Location.getRandomLocation();
-                    this.setX(location.getX());
-                    this.setY(location.getY());
-                    while (this.getRectangle().intersects(GameModel.getInstance().getMainTank().getRectangle()) || this.getRectangle().intersects(GameModel.getInstance().getOtherTank().getRectangle())){
-                        location = Location.getRandomLocation();
-                        this.setX(location.getX());
-                        this.setY(location.getY());
-                    }
-                    // this.setDirectionEnum(DirectionEnum.DOWN);
-                } else {
-                    GameModel.getInstance().remove(this);
-                }
-            } else {
+            if(this.getRepeat()){
+                this.setRepeat(false);
+                this.setLive(true);
+                this.setLife(3);
+                this.setPaintCount(0);
+                this.setX(this.getInitX());
+                this.setY(this.getInitY());
+
+            }else {
                 GameModel.getInstance().remove(this);
             }
             return;
         }
+        this.setPaintCount(this.getPaintCount() + 1);
         switch (this.getDirectionEnum()) {
             case UP:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {
-                    this.setWidth(ResourceManager.goodTankU.getWidth());
-                    this.setHeight(ResourceManager.goodTankU.getHeight());
+//                    this.setWidth(ResourceManager.goodTankU.getWidth());
+//                    this.setHeight(ResourceManager.goodTankU.getHeight());
                     graphics.drawImage(ResourceManager.goodTankU, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 } else {
-                    this.setWidth(ResourceManager.tankU.getWidth());
-                    this.setHeight(ResourceManager.tankU.getHeight());
+//                    this.setWidth(ResourceManager.tankU.getWidth());
+//                    this.setHeight(ResourceManager.tankU.getHeight());
                     graphics.drawImage(ResourceManager.tankU, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 }
                 break;
             case DOWN:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {
-                    this.setWidth(ResourceManager.goodTankD.getWidth());
-                    this.setHeight(ResourceManager.goodTankD.getHeight());
+//                    this.setWidth(ResourceManager.goodTankD.getWidth());
+//                    this.setHeight(ResourceManager.goodTankD.getHeight());
                     graphics.drawImage(ResourceManager.goodTankD, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 } else {
-                    this.setWidth(ResourceManager.tankD.getWidth());
-                    this.setHeight(ResourceManager.tankD.getHeight());
+//                    this.setWidth(ResourceManager.tankD.getWidth());
+//                    this.setHeight(ResourceManager.tankD.getHeight());
                     graphics.drawImage(ResourceManager.tankD, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 }
                 break;
             case LEFT:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {
-                    this.setWidth(ResourceManager.goodTankL.getWidth());
-                    this.setHeight(ResourceManager.goodTankL.getHeight());
+//                    this.setWidth(ResourceManager.goodTankL.getWidth());
+//                    this.setHeight(ResourceManager.goodTankL.getHeight());
                     graphics.drawImage(ResourceManager.goodTankL, this.getX(), getY(), this.getWidth(), this.getHeight(), null);
                 } else {
-                    this.setWidth(ResourceManager.tankL.getWidth());
-                    this.setHeight(ResourceManager.tankL.getHeight());
+//                    this.setWidth(ResourceManager.tankL.getWidth());
+//                    this.setHeight(ResourceManager.tankL.getHeight());
                     graphics.drawImage(ResourceManager.tankL, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 }
                 break;
             case RIGHT:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {
-                    this.setWidth(ResourceManager.goodTankR.getWidth());
-                    this.setHeight(ResourceManager.goodTankR.getHeight());
+//                    this.setWidth(ResourceManager.goodTankR.getWidth());
+//                    this.setHeight(ResourceManager.goodTankR.getHeight());
                     graphics.drawImage(ResourceManager.goodTankR, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 } else {
-                    this.setWidth(ResourceManager.tankR.getWidth());
-                    this.setHeight(ResourceManager.tankR.getHeight());
+//                    this.setWidth(ResourceManager.tankR.getWidth());
+//                    this.setHeight(ResourceManager.tankR.getHeight());
                     graphics.drawImage(ResourceManager.tankR, this.getX(), this.getY(), this.getWidth(), this.getHeight(), null);
                 }
                 break;
@@ -136,7 +130,6 @@ public class Tank extends BaseTank {
             }
         }
         boundCheck();
-        this.setPaintCount(this.getPaintCount() + 1);
         if (GroupEnum.BAD.equals(this.getGroupEnum())) {
             if (this.getRandom().nextInt(100) > 95) {
                 this.fire();

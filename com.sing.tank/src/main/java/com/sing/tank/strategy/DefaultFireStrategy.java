@@ -16,7 +16,7 @@ public class DefaultFireStrategy implements FireStrategy {
         if (!tank.getLive()) {
             return;
         }
-        int diff = 500;
+        int diff = 800;
         if (tank.getGroupEnum() == GroupEnum.GOOD) {
             diff = 200;
         }

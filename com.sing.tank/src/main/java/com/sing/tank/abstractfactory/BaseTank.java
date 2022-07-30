@@ -5,6 +5,7 @@ import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.manager.ResourceManager;
 import com.sing.tank.observer.ITankFireObserver;
 import com.sing.tank.observer.TankFireEvent;
 import com.sing.tank.observer.TankFireObserver;
@@ -54,8 +55,10 @@ public abstract class BaseTank extends GameObject {
             this.setLife(PropertyManager.getInstance().goodTankLife);
         }else {
             this.setLife(PropertyManager.getInstance().badTankLife);
-            this.setSpeed(3);
+            this.setSpeed(5);
         }
+        this.setWidth(60);
+        this.setHeight(60);
     }
 
     public abstract void paint(Graphics graphics);
