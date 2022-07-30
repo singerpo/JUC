@@ -16,6 +16,8 @@ public class PropertyManager {
     public int gameHeight;
     public long paintDiff;
     public int beatTankNum;
+    public int badTankLife;
+    public int goodTankLife;
 
     private PropertyManager() {
 
@@ -35,6 +37,8 @@ public class PropertyManager {
         this.gameHeight = Integer.parseInt(properties.get("gameHeight").toString());
         this.paintDiff = Long.parseLong(properties.get("paintDiff").toString());
         this.beatTankNum = Integer.parseInt(properties.get("beatTankNum").toString());
+        this.badTankLife = Integer.parseInt(properties.get("badTankLife").toString());
+        this.goodTankLife = Integer.parseInt(properties.get("goodTankLife").toString());
     }
 
     public static PropertyManager getInstance() {

@@ -25,9 +25,12 @@ public class BulletTankCollider implements Collider {
                 }
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
                     gameObject1.setLive(false);
-                    gameObject2.setLive(false);
-                    //在坦克中心位置爆炸
-                    GameModel.getInstance().add(GameModel.getInstance().getGameFactory().createExplode(baseTank));
+                    baseTank.setLife(baseTank.getLife() -1);
+                    if(baseTank.getLife() == 0){
+                        gameObject2.setLive(false);
+                        //在坦克中心位置爆炸
+                        GameModel.getInstance().add(GameModel.getInstance().getGameFactory().createExplode(baseTank));
+                    }
                     return false;
                 }
             } else if (gameObject1 instanceof BaseTank && gameObject2 instanceof BaseBullet) {

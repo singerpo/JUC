@@ -9,9 +9,15 @@ import java.awt.*;
  * 障碍物
  */
 public class Obstacle extends GameObject {
+    private boolean stable = false;
     public Obstacle(int x, int y) {
         this.setX(x);
         this.setY(y);
+    }
+    public Obstacle(int x, int y,boolean stable) {
+        this.setX(x);
+        this.setY(y);
+        this.stable = stable;
     }
 
     public void paint(Graphics graphics) {
@@ -23,12 +29,24 @@ public class Obstacle extends GameObject {
         this.setWidth(35);
         this.setHeight(35);
         Color color = graphics.getColor();
-        graphics.setColor(GameModel.getInstance().getObstacleColor());
+        if(this.stable){
+            graphics.setColor(Color.WHITE);
+        }else {
+            graphics.setColor(GameModel.getInstance().getObstacleColor());
+        }
         graphics.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         graphics.setColor(color);
         this.getRectangle().x = this.getX();
         this.getRectangle().y = this.getY();
         this.getRectangle().width = this.getWidth();
         this.getRectangle().height = this.getHeight();
+    }
+
+    public boolean getStable() {
+        return stable;
+    }
+
+    public void setStable(boolean stable) {
+        this.stable = stable;
     }
 }

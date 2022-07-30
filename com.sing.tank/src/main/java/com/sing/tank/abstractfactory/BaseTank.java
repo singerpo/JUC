@@ -38,6 +38,9 @@ public abstract class BaseTank extends GameObject {
     /*** 是否重复复活 */
     private boolean repeat = false;
 
+    /*** 生命值 */
+    private int life = 1;
+
 
     public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum,boolean repeat) {
         this.setX(x);
@@ -47,6 +50,12 @@ public abstract class BaseTank extends GameObject {
         this.directionEnum = directionEnum;
         this.groupEnum = groupEnum;
         this.repeat = repeat;
+        if(this.groupEnum == GroupEnum.GOOD){
+            this.setLife(PropertyManager.getInstance().goodTankLife);
+        }else {
+            this.setLife(PropertyManager.getInstance().badTankLife);
+            this.setSpeed(3);
+        }
     }
 
     public abstract void paint(Graphics graphics);
@@ -129,5 +138,13 @@ public abstract class BaseTank extends GameObject {
 
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 }

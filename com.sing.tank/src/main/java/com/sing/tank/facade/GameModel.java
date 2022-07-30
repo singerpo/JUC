@@ -108,6 +108,13 @@ public class GameModel {
      * 初始化障碍物
      */
     private void initObstacle() {
+        // 稳定的障碍物不消失
+        add(new Obstacle(100 , 150,true));
+        add(new Obstacle(100 , 300,true));
+        add(new Obstacle(100 , 450,true));
+        add(new Obstacle(100 , 486,true));
+        add(new Obstacle(200 , 500,true));
+        add(new Obstacle(200 , 536,true));
         //otherTank周围的障碍物
         add(new Obstacle(13 + 81, 50));
         add(new Obstacle(13 + 81, 50 + 36));
@@ -191,7 +198,7 @@ public class GameModel {
                 isVectory = true;
             }
         } else {
-            if (this.badTankNum == 0 && this.obstacleNum == 0) {
+            if (this.badTankNum == 0) {
                 isVectory = true;
             }
         }
@@ -205,6 +212,14 @@ public class GameModel {
             graphics.drawString("按G切换开火模式", TankFrame.GAME_WIDTH / 2 - 480, TankFrame.GAME_HEIGHT / 2 - 100 + 70 + 40 + 40);
             graphics.drawString("按R重新开始", TankFrame.GAME_WIDTH / 2 - 480, TankFrame.GAME_HEIGHT / 2 - 100 + 70 + 40 + 40 + 40);
             graphics.drawString("按P暂停", TankFrame.GAME_WIDTH / 2 - 480, TankFrame.GAME_HEIGHT / 2 - 100 + 70 + 40 + 40 + 40 + 40);
+            return;
+        }
+        if(!mainTank.getLive() && !otherTank.getLive()){
+            graphics.setColor(Color.RED);
+            graphics.setFont(new Font(null, Font.BOLD, 70));
+            graphics.drawString("Game Over", TankFrame.GAME_WIDTH / 2 - 480, TankFrame.GAME_HEIGHT / 2 - 100);
+            graphics.setFont(new Font(null, Font.BOLD, 40));
+            graphics.drawString("按R重新开始", TankFrame.GAME_WIDTH / 2 - 480, TankFrame.GAME_HEIGHT / 2 - 100 + 70);
             return;
         }
         GameObject gameObject;

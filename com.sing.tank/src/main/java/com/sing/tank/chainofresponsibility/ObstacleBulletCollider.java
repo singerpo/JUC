@@ -16,7 +16,9 @@ public class ObstacleBulletCollider implements Collider {
         if (gameObject1.getLive() && gameObject2.getLive()) {
             if (gameObject1 instanceof Obstacle && gameObject2 instanceof BaseBullet) {
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
-                    gameObject1.setLive(false);
+                    if(!((Obstacle) gameObject1).getStable()){
+                        gameObject1.setLive(false);
+                    }
                     gameObject2.setLive(false);
                     return false;
                 }
