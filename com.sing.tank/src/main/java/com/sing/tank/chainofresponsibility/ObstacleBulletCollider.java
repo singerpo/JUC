@@ -3,6 +3,7 @@ package com.sing.tank.chainofresponsibility;
 import com.sing.tank.Obstacle;
 import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.GameObject;
+import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
 
 /**
@@ -17,6 +18,9 @@ public class ObstacleBulletCollider implements Collider {
             if (gameObject1 instanceof Obstacle && gameObject2 instanceof BaseBullet) {
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
                     if(!((Obstacle) gameObject1).getStable()){
+                        if(gameObject1 == GameModel.getInstance().getMainObstacle() && ((BaseBullet) gameObject2).getTank().getGroupEnum() == GroupEnum.GOOD){
+                            return true;
+                        }
                         gameObject1.setLive(false);
                     }
                     gameObject2.setLive(false);
