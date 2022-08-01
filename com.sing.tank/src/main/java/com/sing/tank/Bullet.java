@@ -34,6 +34,7 @@ public class Bullet extends BaseBullet {
     public void paint(Graphics graphics) {
         if(!this.getLive()){
             GameModel.getInstance().remove(this);
+            this.setRemove(true);
             return;
         }
         switch (this.getDirectionEnum()) {

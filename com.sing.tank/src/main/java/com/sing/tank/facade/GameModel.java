@@ -34,18 +34,18 @@ public class GameModel {
     private boolean pause = false;
     /*** 障碍物颜色**/
     private Color obstacleColor = Color.BLUE;
-    private int obstacleSize = 60;
+    /*** 障碍物尺寸**/
+    private int obstacleSize = 62;
     /*** 敌对坦克数量**/
     private int badTankNum;
     /*** 击败坦克数量**/
     private int beatTankNum;
     /*** 障碍物数量**/
     private int obstacleNum;
-    /*** 是否无尽模式 **/
-    private boolean endless = false;
-
+    /*** 记录运行时间**/
     private long paintDiffTime;
-
+    /*** 敌对坦克刷新次数**/
+    private int badRefreshTimes;
     // 工厂方法
     private AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
@@ -146,17 +146,16 @@ public class GameModel {
         add(new Obstacle(TankFrame.GAME_WIDTH - this.obstacleSize * 2 - 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 4 + this.obstacleSize + 7));
         //不消失障碍物之间的障碍物
         add(new Obstacle(this.obstacleSize + 1, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*3, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*4, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*5, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*6, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*8, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*9, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*10, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*11, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*12, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-        add(new Obstacle((this.obstacleSize + 1)*13, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 3, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 4, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 5, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 7, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 8, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 9, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 10, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+        add(new Obstacle((this.obstacleSize + 1) * 11, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
+
 
     }
 
@@ -183,7 +182,7 @@ public class GameModel {
     }
 
     public void paint(Graphics graphics) {
-        if (paintDiffTime > 0 && paintDiffTime % 8000 == 0 && paintDiffTime <= 4 * 8000 + 7000) {
+        if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
             initEndLessBadTank();
         }
         this.paintDiffTime += PropertyManager.getInstance().paintDiff;
@@ -195,16 +194,14 @@ public class GameModel {
             graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
         }
         graphics.drawString("障碍物数量：" + this.obstacleNum, 130, 50);
+
+        graphics.drawString("击败坦克数量：" + this.beatTankNum, 10, 40);
+
+        graphics.drawString("障碍物数量：" + this.obstacleNum, 130, 40);
         graphics.setColor(color);
         boolean isVectory = false;
-        if (this.endless) {
-            if (this.beatTankNum == PropertyManager.getInstance().beatTankNum) {
-                isVectory = true;
-            }
-        } else {
-            if (this.badTankNum == 0) {
-                isVectory = true;
-            }
+        if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
+            isVectory = true;
         }
         if (isVectory) {
             graphics.setColor(Color.RED);
@@ -304,14 +301,6 @@ public class GameModel {
         this.obstacleNum = obstacleNum;
     }
 
-    public void setEndless(boolean endless) {
-        this.endless = endless;
-    }
-
-    public boolean getEndless() {
-        return endless;
-    }
-
     public int getBeatTankNum() {
         return beatTankNum;
     }
@@ -326,5 +315,21 @@ public class GameModel {
 
     public void setMainObstacle(Obstacle mainObstacle) {
         this.mainObstacle = mainObstacle;
+    }
+
+    public int getObstacleSize() {
+        return obstacleSize;
+    }
+
+    public void setObstacleSize(int obstacleSize) {
+        this.obstacleSize = obstacleSize;
+    }
+
+    public int getBadRefreshTimes() {
+        return badRefreshTimes;
+    }
+
+    public void setBadRefreshTimes(int badRefreshTimes) {
+        this.badRefreshTimes = badRefreshTimes;
     }
 }

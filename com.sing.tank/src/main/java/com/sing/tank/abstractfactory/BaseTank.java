@@ -22,7 +22,7 @@ import java.util.Random;
  * @author songbo
  * @since 2022-07-15
  */
-public abstract class BaseTank extends GameObject {
+public abstract class BaseTank extends GameObject implements Cloneable{
     /*** 坦克方向 **/
     private DirectionEnum directionEnum;
     /*** 坦克速度 **/
@@ -55,7 +55,7 @@ public abstract class BaseTank extends GameObject {
             this.setLife(PropertyManager.getInstance().goodTankLife);
         }else {
             this.setLife(PropertyManager.getInstance().badTankLife);
-            this.setSpeed(5);
+            this.setSpeed(PropertyManager.getInstance().badTankSpeed);
         }
         this.setWidth(60);
         this.setHeight(60);
@@ -73,6 +73,11 @@ public abstract class BaseTank extends GameObject {
     public void back() {
         this.setX(this.getOldX());
         this.setY(this.getOldY());
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     List<ITankFireObserver> tankFireObserverList = new ArrayList<>();

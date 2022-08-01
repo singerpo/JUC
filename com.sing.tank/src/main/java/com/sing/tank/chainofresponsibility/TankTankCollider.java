@@ -16,8 +16,11 @@ public class TankTankCollider implements Collider {
                 BaseTank baseTank1 = (BaseTank) gameObject1;
                 BaseTank baseTank2 = (BaseTank) gameObject2;
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
-//                    baseTank1.back();
-//                    baseTank2.back();
+                    if(baseTank1.getGroupEnum() != baseTank2.getGroupEnum()){
+                        baseTank1.back();
+                        baseTank2.back();
+                    }
+
                     return true;
                 }
             }

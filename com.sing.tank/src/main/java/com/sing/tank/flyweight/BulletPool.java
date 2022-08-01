@@ -19,10 +19,10 @@ public class BulletPool {
         }
     }
 
-    public static Bullet getBullet() {
+    public  static Bullet getBullet() {
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
-            if (!bullet.getLive()) {
+            if (!bullet.getLive() && bullet.getRemove()) {
                 return bullet;
             }
         }
