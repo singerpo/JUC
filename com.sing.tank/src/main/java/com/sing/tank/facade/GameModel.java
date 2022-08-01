@@ -84,6 +84,7 @@ public class GameModel {
     }
 
     private void initEndLessBadTank() {
+        this.badRefreshTimes++;
         add(this.gameFactory.createTank(1, 31, DirectionEnum.DOWN, GroupEnum.BAD, false));
         add(this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, 31, DirectionEnum.DOWN, GroupEnum.BAD, false));
         add(this.gameFactory.createTank(TankFrame.GAME_WIDTH - 60, 31, DirectionEnum.DOWN, GroupEnum.BAD, false));
@@ -188,16 +189,9 @@ public class GameModel {
         this.paintDiffTime += PropertyManager.getInstance().paintDiff;
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
-        if (this.endless) {
-            graphics.drawString("击败坦克数量：" + this.beatTankNum, 10, 50);
-        } else {
-            graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
-        }
+
+        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
         graphics.drawString("障碍物数量：" + this.obstacleNum, 130, 50);
-
-        graphics.drawString("击败坦克数量：" + this.beatTankNum, 10, 40);
-
-        graphics.drawString("障碍物数量：" + this.obstacleNum, 130, 40);
         graphics.setColor(color);
         boolean isVectory = false;
         if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
@@ -209,9 +203,9 @@ public class GameModel {
             graphics.drawString("恭喜安安,获得了最伟大的胜利", 100, TankFrame.GAME_HEIGHT / 2 - 100);
             graphics.setFont(new Font(null, Font.BOLD, 20));
             graphics.drawString("按数字键更换障碍物颜色", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
-            graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 +21);
-            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 +21*2);
-            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 +21*3);
+            graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21);
+            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
+            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 3);
             return;
         }
         if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
