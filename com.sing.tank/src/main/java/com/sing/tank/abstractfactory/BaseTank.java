@@ -55,7 +55,7 @@ public abstract class BaseTank extends GameObject implements Cloneable{
             this.setLife(PropertyManager.getInstance().goodTankLife);
         }else {
             this.setLife(PropertyManager.getInstance().badTankLife);
-            this.setSpeed(5);
+            this.setSpeed(PropertyManager.getInstance().badTankSpeed);
         }
         this.setWidth(60);
         this.setHeight(60);

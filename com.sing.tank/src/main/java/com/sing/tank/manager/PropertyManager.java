@@ -9,7 +9,7 @@ import java.util.Properties;
  */
 public class PropertyManager {
     private static PropertyManager propertyManager;
-    public Integer initTankCount;
+    public int badTankSpeed;
     public int tankSpeed;
     public int bulletSpeed;
     public int gameWidth;
@@ -31,7 +31,7 @@ public class PropertyManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.initTankCount = Integer.parseInt(properties.get("initTankCount").toString());
+        this.badTankSpeed = Integer.parseInt(properties.get("badTankSpeed").toString());
         this.tankSpeed = Integer.parseInt(properties.get("tankSpeed").toString());
         this.bulletSpeed = Integer.parseInt(properties.get("bulletSpeed").toString());
         this.gameWidth = Integer.parseInt(properties.get("gameWidth").toString());
