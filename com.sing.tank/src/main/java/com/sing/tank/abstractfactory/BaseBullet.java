@@ -106,7 +106,10 @@ public abstract class BaseBullet extends GameObject {
             }
         }
     }
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public int getSpeed() {
         return speed;

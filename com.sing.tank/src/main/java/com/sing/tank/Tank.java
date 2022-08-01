@@ -4,6 +4,7 @@ import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.manager.ResourceManager;
 
 import java.awt.*;
@@ -28,11 +29,11 @@ public class Tank extends BaseTank {
             if(this.getRepeat()){
                 this.setRepeat(false);
                 this.setLive(true);
-                this.setLife(3);
+                this.setLife(PropertyManager.getInstance().goodTankLife);
                 this.setPaintCount(0);
                 this.setX(this.getInitX());
                 this.setY(this.getInitY());
-
+                this.setDirectionEnum(DirectionEnum.UP);
             }else {
                 GameModel.getInstance().remove(this);
             }

@@ -4,6 +4,7 @@ import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseExplode;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.GameObject;
+import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
 
 /**
@@ -29,7 +30,15 @@ public class BulletTankCollider implements Collider {
                     if(baseTank.getLife() == 0){
                         gameObject2.setLive(false);
                         //在坦克中心位置爆炸
-                        GameModel.getInstance().add(GameModel.getInstance().getGameFactory().createExplode(baseTank));
+                        BaseTank tank = baseTank;
+                        if(baseTank.getGroupEnum() == GroupEnum.GOOD){
+                            try {
+                                 tank = (BaseTank) baseTank.clone();
+                            } catch (CloneNotSupportedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        GameModel.getInstance().add(GameModel.getInstance().getGameFactory().createExplode(tank));
                     }
                     return false;
                 }
