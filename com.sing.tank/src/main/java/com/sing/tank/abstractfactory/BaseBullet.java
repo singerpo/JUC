@@ -14,9 +14,11 @@ public abstract class BaseBullet extends GameObject {
     private int speed = PropertyManager.getInstance().bulletSpeed;
     private DirectionEnum directionEnum;
     private BaseTank tank;
+    private boolean remove;
 
     public BaseBullet() {
         setLive(false);
+        this.remove = true;
     }
 
     public BaseBullet(DirectionEnum directionEnum, BaseTank tank) {
@@ -25,6 +27,7 @@ public abstract class BaseBullet extends GameObject {
 
     public void initBaseBullet(DirectionEnum directionEnum, BaseTank tank) {
         this.setLive(true);
+        this.remove = false;
         this.directionEnum = directionEnum;
         this.tank = tank;
         switch (directionEnum) {
@@ -129,4 +132,11 @@ public abstract class BaseBullet extends GameObject {
         this.tank = tank;
     }
 
+    public boolean getRemove() {
+        return remove;
+    }
+
+    public void setRemove(boolean remove) {
+        this.remove = remove;
+    }
 }
