@@ -182,12 +182,8 @@ public class GameModel {
         this.gameObjects.remove(gameObject);
     }
 
-    public static void main(String[] args) {
-
-    }
-
     public void paint(Graphics graphics) {
-        if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= PropertyManager.getInstance().badRefreshTimes - 1 * PropertyManager.getInstance().badRefreshDiff + 20) {
+        if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
             initEndLessBadTank();
         }
         this.paintDiffTime += PropertyManager.getInstance().paintDiff;

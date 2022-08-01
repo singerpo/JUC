@@ -42,7 +42,7 @@ public class Obstacle extends GameObject {
             color = graphics.getColor();
             graphics.setColor(Color.WHITE);
             graphics.setFont(new Font(null, Font.BOLD, 18));
-            graphics.drawString("保护我",this.getX(), this.getY()+this.getHeight()/2);
+            graphics.drawString("我的家",this.getX(), this.getY()+this.getHeight()/2);
             graphics.setColor(color);
         }
         this.getRectangle().x = this.getX();
