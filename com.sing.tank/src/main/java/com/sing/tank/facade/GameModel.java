@@ -75,8 +75,8 @@ public class GameModel {
         this.paintDiffTime = 0;
         this.badRefreshTimes = 0;
         initObstacle();
-        mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, 900, DirectionEnum.UP, GroupEnum.GOOD, true);
-        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, 900, DirectionEnum.UP, GroupEnum.GOOD, true);
+        mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
+        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
         add(mainTank);
         add(otherTank);
         initEndLessBadTank();
