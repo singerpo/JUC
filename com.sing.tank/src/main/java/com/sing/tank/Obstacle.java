@@ -34,7 +34,7 @@ public class Obstacle extends GameObject {
         if(this.stable){
             graphics.setColor(Color.WHITE);
         }else if(this.home){
-            graphics.setColor(new Color(255,215,0));
+            graphics.setColor(new Color(205,127,50));
         } else {
             graphics.setColor(GameModel.getInstance().getObstacleColor());
         }
