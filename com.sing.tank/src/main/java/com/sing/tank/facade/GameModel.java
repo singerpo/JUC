@@ -26,8 +26,6 @@ public class GameModel {
     private List<GameObject> gameObjects;
     /*** 主站坦克 **/
     private BaseTank mainTank;
-    /*** 主障碍物**/
-    private Obstacle mainObstacle;
     /*** 副坦克 **/
     private BaseTank otherTank;
     /*** 是否暂停 **/
@@ -36,6 +34,8 @@ public class GameModel {
     private Color obstacleColor = Color.BLUE;
     /*** 障碍物尺寸**/
     private int obstacleSize = 62;
+    /*** 主障碍物**/
+    private final Obstacle  mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
     /*** 敌对坦克数量**/
     private int badTankNum;
     /*** 击败坦克数量**/
@@ -75,6 +75,8 @@ public class GameModel {
         this.badTankNum = 0;
         this.beatTankNum = 0;
         this.obstacleNum = 0;
+        this.paintDiffTime = 0;
+        this.badRefreshTimes = 0;
         initObstacle();
         mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, 900, DirectionEnum.UP, GroupEnum.GOOD, true);
         otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, 900, DirectionEnum.UP, GroupEnum.GOOD, true);
@@ -83,6 +85,81 @@ public class GameModel {
         initEndLessBadTank();
     }
 
+    public void add(GameObject gameObject) {
+        if (gameObject instanceof BaseTank && gameObject.getLive()) {
+            if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
+                this.badTankNum++;
+            }
+        } else if (gameObject instanceof Obstacle && gameObject.getLive()) {
+            this.obstacleNum++;
+        }
+        this.gameObjects.add(gameObject);
+    }
+
+    public void remove(GameObject gameObject) {
+        if (gameObject instanceof BaseTank) {
+            if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
+                this.badTankNum--;
+            }
+        } else if (gameObject instanceof Obstacle) {
+            this.obstacleNum--;
+        }
+        this.gameObjects.remove(gameObject);
+    }
+
+    public void paint(Graphics graphics) {
+        // 固定间隔时间刷新敌对坦克
+        if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
+            initEndLessBadTank();
+        }
+        this.paintDiffTime += PropertyManager.getInstance().paintDiff;
+        Color color = graphics.getColor();
+        graphics.setColor(Color.YELLOW);
+
+        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
+        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 50);
+        graphics.setColor(color);
+        boolean isVectory = false;
+        if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
+            isVectory = true;
+        }
+        if (isVectory) {
+            graphics.setColor(Color.RED);
+            graphics.setFont(new Font(null, Font.BOLD, 40));
+            graphics.drawString("恭喜安安,获得了最伟大的胜利", 100, TankFrame.GAME_HEIGHT / 2 - 100);
+            graphics.setFont(new Font(null, Font.BOLD, 20));
+            graphics.drawString("按数字键更换障碍物颜色", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
+            graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21);
+            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
+            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 3);
+            return;
+        }
+        if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
+            graphics.setColor(Color.RED);
+            graphics.setFont(new Font(null, Font.BOLD, 40));
+            graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
+            graphics.setFont(new Font(null, Font.BOLD, 20));
+            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
+            return;
+        }
+        GameObject gameObject;
+        for (int i = 0; i < gameObjects.size(); i++) {
+            gameObject = gameObjects.get(i);
+            gameObject.paint(graphics);
+        }
+        //互相碰撞
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject gameObject1 = gameObjects.get(i);
+            for (int j = i + 1; j < gameObjects.size(); j++) {
+                GameObject gameObject2 = gameObjects.get(j);
+                colliderChain.collide(gameObject1, gameObject2);
+            }
+        }
+    }
+
+    /**
+     * 初始化敌对坦克
+     */
     private void initEndLessBadTank() {
         this.badRefreshTimes++;
         add(this.gameFactory.createTank(1, 31, DirectionEnum.DOWN, GroupEnum.BAD, false));
@@ -94,15 +171,15 @@ public class GameModel {
      * 初始化障碍物
      */
     private void initObstacle() {
-        //主坦克和福坦克之间的第二行3个障碍物
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
-        this.mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
-        add(mainObstacle);
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
         //主坦克和福坦克之间的第一行3个障碍物
         add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize - this.obstacleSize - 1));
         add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize - this.obstacleSize - 1));
         add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize - this.obstacleSize - 1));
+        //主坦克和福坦克之间的第二行3个障碍物
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
+        mainObstacle.setLive(true);
+        add(mainObstacle);
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
 
         //3个不消失的障碍物
         add(new Obstacle(0, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2, true));
@@ -156,80 +233,8 @@ public class GameModel {
         add(new Obstacle((this.obstacleSize + 1) * 9, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
         add(new Obstacle((this.obstacleSize + 1) * 10, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
         add(new Obstacle((this.obstacleSize + 1) * 11, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2));
-
-
     }
 
-    public void add(GameObject gameObject) {
-        if (gameObject instanceof BaseTank && gameObject.getLive()) {
-            if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
-                this.badTankNum++;
-            }
-        } else if (gameObject instanceof Obstacle && gameObject.getLive()) {
-            this.obstacleNum++;
-        }
-        this.gameObjects.add(gameObject);
-    }
-
-    public void remove(GameObject gameObject) {
-        if (gameObject instanceof BaseTank) {
-            if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
-                this.badTankNum--;
-            }
-        } else if (gameObject instanceof Obstacle) {
-            this.obstacleNum--;
-        }
-        this.gameObjects.remove(gameObject);
-    }
-
-    public void paint(Graphics graphics) {
-        if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
-            initEndLessBadTank();
-        }
-        this.paintDiffTime += PropertyManager.getInstance().paintDiff;
-        Color color = graphics.getColor();
-        graphics.setColor(Color.YELLOW);
-
-        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
-        graphics.drawString("障碍物数量：" + this.obstacleNum, 130, 50);
-        graphics.setColor(color);
-        boolean isVectory = false;
-        if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
-            isVectory = true;
-        }
-        if (isVectory) {
-            graphics.setColor(Color.RED);
-            graphics.setFont(new Font(null, Font.BOLD, 40));
-            graphics.drawString("恭喜安安,获得了最伟大的胜利", 100, TankFrame.GAME_HEIGHT / 2 - 100);
-            graphics.setFont(new Font(null, Font.BOLD, 20));
-            graphics.drawString("按数字键更换障碍物颜色", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
-            graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21);
-            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
-            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 3);
-            return;
-        }
-        if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
-            graphics.setColor(Color.RED);
-            graphics.setFont(new Font(null, Font.BOLD, 40));
-            graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
-            graphics.setFont(new Font(null, Font.BOLD, 20));
-            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
-            return;
-        }
-        GameObject gameObject;
-        for (int i = 0; i < gameObjects.size(); i++) {
-            gameObject = gameObjects.get(i);
-            gameObject.paint(graphics);
-        }
-        //互相碰撞
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject gameObject1 = gameObjects.get(i);
-            for (int j = i + 1; j < gameObjects.size(); j++) {
-                GameObject gameObject2 = gameObjects.get(j);
-                colliderChain.collide(gameObject1, gameObject2);
-            }
-        }
-    }
 
     public BaseTank getMainTank() {
         return mainTank;
@@ -305,10 +310,6 @@ public class GameModel {
 
     public Obstacle getMainObstacle() {
         return mainObstacle;
-    }
-
-    public void setMainObstacle(Obstacle mainObstacle) {
-        this.mainObstacle = mainObstacle;
     }
 
     public int getObstacleSize() {
