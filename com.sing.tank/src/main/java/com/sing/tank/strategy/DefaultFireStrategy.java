@@ -18,7 +18,7 @@ public class DefaultFireStrategy implements FireStrategy {
         }
         int diff = 800;
         if (tank.getGroupEnum() == GroupEnum.GOOD) {
-            diff = 200;
+            diff = 400;
         }
         if (tank.getPaintCount() > diff / TankFrame.PAINT_DIFF) {
             tank.setPaintCount(0);
