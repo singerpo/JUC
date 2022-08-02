@@ -7,9 +7,9 @@ public class ImageUtil {
     /**
      * 旋转图片
      *
-     * @param bufferedImage
-     * @param degree
-     * @return
+     * @param bufferedImage 源图片
+     * @param degree 旋转度数
+     * @return 返回结果
      */
     public static BufferedImage rotate(BufferedImage bufferedImage, int degree) {
         int w = bufferedImage.getWidth();
@@ -20,7 +20,7 @@ public class ImageUtil {
         graphics2D.setRenderingHint(
                 RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        graphics2D.rotate(Math.toRadians(degree), w / 2, h / 2);
+        graphics2D.rotate(Math.toRadians(degree), w / 2.0, h / 2.0);
         graphics2D.drawImage(bufferedImage, 0, 0, null);
         graphics2D.dispose();
         return img;

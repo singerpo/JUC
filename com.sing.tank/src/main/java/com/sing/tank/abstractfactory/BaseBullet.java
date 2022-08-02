@@ -11,7 +11,7 @@ import com.sing.tank.manager.ResourceManager;
  * @since 2022-07-15
  */
 public abstract class BaseBullet extends GameObject {
-    private int speed = PropertyManager.getInstance().bulletSpeed;
+    private final int speed = PropertyManager.getInstance().bulletSpeed;
     private DirectionEnum directionEnum;
     private BaseTank tank;
     private boolean remove;
@@ -115,16 +115,8 @@ public abstract class BaseBullet extends GameObject {
         return speed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     public DirectionEnum getDirectionEnum() {
         return directionEnum;
-    }
-
-    public void setDirectionEnum(DirectionEnum directionEnum) {
-        this.directionEnum = directionEnum;
     }
 
     public BaseTank getTank() {

@@ -1,7 +1,6 @@
 package com.sing.tank.chainofresponsibility;
 
 import com.sing.tank.abstractfactory.BaseBullet;
-import com.sing.tank.abstractfactory.BaseExplode;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.GameObject;
 import com.sing.tank.enums.GroupEnum;
@@ -26,14 +25,14 @@ public class BulletTankCollider implements Collider {
                 }
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
                     gameObject1.setLive(false);
-                    baseTank.setLife(baseTank.getLife() -1);
-                    if(baseTank.getLife() == 0){
+                    baseTank.setLife(baseTank.getLife() - 1);
+                    if (baseTank.getLife() == 0) {
                         gameObject2.setLive(false);
                         //在坦克中心位置爆炸
                         BaseTank tank = baseTank;
-                        if(baseTank.getGroupEnum() == GroupEnum.GOOD){
+                        if (baseTank.getGroupEnum() == GroupEnum.GOOD) {
                             try {
-                                 tank = (BaseTank) baseTank.clone();
+                                tank = (BaseTank) baseTank.clone();
                             } catch (CloneNotSupportedException e) {
                                 e.printStackTrace();
                             }

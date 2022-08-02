@@ -20,8 +20,7 @@ public class BulletPool {
     }
 
     public  static Bullet getBullet() {
-        for (int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
+        for (Bullet bullet : bullets) {
             if (!bullet.getLive() && bullet.getRemove()) {
                 return bullet;
             }

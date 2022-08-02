@@ -40,14 +40,6 @@ public class Explode extends BaseExplode {
         }
     }
 
-    public int getStep() {
-        return step;
-    }
-
-    public void setStep(int step) {
-        this.step = step;
-    }
-
     public BaseTank getTank() {
         return tank;
     }

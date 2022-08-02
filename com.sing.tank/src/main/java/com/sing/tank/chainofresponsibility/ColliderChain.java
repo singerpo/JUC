@@ -1,21 +1,21 @@
 package com.sing.tank.chainofresponsibility;
 
 import com.sing.tank.abstractfactory.GameObject;
-import com.sing.tank.facade.GameModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * 责任链
+ *
  * @author songbo
  * @since 2022-07-25
  */
-public class ColliderChain implements Collider{
+public class ColliderChain implements Collider {
     // 不需要随机访问，只要在尾部添加，所以用LinkedList
-    private List<Collider> colliders = new LinkedList<>();
+    private final List<Collider> colliders = new LinkedList<>();
 
-    public ColliderChain(){
+    public ColliderChain() {
         add(new BulletTankCollider());
         add(new ObstacleBulletCollider());
         add(new TankTankCollider());
@@ -29,7 +29,7 @@ public class ColliderChain implements Collider{
     @Override
     public boolean collide(GameObject gameObject1, GameObject gameObject2) {
         for (Collider collider : colliders) {
-            if(!collider.collide(gameObject1, gameObject2)){
+            if (!collider.collide(gameObject1, gameObject2)) {
                 return false;
             }
         }

@@ -33,21 +33,19 @@ public class GameModel {
     /*** 障碍物颜色**/
     private Color obstacleColor = Color.BLUE;
     /*** 障碍物尺寸**/
-    private int obstacleSize = 62;
+    private final int obstacleSize = 62;
     /*** 主障碍物**/
-    private final Obstacle  mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
+    private final Obstacle mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
     /*** 敌对坦克数量**/
     private int badTankNum;
     /*** 击败坦克数量**/
     private int beatTankNum;
-    /*** 障碍物数量**/
-    private int obstacleNum;
     /*** 记录运行时间**/
     private long paintDiffTime;
     /*** 敌对坦克刷新次数**/
     private int badRefreshTimes;
     // 工厂方法
-    private AbstractGameFactory gameFactory = new DefaultFactory();
+    private final AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
     private FireStrategy fireStrategy = new DefaultFireStrategy();
     //碰撞责任链
@@ -74,7 +72,6 @@ public class GameModel {
         gameObjects = new ArrayList<>();
         this.badTankNum = 0;
         this.beatTankNum = 0;
-        this.obstacleNum = 0;
         this.paintDiffTime = 0;
         this.badRefreshTimes = 0;
         initObstacle();
@@ -90,8 +87,6 @@ public class GameModel {
             if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
                 this.badTankNum++;
             }
-        } else if (gameObject instanceof Obstacle && gameObject.getLive()) {
-            this.obstacleNum++;
         }
         this.gameObjects.add(gameObject);
     }
@@ -101,8 +96,6 @@ public class GameModel {
             if (((BaseTank) gameObject).getGroupEnum() == GroupEnum.BAD) {
                 this.badTankNum--;
             }
-        } else if (gameObject instanceof Obstacle) {
-            this.obstacleNum--;
         }
         this.gameObjects.remove(gameObject);
     }
@@ -240,24 +233,12 @@ public class GameModel {
         return mainTank;
     }
 
-    public void setMainTank(BaseTank mainTank) {
-        this.mainTank = mainTank;
-    }
-
     public BaseTank getOtherTank() {
         return otherTank;
     }
 
-    public void setOtherTank(BaseTank otherTank) {
-        this.otherTank = otherTank;
-    }
-
     public AbstractGameFactory getGameFactory() {
         return gameFactory;
-    }
-
-    public void setGameFactory(AbstractGameFactory gameFactory) {
-        this.gameFactory = gameFactory;
     }
 
     public boolean getPause() {
@@ -284,22 +265,6 @@ public class GameModel {
         this.obstacleColor = obstacleColor;
     }
 
-    public int getBadTankNum() {
-        return badTankNum;
-    }
-
-    public void setBadTankNum(int badTankNum) {
-        this.badTankNum = badTankNum;
-    }
-
-    public int getObstacleNum() {
-        return obstacleNum;
-    }
-
-    public void setObstacleNum(int obstacleNum) {
-        this.obstacleNum = obstacleNum;
-    }
-
     public int getBeatTankNum() {
         return beatTankNum;
     }
@@ -316,15 +281,4 @@ public class GameModel {
         return obstacleSize;
     }
 
-    public void setObstacleSize(int obstacleSize) {
-        this.obstacleSize = obstacleSize;
-    }
-
-    public int getBadRefreshTimes() {
-        return badRefreshTimes;
-    }
-
-    public void setBadRefreshTimes(int badRefreshTimes) {
-        this.badRefreshTimes = badRefreshTimes;
-    }
 }

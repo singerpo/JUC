@@ -1,9 +1,9 @@
 package com.sing.tank.strategy;
 
-import com.sing.tank.*;
+import com.sing.tank.Audio;
+import com.sing.tank.TankFrame;
 import com.sing.tank.abstractfactory.BaseBullet;
 import com.sing.tank.abstractfactory.BaseTank;
-import com.sing.tank.decotator.RectDecorator;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
 

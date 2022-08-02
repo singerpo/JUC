@@ -2,10 +2,10 @@ package com.sing.tank.abstractfactory;
 
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
-import com.sing.tank.facade.GameModel;
 
 /**
  * 抽象工厂
+ *
  * @author songbo
  * @since 2022-07-15
  */

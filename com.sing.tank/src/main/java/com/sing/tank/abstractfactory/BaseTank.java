@@ -1,28 +1,22 @@
 package com.sing.tank.abstractfactory;
 
-import com.sing.tank.Tank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
-import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.facade.GameModel;
-import com.sing.tank.manager.ResourceManager;
+import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.observer.ITankFireObserver;
 import com.sing.tank.observer.TankFireEvent;
 import com.sing.tank.observer.TankFireObserver;
-import com.sing.tank.strategy.DefaultFireStrategy;
-import com.sing.tank.strategy.FireStrategy;
-import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author songbo
  * @since 2022-07-15
  */
-public abstract class BaseTank extends GameObject implements Cloneable{
+public abstract class BaseTank extends GameObject implements Cloneable {
     /*** 坦克方向 **/
     private DirectionEnum directionEnum;
     /*** 坦克速度 **/
@@ -31,19 +25,16 @@ public abstract class BaseTank extends GameObject implements Cloneable{
     private boolean moving = false;
 
     /*** 坦克分组 **/
-    private GroupEnum groupEnum;
-    /*** random **/
-    private Random random = new Random();
-
+    private final GroupEnum groupEnum;
     private int paintCount = 0;
     /*** 是否重复复活 */
-    private boolean repeat = false;
+    private boolean repeat;
 
     /*** 生命值 */
     private int life = 1;
 
 
-    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum,boolean repeat) {
+    public BaseTank(int x, int y, DirectionEnum directionEnum, GroupEnum groupEnum, boolean repeat) {
         this.setX(x);
         this.setY(y);
         this.setInitX(x);
@@ -51,9 +42,9 @@ public abstract class BaseTank extends GameObject implements Cloneable{
         this.directionEnum = directionEnum;
         this.groupEnum = groupEnum;
         this.repeat = repeat;
-        if(this.groupEnum == GroupEnum.GOOD){
+        if (this.groupEnum == GroupEnum.GOOD) {
             this.setLife(PropertyManager.getInstance().goodTankLife);
-        }else {
+        } else {
             this.setLife(PropertyManager.getInstance().badTankLife);
             this.setSpeed(PropertyManager.getInstance().badTankSpeed);
         }
@@ -81,6 +72,7 @@ public abstract class BaseTank extends GameObject implements Cloneable{
     }
 
     List<ITankFireObserver> tankFireObserverList = new ArrayList<>();
+
     {
         tankFireObserverList.add(new TankFireObserver());
     }
@@ -118,18 +110,6 @@ public abstract class BaseTank extends GameObject implements Cloneable{
 
     public GroupEnum getGroupEnum() {
         return groupEnum;
-    }
-
-    public void setGroupEnum(GroupEnum groupEnum) {
-        this.groupEnum = groupEnum;
-    }
-
-    public Random getRandom() {
-        return random;
-    }
-
-    public void setRandom(Random random) {
-        this.random = random;
     }
 
     public int getPaintCount() {

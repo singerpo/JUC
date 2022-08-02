@@ -1,7 +1,6 @@
 package com.sing.tank.strategy;
 
 
-import com.sing.tank.Tank;
 import com.sing.tank.abstractfactory.BaseTank;
 
 /**

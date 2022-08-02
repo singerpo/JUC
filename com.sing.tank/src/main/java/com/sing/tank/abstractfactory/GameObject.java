@@ -48,10 +48,6 @@ public abstract class GameObject {
         return rectangle;
     }
 
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
-    }
-
     public int getOldX() {
         return oldX;
     }

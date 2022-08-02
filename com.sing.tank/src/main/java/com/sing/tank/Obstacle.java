@@ -55,7 +55,4 @@ public class Obstacle extends GameObject {
         return stable;
     }
 
-    public void setStable(boolean stable) {
-        this.stable = stable;
-    }
 }

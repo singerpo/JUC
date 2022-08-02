@@ -2,7 +2,6 @@ package com.sing.tank.chainofresponsibility;
 
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.GameObject;
-import com.sing.tank.facade.GameModel;
 
 /**
  * @author songbo
@@ -16,7 +15,7 @@ public class TankTankCollider implements Collider {
                 BaseTank baseTank1 = (BaseTank) gameObject1;
                 BaseTank baseTank2 = (BaseTank) gameObject2;
                 if ((gameObject1).getRectangle().intersects((gameObject2).getRectangle())) {
-                    if(baseTank1.getGroupEnum() != baseTank2.getGroupEnum()){
+                    if (baseTank1.getGroupEnum() != baseTank2.getGroupEnum()) {
                         baseTank1.back();
                         baseTank2.back();
                     }

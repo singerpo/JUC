@@ -1,7 +1,6 @@
 package com.sing.tank.chainofresponsibility;
 
 import com.sing.tank.abstractfactory.GameObject;
-import com.sing.tank.facade.GameModel;
 
 /**
  * 碰撞接口

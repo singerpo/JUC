@@ -1,7 +1,6 @@
 package com.sing.tank.observer;
 
 import com.sing.tank.abstractfactory.BaseTank;
-import com.sing.tank.abstractfactory.GameObject;
 
 /**
  * @author songbo
@@ -10,11 +9,11 @@ import com.sing.tank.abstractfactory.GameObject;
 public class TankFireEvent {
     BaseTank baseTank;
 
-    public TankFireEvent(BaseTank baseTank){
+    public TankFireEvent(BaseTank baseTank) {
         this.baseTank = baseTank;
     }
 
-    public BaseTank getSource(){
+    public BaseTank getSource() {
         return this.baseTank;
     }
 }

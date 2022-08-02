@@ -28,9 +28,9 @@ public class ResourceManager {
             goodTankL = ImageUtil.rotate(goodTankU, -90);
             goodTankR = ImageUtil.rotate(goodTankU, 90);
             tankU = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/BadTank1.png"));
-            tankD =  ImageUtil.rotate(tankU, 180);
-            tankL =  ImageUtil.rotate(tankU, -90);
-            tankR =  ImageUtil.rotate(tankU, 90);
+            tankD = ImageUtil.rotate(tankU, 180);
+            tankL = ImageUtil.rotate(tankU, -90);
+            tankR = ImageUtil.rotate(tankU, 90);
 
             goodBulletU = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/GoodBulletU.png"));
             goodBulletD = ImageUtil.rotate(goodBulletU, 180);
@@ -44,7 +44,7 @@ public class ResourceManager {
                 explodes[i] = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/e" + (i + 1) + ".gif"));
             }
             for (int i = 0; i < 11; i++) {
-                rectExplodes[i] = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/" + i  + ".gif"));
+                rectExplodes[i] = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/" + i + ".gif"));
             }
             // obstacle = ImageIO.read(ResourceManager.class.getClassLoader().getResourceAsStream("images/obstacle.png"));
         } catch (IOException e) {

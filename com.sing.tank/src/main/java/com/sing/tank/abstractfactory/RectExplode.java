@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  */
 public class RectExplode extends BaseExplode {
     private int step = 0;
-    private BaseTank tank;
+    private final BaseTank tank;
 
     public RectExplode(BaseTank tank) {
         this.tank = tank;

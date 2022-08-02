@@ -3,10 +3,10 @@ package com.sing.tank.chainofresponsibility;
 import com.sing.tank.Obstacle;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.abstractfactory.GameObject;
-import com.sing.tank.facade.GameModel;
 
 /**
  * 障碍物和坦克碰撞
+ *
  * @author songbo
  * @since 2022-07-23
  */

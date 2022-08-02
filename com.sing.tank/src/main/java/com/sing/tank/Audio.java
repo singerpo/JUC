@@ -30,7 +30,7 @@ public class Audio {
 
     public void loop() {
         while (true) {
-            int len = 0;
+            int len;
             try {
                 sourceDataLine.open(audioFormat, 1024 * 1024 * 15);
                 sourceDataLine.start();
@@ -49,7 +49,7 @@ public class Audio {
     }
 
     public void play() {
-        int len = 0;
+        int len;
         byte[] b = new byte[1024 * 5];
         try {
             sourceDataLine.open(audioFormat, 1024 * 5);
