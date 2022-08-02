@@ -95,7 +95,7 @@ public class TankFrame extends Frame {
                     GameModel.getInstance().init();
                     break;
                 case KeyEvent.VK_P:
-                    GameModel.getInstance().setPause(GameModel.getInstance().getPause());
+                    GameModel.getInstance().setPause(!GameModel.getInstance().getPause());
                     break;
                 case KeyEvent.VK_0:
                     GameModel.getInstance().setObstacleColor(Color.BLUE);
