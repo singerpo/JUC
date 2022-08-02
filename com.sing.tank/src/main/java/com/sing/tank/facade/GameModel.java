@@ -105,7 +105,7 @@ public class GameModel {
         if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
             initEndLessBadTank();
         }
-        this.paintDiffTime += PropertyManager.getInstance().paintDiff;
+        this.paintDiffTime += TankFrame.PAINT_DIFF;
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
 
