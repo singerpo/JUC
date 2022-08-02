@@ -58,10 +58,6 @@ public class Obstacle extends GameObject {
         return stable;
     }
 
-    public boolean getHome() {
-        return home;
-    }
-
     public void setHome(boolean home) {
         this.home = home;
     }
