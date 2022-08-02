@@ -10,6 +10,7 @@ import java.awt.*;
  */
 public class Obstacle extends GameObject {
     private boolean stable = false;
+    private boolean home = false;
     public Obstacle(int x, int y) {
         this.setX(x);
         this.setY(y);
@@ -32,13 +33,15 @@ public class Obstacle extends GameObject {
         // 不消失的障碍物白色，其他变化
         if(this.stable){
             graphics.setColor(Color.WHITE);
-        }else {
+        }else if(this.home){
+            graphics.setColor(new Color(255,215,0));
+        } else {
             graphics.setColor(GameModel.getInstance().getObstacleColor());
         }
         graphics.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         graphics.setColor(color);
         // 如果障碍物需要保护，加上文字
-        if(this == GameModel.getInstance().getMainObstacle()){
+        if(this.home){
             color = graphics.getColor();
             graphics.setColor(Color.WHITE);
             graphics.setFont(new Font(null, Font.BOLD, 18));
@@ -55,4 +58,11 @@ public class Obstacle extends GameObject {
         return stable;
     }
 
+    public boolean getHome() {
+        return home;
+    }
+
+    public void setHome(boolean home) {
+        this.home = home;
+    }
 }

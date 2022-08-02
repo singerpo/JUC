@@ -171,6 +171,7 @@ public class GameModel {
         //主坦克和福坦克之间的第二行3个障碍物
         add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
         mainObstacle.setLive(true);
+        mainObstacle.setHome(true);
         add(mainObstacle);
         add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize));
 
