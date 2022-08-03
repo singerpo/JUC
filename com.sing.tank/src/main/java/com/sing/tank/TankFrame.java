@@ -17,8 +17,7 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 12 GameModel改成单例模式（1）.mp4
- * 12 对于碰撞的处理（1）.mp4
+ * 12 对于碰撞的处理（1）.mp4 00:45
  *
  * @author songbo
  * @since 2022-07-07
