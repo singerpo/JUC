@@ -15,6 +15,11 @@ import java.util.List;
  * @since 2022-07-08
  */
 public class IteratorMain {
+    /**
+     * 数组：随机访问性强，查找速度快；插入和删除效率低
+     * 链表：插入删除速度快；查找效率低
+     * @param args
+     */
     public static void main(String[] args) {
         List list = new ArrayList<>();
         list.add("11");
