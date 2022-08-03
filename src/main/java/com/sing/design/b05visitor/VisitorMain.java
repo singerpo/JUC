@@ -9,6 +9,11 @@ package com.sing.design.b05visitor;
  * @since 2022-07-07
  */
 public class VisitorMain {
+    /**
+     * 数组：随机访问性强，查找速度快；插入和删除效率低
+     * 链表：插入删除速度快；查找效率低
+     * @param args
+     */
     public static void main(String[] args) {
         Computer computer = new Computer();
 
