@@ -37,6 +37,8 @@ public class TankFrame extends Frame {
 
         button = new Button("点击重新开始");
         button.setVisible(false);
+        button.setBounds(140, TankFrame.GAME_HEIGHT / 2 - 100 + 10, 100, 40);
+        button.setFocusable(false);
         button.addActionListener(e -> {
             GameModel.getInstance().init();
             button.setVisible(false);
