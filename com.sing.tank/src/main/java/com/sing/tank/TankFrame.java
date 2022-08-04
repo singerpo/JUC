@@ -128,8 +128,8 @@ public class TankFrame extends Frame {
                     GameModel.getInstance().setObstacleColor(Color.PINK);
                     break;
                 case KeyEvent.VK_5:
-                    // 褐色
-                    GameModel.getInstance().setObstacleColor(new Color(150, 75, 0));
+                    // 黑色
+                    GameModel.getInstance().setObstacleColor(Color.BLACK);
                     break;
                 case KeyEvent.VK_6:
                     // 绿色
