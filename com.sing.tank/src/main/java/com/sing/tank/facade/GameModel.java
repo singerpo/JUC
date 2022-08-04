@@ -109,37 +109,32 @@ public class GameModel {
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
 
-        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 40);
-        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 40);
+        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
+        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 50);
         graphics.setColor(color);
-        boolean isVectory = false;
+        boolean isVictory = false;
         if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
-            isVectory = true;
+            isVictory = true;
         }
-        if (isVectory) {
+        if (isVictory) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 40));
             graphics.drawString("恭喜安安,获得了最伟大的胜利", 100, TankFrame.GAME_HEIGHT / 2 - 100);
             graphics.setFont(new Font(null, Font.BOLD, 20));
             graphics.drawString("按数字键更换障碍物颜色", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
             graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21);
-            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
-            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 3);
+            graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
+            tankFrame.button.setBounds(100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2 + 10, 100, 40);
+            tankFrame.button.setVisible(true);
             return;
         }
-        if (true) {
-            // if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
+
+        if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 40));
             graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
-            graphics.setFont(new Font(null, Font.BOLD, 20));
-            graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
-            Panel panel = new Panel();
-            Button button = new Button("点击重新开始");
-            button.setPreferredSize(new Dimension(200, 30));
-            panel.add(button);
-            tankFrame.add(button);
-
+            tankFrame.button.setBounds(140, TankFrame.GAME_HEIGHT / 2 - 100 + 10, 100, 40);
+            tankFrame.button.setVisible(true);
             return;
         }
         GameObject gameObject;

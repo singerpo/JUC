@@ -9,10 +9,7 @@ import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * 坦克主窗口
@@ -28,18 +25,29 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = PropertyManager.getInstance().gameWidth;
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
+    public Button button;
 
     public TankFrame() throws HeadlessException {
-        setSize(GAME_WIDTH, GAME_HEIGHT);
+//        setSize(GAME_WIDTH, GAME_HEIGHT);
+        setLayout(null);
         setResizable(false);
         setTitle("坦克大战");
         setIconImage(ResourceManager.tankD);
+        setBounds(20, 20, GAME_WIDTH, GAME_HEIGHT);
+
+        button = new Button("点击重新开始");
+        button.setVisible(false);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameModel.getInstance().init();
+                button.setVisible(false);
+            }
+        });
+        add(button);
+
         setVisible(true);
-        // Panel panel = new Panel(new Layout);
-        Button button = new Button("点击重新开始");
-        button.setPreferredSize(new Dimension(200, 30));
-        // panel.add(button);
-        // add(panel);
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -142,9 +150,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_G:
                     // 切换开火策略
-                    if(GameModel.getInstance().getFireStrategy() instanceof DefaultFireStrategy){
+                    if (GameModel.getInstance().getFireStrategy() instanceof DefaultFireStrategy) {
                         GameModel.getInstance().setFireStrategy(new FourDirectionFireStrategy());
-                    }else{
+                    } else {
                         GameModel.getInstance().setFireStrategy(new DefaultFireStrategy());
                     }
                     break;
@@ -242,6 +250,6 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        GameModel.getInstance().paint(graphics,this);
+        GameModel.getInstance().paint(graphics, this);
     }
 }
