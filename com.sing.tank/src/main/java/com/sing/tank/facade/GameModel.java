@@ -100,7 +100,7 @@ public class GameModel {
         this.gameObjects.remove(gameObject);
     }
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics graphics, TankFrame tankFrame) {
         // 固定间隔时间刷新敌对坦克
         if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
             initEndLessBadTank();
@@ -127,12 +127,19 @@ public class GameModel {
             graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 3);
             return;
         }
-        if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
+        if (true) {
+            // if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 40));
             graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
             graphics.setFont(new Font(null, Font.BOLD, 20));
             graphics.drawString("按R重新开始", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
+            Panel panel = new Panel();
+            Button button = new Button("点击重新开始");
+            button.setPreferredSize(new Dimension(200, 30));
+            panel.add(button);
+            tankFrame.add(button);
+
             return;
         }
         GameObject gameObject;

@@ -17,7 +17,9 @@ import java.awt.event.WindowEvent;
 /**
  * 坦克主窗口
  * <p>
- * 12 对于碰撞的处理（1）.mp4 00:45
+ * 13 Class.forName.newInstance1.mp4
+ * 13 抽象出游戏物体的父类1
+ * 13 合成GameModel中的各种不同物体1
  *
  * @author songbo
  * @since 2022-07-07
@@ -33,6 +35,11 @@ public class TankFrame extends Frame {
         setTitle("坦克大战");
         setIconImage(ResourceManager.tankD);
         setVisible(true);
+        // Panel panel = new Panel(new Layout);
+        Button button = new Button("点击重新开始");
+        button.setPreferredSize(new Dimension(200, 30));
+        // panel.add(button);
+        // add(panel);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -235,6 +242,6 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        GameModel.getInstance().paint(graphics);
+        GameModel.getInstance().paint(graphics,this);
     }
 }
