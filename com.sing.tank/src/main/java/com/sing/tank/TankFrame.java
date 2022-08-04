@@ -37,12 +37,9 @@ public class TankFrame extends Frame {
 
         button = new Button("点击重新开始");
         button.setVisible(false);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GameModel.getInstance().init();
-                button.setVisible(false);
-            }
+        button.addActionListener(e -> {
+            GameModel.getInstance().init();
+            button.setVisible(false);
         });
         add(button);
 
