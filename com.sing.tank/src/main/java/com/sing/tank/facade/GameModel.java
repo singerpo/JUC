@@ -13,6 +13,7 @@ import com.sing.tank.manager.PropertyManager;
 import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FireStrategy;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class GameModel {
     private long paintDiffTime;
     /*** 敌对坦克刷新次数**/
     private int badRefreshTimes;
+    private JButton button = new JButton("点击重新开始");
     // 工厂方法
     private final AbstractGameFactory gameFactory = new DefaultFactory();
     // 开火策略
@@ -69,6 +71,7 @@ public class GameModel {
      * 初始化添加障碍物、坦克
      */
     public void init() {
+        this.button.setVisible(false);
         gameObjects = new ArrayList<>();
         this.badTankNum = 0;
         this.beatTankNum = 0;
@@ -100,7 +103,7 @@ public class GameModel {
         this.gameObjects.remove(gameObject);
     }
 
-    public void paint(Graphics graphics, TankFrame tankFrame) {
+    public void paint(Graphics graphics) {
         // 固定间隔时间刷新敌对坦克
         if (paintDiffTime > 0 && paintDiffTime % PropertyManager.getInstance().badRefreshDiff == 0 && paintDiffTime <= (PropertyManager.getInstance().badRefreshTimes - 1) * PropertyManager.getInstance().badRefreshDiff + 20) {
             initEndLessBadTank();
@@ -109,8 +112,8 @@ public class GameModel {
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
 
-        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 50);
-        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 50);
+        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 5);
+        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 5);
         graphics.setColor(color);
         boolean isVictory = false;
         if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
@@ -124,9 +127,9 @@ public class GameModel {
             graphics.drawString("按数字键更换障碍物颜色", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41);
             graphics.drawString("按G切换开火模式", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21);
             graphics.drawString("按P暂停", 100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2);
-            tankFrame.button.setBackground(Color.RED);
-            tankFrame.button.setBounds(100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2 + 10, 100, 40);
-            tankFrame.button.setVisible(true);
+            this.button.setBackground(Color.RED);
+            this.button.setBounds(100, TankFrame.GAME_HEIGHT / 2 - 100 + 41 + 21 * 2 + 10, 100, 40);
+            this.button.setVisible(true);
             return;
         }
 
@@ -134,9 +137,9 @@ public class GameModel {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 40));
             graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
-            tankFrame.button.setBackground(Color.GRAY);
-            tankFrame.button.setBounds(140, TankFrame.GAME_HEIGHT / 2 - 100 + 10, 100, 40);
-            tankFrame.button.setVisible(true);
+            this.button.setBackground(Color.GRAY);
+            this.button.setBounds(140, TankFrame.GAME_HEIGHT / 2 - 100 + 10, 100, 40);
+            this.button.setVisible(true);
             return;
         }
         GameObject gameObject;
@@ -286,4 +289,11 @@ public class GameModel {
         return obstacleSize;
     }
 
+    public JButton getButton() {
+        return button;
+    }
+
+    public void setButton(JButton button) {
+        this.button = button;
+    }
 }

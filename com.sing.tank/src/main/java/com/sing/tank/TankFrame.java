@@ -8,8 +8,11 @@ import com.sing.tank.manager.ResourceManager;
 import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 
 /**
  * 坦克主窗口
@@ -21,21 +24,27 @@ import java.awt.event.*;
  * @author songbo
  * @since 2022-07-07
  */
-public class TankFrame extends Frame {
+public class TankFrame extends JFrame {
     public static final int GAME_WIDTH = PropertyManager.getInstance().gameWidth;
     public static final int GAME_HEIGHT = PropertyManager.getInstance().gameHeight;
     public static final long PAINT_DIFF = PropertyManager.getInstance().paintDiff;
-    public Button button;
+    public TankPanel mainPanel;
 
-    public TankFrame() throws HeadlessException {
-//        setSize(GAME_WIDTH, GAME_HEIGHT);
-        setLayout(null);
-        setResizable(false);
-        setTitle("坦克大战");
+
+    public TankFrame() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        super("坦克大战");
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        getContentPane().setLayout(null);
         setIconImage(ResourceManager.tankD);
-        setBounds(20, 20, GAME_WIDTH, GAME_HEIGHT);
+        setBounds(20, 20, GAME_WIDTH, GAME_HEIGHT + 20);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        mainPanel = new TankPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBounds(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        mainPanel.setBackground(new Color(128, 64, 0));
 
-        button = new Button("点击重新开始");
+        JButton button = GameModel.getInstance().getButton();
         button.setVisible(false);
         button.setBounds(140, TankFrame.GAME_HEIGHT / 2 - 100 + 10, 100, 40);
         button.setFocusable(false);
@@ -43,22 +52,15 @@ public class TankFrame extends Frame {
             GameModel.getInstance().init();
             button.setVisible(false);
         });
-        add(button);
-
+        mainPanel.add(button);
+        getContentPane().add(mainPanel);
+        mainPanel.setFocusable(true);
         setVisible(true);
-
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-
-        this.addKeyListener(new MyKeyListener());
+        mainPanel.addKeyListener(new MyKeyListener());
     }
 
     // 键盘监听
-    class MyKeyListener extends KeyAdapter {
+    static class MyKeyListener extends KeyAdapter {
         boolean up = false;
         boolean down = false;
         boolean left = false;
@@ -230,25 +232,32 @@ public class TankFrame extends Frame {
         }
     }
 
-    Image offScreenImage = null;
+    // Image offScreenImage = null;
 
-    //用双缓冲解决闪烁的问题
-    @Override
-    public void update(Graphics graphics) {
-        if (offScreenImage == null) {
-            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
-        }
-        Graphics offGraphics = offScreenImage.getGraphics();
-        Color color = offGraphics.getColor();
-        offGraphics.setColor(Color.GRAY);
-        offGraphics.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        offGraphics.setColor(color);
-        paint(offGraphics);
-        graphics.drawImage(offScreenImage, 0, 0, null);
-    }
+    // 用双缓冲解决闪烁的问题
+    // @Override
+    // public void update(Graphics graphics) {
+    //     if (offScreenImage == null) {
+    //         offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+    //     }
+    //     Graphics offGraphics = offScreenImage.getGraphics();
+    //     Color color = offGraphics.getColor();
+    //     offGraphics.setColor(Color.GRAY);
+    //     offGraphics.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    //     offGraphics.setColor(color);
+    //     paint(offGraphics);
+    //     graphics.drawImage(offScreenImage, 0, 0, null);
+    // }
+    //
+    // @Override
+    // public void paint(Graphics graphics) {
+    //     GameModel.getInstance().paint(graphics);
+    // }
 
-    @Override
-    public void paint(Graphics graphics) {
-        GameModel.getInstance().paint(graphics, this);
-    }
+
+    //
+    // public void myPaint(Graphics graphics) {
+    //     GameModel.getInstance().paint(graphics);
+    // }
+
 }
