@@ -29,13 +29,13 @@ public class TankFrame extends JFrame {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         getContentPane().setLayout(null);
         setIconImage(ResourceManager.tankD);
-        setBounds(20, 20, GAME_WIDTH+5, GAME_HEIGHT + 28);
+        setBounds(20, 20, GAME_WIDTH+5, GAME_HEIGHT + 30);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         mainPanel = new TankPanel();
         mainPanel.setLayout(null);
         mainPanel.setBounds(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        mainPanel.setBackground(new Color(128, 64, 0));
+        mainPanel.setBackground(Color.GRAY);
 
         JButton button = GameModel.getInstance().getButton();
         button.setVisible(false);
