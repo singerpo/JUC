@@ -112,8 +112,8 @@ public class GameModel {
         Color color = graphics.getColor();
         graphics.setColor(Color.YELLOW);
 
-        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 5);
-        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 5);
+        graphics.drawString("敌对坦克数量：" + this.badTankNum, 10, 10);
+        graphics.drawString("击败坦克数量：" + this.beatTankNum, 130, 10);
         graphics.setColor(color);
         boolean isVictory = false;
         if (this.badTankNum == 0 && this.badRefreshTimes == PropertyManager.getInstance().badRefreshTimes) {
