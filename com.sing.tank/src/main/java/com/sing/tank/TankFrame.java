@@ -12,9 +12,7 @@ import java.awt.*;
 /**
  * 坦克主窗口
  * <p>
- * 13 Class.forName.newInstance1.mp4
- * 13 抽象出游戏物体的父类1
- * 13 合成GameModel中的各种不同物体1
+ * 13 合成GameModel中的各种不同物体1 50:00
  *
  * @author songbo
  * @since 2022-07-07
