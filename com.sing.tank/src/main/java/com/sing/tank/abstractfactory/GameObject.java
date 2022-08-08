@@ -1,12 +1,13 @@
 package com.sing.tank.abstractfactory;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * @author songbo
  * @since 2022-07-22
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
     private int x, y;
     private int oldX, oldY;
     private int initX, initY;
