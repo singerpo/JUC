@@ -173,8 +173,9 @@ public class GameModel {
      */
     public void save(){
         File file = new File(System.getProperty("user.dir")+"/tank.data");
+        ObjectOutputStream outputStream = null;
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+            outputStream = new ObjectOutputStream(new FileOutputStream(file));
             outputStream.writeObject(mainTank);
             outputStream.writeObject(otherTank);
             outputStream.writeObject(mainObstacle);
@@ -183,13 +184,23 @@ public class GameModel {
             outputStream.writeObject(gameObjects);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            if(outputStream != null){
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
-    public void load(){
+    public void load() {
         File file = new File(System.getProperty("user.dir")+"/tank.data");
+        ObjectInputStream inputStream = null;
         try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+             inputStream = new ObjectInputStream(new FileInputStream(file));
             mainTank = (BaseTank) inputStream.readObject();
             otherTank = (BaseTank) inputStream.readObject();
             mainObstacle = (Obstacle) inputStream.readObject();
@@ -198,6 +209,14 @@ public class GameModel {
             gameObjects = (List<GameObject>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }

@@ -12,7 +12,6 @@ import java.awt.*;
 /**
  * 坦克主窗口
  * <p>
- * 14 加入墙（1）
  * 14 按键切换发射策略（1）
  *
  * @author songbo
