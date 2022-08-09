@@ -89,6 +89,12 @@ public class TankPanel extends JPanel {
                 case KeyEvent.VK_P:
                     GameModel.getInstance().setPause(!GameModel.getInstance().getPause());
                     break;
+                case KeyEvent.VK_U:
+                    GameModel.getInstance().save();
+                    break;
+                case KeyEvent.VK_I:
+                    GameModel.getInstance().load();
+                    break;
                 case KeyEvent.VK_0:
                     GameModel.getInstance().setObstacleColor(Color.BLUE);
                     break;

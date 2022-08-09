@@ -15,8 +15,10 @@ import com.sing.tank.strategy.FireStrategy;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author songbo
@@ -36,7 +38,7 @@ public class GameModel {
     /*** 障碍物尺寸**/
     private final int obstacleSize = 62;
     /*** 主障碍物**/
-    private final Obstacle mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
+    private Obstacle mainObstacle = new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT - this.obstacleSize);
     /*** 敌对坦克数量**/
     private int badTankNum;
     /*** 击败坦克数量**/
@@ -164,6 +166,40 @@ public class GameModel {
                 colliderChain.collide(gameObject1, gameObject2);
             }
         }
+    }
+
+    /**
+     * 存档
+     */
+    public void save(){
+        File file = new File(System.getProperty("user.dir")+"/tank.data");
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file));
+            outputStream.writeObject(mainTank);
+            outputStream.writeObject(otherTank);
+            outputStream.writeObject(mainObstacle);
+            outputStream.writeObject(badTankNum);
+            outputStream.writeObject(badRefreshTimes);
+            outputStream.writeObject(gameObjects);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void load(){
+        File file = new File(System.getProperty("user.dir")+"/tank.data");
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+            mainTank = (BaseTank) inputStream.readObject();
+            otherTank = (BaseTank) inputStream.readObject();
+            mainObstacle = (Obstacle) inputStream.readObject();
+            badTankNum = (int) inputStream.readObject();
+            badRefreshTimes = (int) inputStream.readObject();
+            gameObjects = (List<GameObject>) inputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
