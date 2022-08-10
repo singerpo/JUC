@@ -1,6 +1,6 @@
 package com.sing.design.b09state;
 
-import java.awt.print.Book;
+
 
 /**
  * 状态模式
@@ -27,22 +27,22 @@ interface State {
     /**
      * 预订房间
      */
-    public void bookRoom();
+    void bookRoom();
 
     /**
      * 退订房间
      */
-    public void unsubscribeRoom();
+    void unsubscribeRoom();
 
     /**
      * 入住
      */
-    public void checkInRoom();
+    void checkInRoom();
 
     /**
      * 退房
      */
-    public void checkOutRoom();
+    void checkOutRoom();
 }
 
 class Room implements State {
