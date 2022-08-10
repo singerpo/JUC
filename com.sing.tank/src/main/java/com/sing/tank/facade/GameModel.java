@@ -180,6 +180,7 @@ public class GameModel {
             outputStream.writeObject(otherTank);
             outputStream.writeObject(mainObstacle);
             outputStream.writeObject(badTankNum);
+            outputStream.writeObject(beatTankNum);
             outputStream.writeObject(badRefreshTimes);
             outputStream.writeObject(gameObjects);
         } catch (IOException e) {
@@ -205,6 +206,7 @@ public class GameModel {
             otherTank = (BaseTank) inputStream.readObject();
             mainObstacle = (Obstacle) inputStream.readObject();
             badTankNum = (int) inputStream.readObject();
+            beatTankNum = (int) inputStream.readObject();
             badRefreshTimes = (int) inputStream.readObject();
             gameObjects = (List<GameObject>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
