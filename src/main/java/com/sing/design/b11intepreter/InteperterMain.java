@@ -89,7 +89,6 @@ class ModNode extends SymbolNode {
 }
 
 class Calculator {
-    private String statement;
     private Node node;
 
     public void build(String statement) {
@@ -122,5 +121,4 @@ class Calculator {
     public int compute() {
         return node.interpret();
     }
-
 }
