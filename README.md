@@ -50,6 +50,15 @@ T02ReferenceType：强软弱虚
 ### 7.com.sing.juc.c07.T1InterviewA1B2C3
     两个线程交替打印A1B2C3D4E5F6G7
     
+# com.sing.jvm    
+JMM(Java内存模型)是围绕着并发编程中原子性、可见性、有序性这三个特征来建立的  
+JVM是由类加载器、运行时数据区(JVM内存模型)、执行引擎三部分组成  
+JVM内存模型（运行时数据区)是由堆、栈、本地方法栈、方法区、程序计数器五部分组成  
+方法区：主要用于存放被虚拟机加载的类信息、常量、静态变量以及即时编译后的代码缓存等;JDK7以后字符串常量池和静态变量等被移到了堆区  
+GC roots(根）包含：JVM stack,native method stack,runtime constant pool, static references in method area,Clazz
+(也就是线程栈变量、静态变量、常量池、JNI指针)  
+ 
+    
 
 
   
