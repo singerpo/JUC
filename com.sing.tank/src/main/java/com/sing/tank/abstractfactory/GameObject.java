@@ -96,4 +96,20 @@ public abstract class GameObject implements Serializable {
     public void setInitY(int initY) {
         this.initY = initY;
     }
+
+    @Override
+    public String toString() {
+        return "GameObject{" +
+                "x=" + x +
+                ", y=" + y +
+                ", oldX=" + oldX +
+                ", oldY=" + oldY +
+                ", initX=" + initX +
+                ", initY=" + initY +
+                ", width=" + width +
+                ", height=" + height +
+                ", live=" + live +
+                ", rectangle=" + rectangle +
+                '}';
+    }
 }

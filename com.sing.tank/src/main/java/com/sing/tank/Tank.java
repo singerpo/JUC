@@ -35,6 +35,10 @@ public class Tank extends BaseTank {
                 this.setX(this.getInitX());
                 this.setY(this.getInitY());
                 this.setDirectionEnum(DirectionEnum.UP);
+                this.getRectangle().x = this.getX();
+                this.getRectangle().y = this.getY();
+                this.getRectangle().width = this.getWidth();
+                this.getRectangle().height = this.getHeight();
             }else {
                 GameModel.getInstance().remove(this);
             }

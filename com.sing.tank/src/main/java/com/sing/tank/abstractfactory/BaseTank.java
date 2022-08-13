@@ -135,4 +135,18 @@ public abstract class BaseTank extends GameObject implements Cloneable {
     public void setLife(int life) {
         this.life = life;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"BaseTank{" +
+                "directionEnum=" + directionEnum +
+                ", speed=" + speed +
+                ", moving=" + moving +
+                ", groupEnum=" + groupEnum +
+                ", paintCount=" + paintCount +
+                ", repeat=" + repeat +
+                ", life=" + life +
+                ", tankFireObserverList=" + tankFireObserverList +
+                '}';
+    }
 }
