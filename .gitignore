@@ -1,2 +1,3 @@
 /JUC.iml
-/target/
+target/
+.idea
