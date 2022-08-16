@@ -10,6 +10,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.ReferenceCountUtil;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @author songbo
  * @since 2022-08-15
@@ -51,6 +53,27 @@ public class Client {
 
     }
 
+    /**
+     * 向服务端发送消息
+     * @param msg 消息
+     */
+    public void sendMsg(String msg) {
+        ByteBuf byteBuf = null;
+        try {
+            byteBuf = Unpooled.copiedBuffer(msg.getBytes("UTF-8"));
+            this.getChannelFuture().channel().writeAndFlush(byteBuf);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 关闭客户端
+     */
+    public void closeClient(){
+        this.sendMsg("b_bye_b");
+    }
+
     class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
         @Override
@@ -68,7 +91,7 @@ public class Client {
                 byte[] bytes = new byte[byteBuf.readableBytes()];
                 byteBuf.getBytes(byteBuf.readerIndex(), bytes);
                 System.out.println(new String(bytes, "UTF-8"));
-                getClientFrame().setText(new String(bytes, "UTF-8"));
+                getClientFrame().updateText(new String(bytes, "UTF-8"));
 
             } finally {
                 if (byteBuf != null) {

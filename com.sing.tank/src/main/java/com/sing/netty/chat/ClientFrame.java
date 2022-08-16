@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -19,10 +21,10 @@ import java.io.UnsupportedEncodingException;
 public class ClientFrame extends JFrame {
     JTextArea textArea = new JTextArea();
     JTextField textField = new JTextField();
-    private Client client = new Client();;
+    private Client client = new Client();
 
     public ClientFrame() throws HeadlessException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        super("聊天室");
+        super("客户端聊天室");
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         getContentPane().setLayout(null);
         this.setSize(600, 400);
@@ -39,13 +41,15 @@ public class ClientFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 把字符串发送到服务器
-                try {
-                    ByteBuf byteBuf = Unpooled.copiedBuffer(textField.getText().getBytes("UTF-8"));
-                    getClient().getChannelFuture().channel().writeAndFlush(byteBuf);
-                    textField.setText("");
-                } catch (UnsupportedEncodingException unsupportedEncodingException) {
-                    unsupportedEncodingException.printStackTrace();
-                }
+                getClient().sendMsg(textField.getText());
+                textField.setText("");
+            }
+        });
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+               getClient().closeClient();
+               System.exit(0);
             }
         });
         mainPanel.add(textArea);
@@ -56,11 +60,12 @@ public class ClientFrame extends JFrame {
     }
 
     /**
-     *  服务器返回信息到客户端
+     * 服务器返回信息到客户端
+     *
      * @param msg 信息
      */
-    public void setText(String msg) {
-        this.textArea.setText(textArea.getText() + "\n" + msg);
+    public void updateText(String msg) {
+        this.textArea.setText(textArea.getText() + System.getProperty("line.separator") + msg);
     }
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {

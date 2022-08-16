@@ -1,3 +1,5 @@
 /JUC.iml
 target/
 .idea
+*.iml
+*.data
