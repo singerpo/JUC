@@ -52,7 +52,7 @@ public class ClientFrame extends JFrame {
         mainPanel.add(textField);
         getContentPane().add(mainPanel);
         this.setVisible(true);
-        client.connect();
+        client.connect(this);
     }
 
     /**

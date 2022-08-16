@@ -17,8 +17,10 @@ import io.netty.util.ReferenceCountUtil;
 public class Client {
 
     private ChannelFuture channelFuture;
+    private ClientFrame clientFrame;
 
-    public void connect() {
+    public void connect(ClientFrame clientFrame) {
+        this.clientFrame = clientFrame;
         // 事件处理的线程池
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
 
@@ -49,11 +51,6 @@ public class Client {
 
     }
 
-    public static void main(String[] args) {
-        Client client = new Client();
-        client.connect();
-    }
-
     class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
         @Override
@@ -71,6 +68,8 @@ public class Client {
                 byte[] bytes = new byte[byteBuf.readableBytes()];
                 byteBuf.getBytes(byteBuf.readerIndex(), bytes);
                 System.out.println(new String(bytes, "UTF-8"));
+                getClientFrame().setText(new String(bytes, "UTF-8"));
+
             } finally {
                 if (byteBuf != null) {
                     // 释放内存
@@ -100,6 +99,14 @@ public class Client {
 
     public void setChannelFuture(ChannelFuture channelFuture) {
         this.channelFuture = channelFuture;
+    }
+
+    public ClientFrame getClientFrame() {
+        return clientFrame;
+    }
+
+    public void setClientFrame(ClientFrame clientFrame) {
+        this.clientFrame = clientFrame;
     }
 }
 
