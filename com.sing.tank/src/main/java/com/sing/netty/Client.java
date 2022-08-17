@@ -45,7 +45,7 @@ public class Client {
             // channelFuture.sync();
             // 阻塞等待closeFuture
             channelFuture.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             eventLoopGroup.shutdownGracefully();
@@ -62,7 +62,7 @@ public class Client {
         try {
             byteBuf = Unpooled.copiedBuffer(msg.getBytes("UTF-8"));
             this.getChannelFuture().channel().writeAndFlush(byteBuf);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
