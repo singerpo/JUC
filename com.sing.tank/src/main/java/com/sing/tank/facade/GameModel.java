@@ -80,8 +80,8 @@ public class GameModel {
         this.paintDiffTime = 0;
         this.badRefreshTimes = 0;
         initObstacle();
-        mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
-        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
+//        mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
+//        otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
         // add(mainTank);
         // add(otherTank);
         initEndLessBadTank();
@@ -142,7 +142,7 @@ public class GameModel {
         }
 
 
-        if ((!mainTank.getLive() && !otherTank.getLive()) || !mainObstacle.getLive()) {
+        if ((mainTank != null && !mainTank.getLive() && otherTank != null && !otherTank.getLive()) || !mainObstacle.getLive()) {
             graphics.setColor(Color.RED);
             graphics.setFont(new Font(null, Font.BOLD, 40));
             graphics.drawString("Game Over", 100, TankFrame.GAME_HEIGHT / 2 - 100);
@@ -368,5 +368,9 @@ public class GameModel {
 
     public void setButton(JButton button) {
         this.button = button;
+    }
+
+    public void setMainTank(BaseTank mainTank) {
+        this.mainTank = mainTank;
     }
 }

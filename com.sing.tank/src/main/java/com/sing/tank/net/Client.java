@@ -88,19 +88,23 @@ public class Client {
     class ClientChildHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, TankJoinMsg tankJoinMsg) throws Exception {
-            if(tankJoinMsg.id.equals(GameModel.getInstance().getMainTank().getId())){
+            if (GameModel.getInstance().getMainTank() != null && tankJoinMsg.id.equals(GameModel.getInstance().getMainTank().getId())) {
                 return;
             }
             System.out.println(tankJoinMsg);
-            BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(tankJoinMsg.x,tankJoinMsg.y,tankJoinMsg.directionEnum,tankJoinMsg.groupEnum,tankJoinMsg.repeat);
+            BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(tankJoinMsg.x, tankJoinMsg.y, tankJoinMsg.directionEnum, tankJoinMsg.groupEnum, tankJoinMsg.repeat);
             GameModel.getInstance().add(baseTank);
-
+            if (GameModel.getInstance().getMainTank() != null) {
+                GameModel.getInstance().setMainTank(baseTank);
+            }
             ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
         }
 
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
+//            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
+            ByteBuf byteBuf = Unpooled.copiedBuffer("come".getBytes("UTF-8"));
+            ctx.writeAndFlush(byteBuf);
         }
     }
 

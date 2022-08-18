@@ -1,5 +1,9 @@
 package com.sing.tank.net;
 
+import com.sing.tank.TankFrame;
+import com.sing.tank.enums.DirectionEnum;
+import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -10,6 +14,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.util.UUID;
+
 /**
  * @author songbo
  * @since 2022-08-16
@@ -17,6 +23,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 public class Server {
     public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private ServerFrame serverFrame;
+    private int main = 1;
 
     public void startServer(ServerFrame serverFrame) {
         this.serverFrame = serverFrame;
@@ -61,6 +68,27 @@ public class Server {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             System.out.println(msg);
+            if (msg instanceof ByteBuf) {
+                ByteBuf byteBuf = (ByteBuf) msg;
+                byte[] bytes = new byte[byteBuf.readableBytes()];
+                // byteBuf.readBytes(bytes);
+                byteBuf.getBytes(byteBuf.readerIndex(), bytes);
+                String clientMsg = new String(bytes, "UTF-8");
+                if ("come".equals(clientMsg)) {
+                    int obstacleSize = GameModel.getInstance().getObstacleSize();
+                    TankJoinMsg tankJoinMsg;
+                    if (Server.this.main == 1) {
+                        tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 + obstacleSize / 2 + obstacleSize + 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
+                    } else {
+                        tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 - obstacleSize / 2 - obstacleSize - obstacleSize - 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
+                    }
+                    Server.clients.writeAndFlush(tankJoinMsg);
+                    Server.this.main++;
+                }
+                getServerFrame().updateClientMsg(clientMsg);
+            } else {
+                getServerFrame().updateClientMsg(msg.toString());
+            }
             Server.clients.writeAndFlush(msg);
         }
 
