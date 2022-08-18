@@ -1,10 +1,6 @@
 package com.sing.netty.chat;
 
 import com.sing.netty.Client;
-import com.sing.tank.TankFrame;
-import com.sing.tank.TankPanel;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.UnsupportedEncodingException;
 
 /**
  * @author songbo
@@ -48,8 +43,8 @@ public class ClientFrame extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-               getClient().closeClient();
-               System.exit(0);
+                getClient().closeClient();
+                System.exit(0);
             }
         });
         mainPanel.add(textArea);

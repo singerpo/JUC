@@ -10,8 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.ReferenceCountUtil;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * @author songbo
  * @since 2022-08-15
@@ -55,6 +53,7 @@ public class Client {
 
     /**
      * 向服务端发送消息
+     *
      * @param msg 消息
      */
     public void sendMsg(String msg) {
@@ -70,7 +69,7 @@ public class Client {
     /**
      * 关闭客户端
      */
-    public void closeClient(){
+    public void closeClient() {
         this.sendMsg("b_bye_b");
     }
 
