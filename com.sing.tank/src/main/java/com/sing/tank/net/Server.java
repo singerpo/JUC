@@ -31,7 +31,9 @@ public class Server {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
-                            channelPipeline.addLast(new ServerChildHandler());
+                            channelPipeline.addLast(new TankJoinMsgEncoder())
+                                    .addLast(new TankJoinMsgDecoder())
+                                    .addLast(new ServerChildHandler());
 
                         }
                     })
@@ -58,28 +60,8 @@ public class Server {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            ByteBuf byteBuf = (ByteBuf) msg;
-            try {
-                byte[] bytes = new byte[byteBuf.readableBytes()];
-                // byteBuf.readBytes(bytes);
-                byteBuf.getBytes(byteBuf.readerIndex(), bytes);
-                String clientMsg = new String(bytes, "UTF-8");
-                getServerFrame().updateClientMsg(clientMsg);
-                if ("b_bye_b".equals(clientMsg)) {
-                    System.out.println("客户端要求退出");
-                    // 删除出异常的客户端channel并关闭
-                    Server.clients.remove(ctx.channel());
-                    ctx.close();
-                    return;
-                }
-                // 回复信息给客户端
-                Server.clients.writeAndFlush(msg);
-            } finally {
-                // if (byteBuf != null) {
-                //     // 释放内存
-                //     ReferenceCountUtil.release(byteBuf);
-                // }
-            }
+            System.out.println(msg);
+            Server.clients.writeAndFlush(msg);
         }
 
         @Override

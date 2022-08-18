@@ -21,8 +21,7 @@ public class Client {
     private ChannelFuture channelFuture;
     private ClientFrame clientFrame;
 
-    public void connect(ClientFrame clientFrame) {
-        this.clientFrame = clientFrame;
+    public void connect() {
         // 事件处理的线程池
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
 
@@ -88,13 +87,20 @@ public class Client {
 
     class ClientChildHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
         @Override
-        protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
+        protected void channelRead0(ChannelHandlerContext ctx, TankJoinMsg tankJoinMsg) throws Exception {
             if(tankJoinMsg.id.equals(GameModel.getInstance().getMainTank().getId())){
                 return;
             }
             System.out.println(tankJoinMsg);
             BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(tankJoinMsg.x,tankJoinMsg.y,tankJoinMsg.directionEnum,tankJoinMsg.groupEnum,tankJoinMsg.repeat);
             GameModel.getInstance().add(baseTank);
+
+            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
+        }
+
+        @Override
+        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
         }
     }
 

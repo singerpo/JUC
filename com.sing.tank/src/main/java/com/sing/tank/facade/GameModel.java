@@ -16,9 +16,9 @@ import com.sing.tank.strategy.FireStrategy;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author songbo
@@ -26,7 +26,7 @@ import java.util.Objects;
  */
 public class GameModel {
     private static final GameModel INSTANCE = new GameModel();
-    private List<GameObject> gameObjects;
+    private Map<UUID, GameObject> gameObjectMap;
     /*** 主站坦克 **/
     private BaseTank mainTank;
     /*** 副坦克 **/
@@ -74,7 +74,7 @@ public class GameModel {
      */
     public void init() {
         this.button.setVisible(false);
-        gameObjects = new ArrayList<>();
+        gameObjectMap = new ConcurrentHashMap<>();
         this.badTankNum = 0;
         this.beatTankNum = 0;
         this.paintDiffTime = 0;
@@ -82,8 +82,8 @@ public class GameModel {
         initObstacle();
         mainTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 + this.obstacleSize / 2 + this.obstacleSize + 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
         otherTank = this.gameFactory.createTank(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2 - this.obstacleSize - this.obstacleSize - 1, TankFrame.GAME_HEIGHT - this.obstacleSize, DirectionEnum.UP, GroupEnum.GOOD, true);
-        add(mainTank);
-        add(otherTank);
+        // add(mainTank);
+        // add(otherTank);
         initEndLessBadTank();
     }
 
@@ -93,7 +93,7 @@ public class GameModel {
                 this.badTankNum++;
             }
         }
-        this.gameObjects.add(gameObject);
+        this.gameObjectMap.put(gameObject.getId(), gameObject);
     }
 
     public void remove(GameObject gameObject) {
@@ -102,7 +102,7 @@ public class GameModel {
                 this.badTankNum--;
             }
         }
-        this.gameObjects.remove(gameObject);
+        this.gameObjectMap.remove(gameObject.getId());
     }
 
     public void paint(Graphics graphics) {
@@ -154,25 +154,32 @@ public class GameModel {
             return;
         }
         GameObject gameObject;
-        for (int i = 0; i < gameObjects.size(); i++) {
-            gameObject = gameObjects.get(i);
+        for (Map.Entry<UUID, GameObject> entry : gameObjectMap.entrySet()) {
+            gameObject = entry.getValue();
             gameObject.paint(graphics);
         }
+
         //互相碰撞
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject gameObject1 = gameObjects.get(i);
-            for (int j = i + 1; j < gameObjects.size(); j++) {
-                GameObject gameObject2 = gameObjects.get(j);
-                colliderChain.collide(gameObject1, gameObject2);
+        int i = 0;
+        for (Map.Entry<UUID, GameObject> entry : gameObjectMap.entrySet()) {
+            GameObject gameObject1 = entry.getValue();
+            for (Map.Entry<UUID, GameObject> entry2 : gameObjectMap.entrySet()) {
+                int j = 0;
+                if (j > i) {
+                    GameObject gameObject2 = entry2.getValue();
+                    colliderChain.collide(gameObject1, gameObject2);
+                }
+                j++;
             }
+            i++;
         }
     }
 
     /**
      * 存档
      */
-    public void save(){
-        File file = new File(System.getProperty("user.dir")+"/tank.data");
+    public void save() {
+        File file = new File(System.getProperty("user.dir") + "/tank.data");
         ObjectOutputStream outputStream = null;
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(file));
@@ -182,11 +189,11 @@ public class GameModel {
             outputStream.writeObject(badTankNum);
             outputStream.writeObject(beatTankNum);
             outputStream.writeObject(badRefreshTimes);
-            outputStream.writeObject(gameObjects);
+            outputStream.writeObject(gameObjectMap);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(outputStream != null){
+        } finally {
+            if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
@@ -198,21 +205,21 @@ public class GameModel {
     }
 
     public void load() {
-        File file = new File(System.getProperty("user.dir")+"/tank.data");
+        File file = new File(System.getProperty("user.dir") + "/tank.data");
         ObjectInputStream inputStream = null;
         try {
-             inputStream = new ObjectInputStream(new FileInputStream(file));
+            inputStream = new ObjectInputStream(new FileInputStream(file));
             mainTank = (BaseTank) inputStream.readObject();
             otherTank = (BaseTank) inputStream.readObject();
             mainObstacle = (Obstacle) inputStream.readObject();
             badTankNum = (int) inputStream.readObject();
             beatTankNum = (int) inputStream.readObject();
             badRefreshTimes = (int) inputStream.readObject();
-            gameObjects = (List<GameObject>) inputStream.readObject();
+            gameObjectMap = (Map<UUID, GameObject>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }finally {
-            if(inputStream != null){
+        } finally {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -280,10 +287,10 @@ public class GameModel {
         add(new Obstacle(this.obstacleSize + 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 3 + this.obstacleSize - 7));
         add(new Obstacle(this.obstacleSize + 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 4 + this.obstacleSize - 7));
 
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + this.obstacleSize + 1 + this.obstacleSize -7));
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 2 + this.obstacleSize -7));
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 3 + this.obstacleSize -7));
-        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 4 + this.obstacleSize -7));
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + this.obstacleSize + 1 + this.obstacleSize - 7));
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 2 + this.obstacleSize - 7));
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 3 + this.obstacleSize - 7));
+        add(new Obstacle(TankFrame.GAME_WIDTH / 2 - this.obstacleSize / 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 4 + this.obstacleSize - 7));
 
         add(new Obstacle(TankFrame.GAME_WIDTH - this.obstacleSize * 2 - 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + this.obstacleSize + 1 + this.obstacleSize - 7));
         add(new Obstacle(TankFrame.GAME_WIDTH - this.obstacleSize * 2 - 2, TankFrame.GAME_HEIGHT / 2 - this.obstacleSize / 2 + (this.obstacleSize + 1) * 2 + this.obstacleSize - 7));

@@ -1,6 +1,7 @@
 package com.sing.tank;
 
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.net.Client;
 
 import javax.swing.*;
 
@@ -13,11 +14,21 @@ public class Main {
     public static void main(String[] args) throws InterruptedException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         TankFrame tankFrame = new TankFrame();
         // new Thread(() -> new Audio("audio/war1.wav").loop()).start();
-        while (true) {
-            Thread.sleep(TankFrame.PAINT_DIFF);
-            if (!GameModel.getInstance().getPause()) {
-                tankFrame.mainPanel.repaint();
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(TankFrame.PAINT_DIFF);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!GameModel.getInstance().getPause()) {
+                    tankFrame.mainPanel.repaint();
+                }
             }
-        }
+        }).start();
+        Client client = new Client();
+        client.connect();
+
+
     }
 }
