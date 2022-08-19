@@ -82,8 +82,7 @@ public class TankJoinMsg extends Msg {
     }
 
     @Override
-    public Msg parse(byte[] bytes) {
-        TankJoinMsg tankJoinMsg = new TankJoinMsg();
+    public void parse(byte[] bytes) {
         ByteArrayInputStream byteArrayInputStream = null;
         DataInputStream dataInputStream = null;
 
