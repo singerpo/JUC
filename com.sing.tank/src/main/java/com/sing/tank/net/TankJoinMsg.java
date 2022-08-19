@@ -3,6 +3,7 @@ package com.sing.tank.net;
 import com.sing.tank.abstractfactory.BaseTank;
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
+import com.sing.tank.facade.GameModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -13,7 +14,8 @@ import java.util.UUID;
  * @author songbo
  * @since 2022-08-18
  */
-public class TankJoinMsg {
+public class TankJoinMsg extends Msg {
+    public static final int type = 2;
     public int x, y;
     public DirectionEnum directionEnum;
     public boolean moving;
@@ -45,6 +47,7 @@ public class TankJoinMsg {
     public TankJoinMsg() {
     }
 
+    @Override
     public byte[] toBytes() {
         ByteArrayOutputStream byteArrayOutputStream = null;
         DataOutputStream dataOutputStream = null;
@@ -52,6 +55,8 @@ public class TankJoinMsg {
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
             dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+            dataOutputStream.writeInt(type);
+            dataOutputStream.writeInt(34);
             dataOutputStream.writeInt(this.x);
             dataOutputStream.writeInt(this.y);
             dataOutputStream.writeInt(this.directionEnum.ordinal());
@@ -82,6 +87,23 @@ public class TankJoinMsg {
     }
 
     @Override
+    public void handle() {
+        if (GameModel.getInstance().getMainTank() != null && this.id.equals(GameModel.getInstance().getMainTank().getId())) {
+            return;
+        }
+        if (GameModel.getInstance().getGameObjectMap().containsKey(this.id)) {
+            return;
+        }
+        BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(this.x, this.y, this.directionEnum, this.groupEnum, this.repeat);
+        baseTank.setId(this.id);
+        GameModel.getInstance().add(baseTank);
+        if (GameModel.getInstance().getMainTank() == null) {
+            GameModel.getInstance().setMainTank(baseTank);
+        }
+        Client.INSTANCE.send(new TankJoinMsg(GameModel.getInstance().getMainTank()));
+    }
+
+    @Override
     public String toString() {
         return "TankJoinMsg{" +
                 "x=" + x +
@@ -93,4 +115,6 @@ public class TankJoinMsg {
                 ", repeat=" + repeat +
                 '}';
     }
+
+
 }

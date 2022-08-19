@@ -85,7 +85,7 @@ public class Server {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            System.out.println(msg);
+            serverFrame.updateClientMsg(msg.toString());
             Server.clients.writeAndFlush(msg);
         }
 
