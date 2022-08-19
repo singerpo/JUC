@@ -5,9 +5,7 @@ import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 /**
@@ -84,8 +82,35 @@ public class TankJoinMsg extends Msg {
     }
 
     @Override
-    public void parse(byte[] bytes) {
+    public Msg parse(byte[] bytes) {
+        TankJoinMsg tankJoinMsg = new TankJoinMsg();
+        ByteArrayInputStream byteArrayInputStream = null;
+        DataInputStream dataInputStream = null;
 
+        try {
+            byteArrayInputStream = new ByteArrayInputStream(bytes);
+            dataInputStream = new DataInputStream(byteArrayInputStream);
+            this.x = dataInputStream.readInt();
+            this.y = dataInputStream.readInt();
+            this.directionEnum = DirectionEnum.values()[dataInputStream.readInt()];
+            this.moving = dataInputStream.readBoolean();
+            this.groupEnum = GroupEnum.values()[dataInputStream.readInt()];
+            this.id = new UUID(dataInputStream.readLong(), dataInputStream.readLong());
+            this.repeat = dataInputStream.readBoolean();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (byteArrayInputStream != null) {
+                    byteArrayInputStream.close();
+                }
+                if (dataInputStream != null) {
+                    dataInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
