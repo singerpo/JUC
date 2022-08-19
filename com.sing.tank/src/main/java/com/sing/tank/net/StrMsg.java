@@ -17,7 +17,7 @@ public class StrMsg extends Msg {
     }
 
     @Override
-    public void handle() {
+    public void handleClient() {
 
     }
 
@@ -49,5 +49,15 @@ public class StrMsg extends Msg {
             }
         }
         return bytes;
+    }
+
+    @Override
+    public void parse(byte[] bytes) {
+
+    }
+
+    @Override
+    public MsgEnum getMsgEnum() {
+        return MsgEnum.message;
     }
 }

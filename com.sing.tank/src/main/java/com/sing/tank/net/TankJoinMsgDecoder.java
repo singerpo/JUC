@@ -28,13 +28,13 @@ public class TankJoinMsgDecoder extends ByteToMessageDecoder {
             //解决 TCP拆包 粘包的问题
             return;
         }
-        switch (type) {
-            case 1:
+        switch (MsgEnum.values()[type]) {
+            case message:
                 byte[] bytes = new byte[length];
                 byteBuf.readBytes(bytes);
                 list.add(new String(bytes,"UTF-8"));
                 break;
-            case 2:
+            case tankJoin:
                 TankJoinMsg tankJoinMsg = new TankJoinMsg();
                 tankJoinMsg.x = byteBuf.readInt();
                 tankJoinMsg.y = byteBuf.readInt();

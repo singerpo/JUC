@@ -15,7 +15,6 @@ import java.util.UUID;
  * @since 2022-08-18
  */
 public class TankJoinMsg extends Msg {
-    public static final int type = 2;
     public int x, y;
     public DirectionEnum directionEnum;
     public boolean moving;
@@ -55,8 +54,6 @@ public class TankJoinMsg extends Msg {
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
             dataOutputStream = new DataOutputStream(byteArrayOutputStream);
-            dataOutputStream.writeInt(type);
-            dataOutputStream.writeInt(34);
             dataOutputStream.writeInt(this.x);
             dataOutputStream.writeInt(this.y);
             dataOutputStream.writeInt(this.directionEnum.ordinal());
@@ -87,7 +84,18 @@ public class TankJoinMsg extends Msg {
     }
 
     @Override
-    public void handle() {
+    public void parse(byte[] bytes) {
+
+    }
+
+    @Override
+    public MsgEnum getMsgEnum() {
+        return MsgEnum.tankJoin;
+    }
+
+
+    @Override
+    public void handleClient() {
         if (GameModel.getInstance().getMainTank() != null && this.id.equals(GameModel.getInstance().getMainTank().getId())) {
             return;
         }

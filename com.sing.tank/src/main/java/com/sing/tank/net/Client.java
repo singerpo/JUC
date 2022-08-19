@@ -55,12 +55,12 @@ public class Client {
     }
 
     /**
-     * 向服务器发送坦克加入信息
+     * 向服务器发送自定义信息
      *
-     * @param tankJoinMsg 坦克加入信息
+     * @param msg 自定义信息
      */
-    public void send(TankJoinMsg tankJoinMsg) {
-        this.channel.writeAndFlush(tankJoinMsg);
+    public void send(Msg msg) {
+        this.channel.writeAndFlush(msg);
     }
 
     /**
@@ -90,10 +90,10 @@ public class Client {
     }
 
 
-    class ClientChildHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
+    class ClientChildHandler extends SimpleChannelInboundHandler<Msg> {
         @Override
-        protected void channelRead0(ChannelHandlerContext ctx, TankJoinMsg tankJoinMsg) throws Exception {
-            tankJoinMsg.handle();
+        protected void channelRead0(ChannelHandlerContext ctx, Msg msg) throws Exception {
+            msg.handleClient();
         }
 
         @Override
