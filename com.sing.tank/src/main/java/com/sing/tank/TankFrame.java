@@ -12,7 +12,8 @@ import java.awt.*;
 /**
  * 坦克主窗口
  * <p>
- * 14 按键切换发射策略（1）
+ * 19 把主战坦克也加入到List中（1）
+ * 19 完成坦克大战网络版（1）
  *-Dsun.java2d.uiScale=1.0
  * @author songbo
  * @since 2022-07-07
