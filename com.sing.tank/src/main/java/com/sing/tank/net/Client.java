@@ -101,6 +101,7 @@ public class Client {
             }
             System.out.println(tankJoinMsg);
             BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(tankJoinMsg.x, tankJoinMsg.y, tankJoinMsg.directionEnum, tankJoinMsg.groupEnum, tankJoinMsg.repeat);
+            baseTank.setId(tankJoinMsg.id);
             GameModel.getInstance().add(baseTank);
             if (GameModel.getInstance().getMainTank() == null) {
                 GameModel.getInstance().setMainTank(baseTank);
