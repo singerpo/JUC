@@ -20,7 +20,7 @@ public class TankJoinMsgCodecTest {
         EmbeddedChannel channel = new EmbeddedChannel();
         UUID id = UUID.randomUUID();
         TankJoinMsg tankJoinMsg = new TankJoinMsg(5, 10, DirectionEnum.UP, false, GroupEnum.GOOD, id, true);
-        channel.pipeline().addLast(new TankJoinMsgEncoder());
+        channel.pipeline().addLast(new MsgEncoder());
 
         channel.writeOutbound(tankJoinMsg);
 
@@ -45,7 +45,7 @@ public class TankJoinMsgCodecTest {
         EmbeddedChannel channel = new EmbeddedChannel();
         UUID id = UUID.randomUUID();
         TankJoinMsg tankJoinMsg = new TankJoinMsg(5, 10, DirectionEnum.UP, false, GroupEnum.GOOD, id, true);
-        channel.pipeline().addLast(new TankJoinMsgDecoder());
+        channel.pipeline().addLast(new MsgDecoder());
 
         ByteBuf byteBuf = Unpooled.buffer();
         byteBuf.writeBytes(tankJoinMsg.toBytes());

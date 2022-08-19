@@ -5,7 +5,6 @@ import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.enums.GroupEnum;
 import com.sing.tank.facade.GameModel;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -17,7 +16,6 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author songbo
@@ -43,8 +41,8 @@ public class Server {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
-                            channelPipeline.addLast(new TankJoinMsgEncoder())
-                                    .addLast(new TankJoinMsgDecoder());
+                            channelPipeline.addLast(new MsgEncoder())
+                                    .addLast(new MsgDecoder());
                             channelPipeline.addLast(new ServerChildHandler());
 
                         }
