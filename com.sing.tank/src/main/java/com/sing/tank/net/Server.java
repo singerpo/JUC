@@ -14,7 +14,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author songbo
@@ -23,7 +26,9 @@ import java.util.UUID;
 public class Server {
     public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private ServerFrame serverFrame;
-    private int main = 1;
+    private boolean mainStatus = true;
+    private boolean otherStatus = true;
+    private Map<String, Integer> mainMap = new ConcurrentHashMap<>();
 
     public void startServer(ServerFrame serverFrame) {
         this.serverFrame = serverFrame;
@@ -39,8 +44,8 @@ public class Server {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
                             channelPipeline.addLast(new TankJoinMsgEncoder())
-                                    .addLast(new TankJoinMsgDecoder())
-                                    .addLast(new ServerChildHandler());
+                                    .addLast(new TankJoinMsgDecoder());
+                            channelPipeline.addLast(new ServerChildHandler());
 
                         }
                     })
@@ -59,36 +64,28 @@ public class Server {
 
     class ServerChildHandler extends ChannelInboundHandlerAdapter {//SimpleChannelInboundHandler
 
-
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
             Server.clients.add(ctx.channel());
+            TankJoinMsg tankJoinMsg = null;
+            int obstacleSize = GameModel.getInstance().getObstacleSize();
+            if (mainStatus) {
+                tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 + obstacleSize / 2 + obstacleSize + 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
+                mainStatus = false;
+                mainMap.put(ctx.channel().id().asLongText(), 1);
+            } else if (otherStatus) {
+                tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 - obstacleSize / 2 - obstacleSize - obstacleSize - 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
+                otherStatus = false;
+                mainMap.put(ctx.channel().id().asLongText(), 2);
+            }
+            if (tankJoinMsg != null) {
+                ctx.writeAndFlush(tankJoinMsg);
+            }
         }
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             System.out.println(msg);
-            if (msg instanceof ByteBuf) {
-                ByteBuf byteBuf = (ByteBuf) msg;
-                byte[] bytes = new byte[byteBuf.readableBytes()];
-                // byteBuf.readBytes(bytes);
-                byteBuf.getBytes(byteBuf.readerIndex(), bytes);
-                String clientMsg = new String(bytes, "UTF-8");
-                if ("come".equals(clientMsg)) {
-                    int obstacleSize = GameModel.getInstance().getObstacleSize();
-                    TankJoinMsg tankJoinMsg;
-                    if (Server.this.main == 1) {
-                        tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 + obstacleSize / 2 + obstacleSize + 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
-                    } else {
-                        tankJoinMsg = new TankJoinMsg(TankFrame.GAME_WIDTH / 2 - obstacleSize / 2 - obstacleSize - obstacleSize - 1, TankFrame.GAME_HEIGHT - obstacleSize, DirectionEnum.UP, false, GroupEnum.GOOD, UUID.randomUUID(), true);
-                    }
-                    Server.clients.writeAndFlush(tankJoinMsg);
-                    Server.this.main++;
-                }
-                getServerFrame().updateClientMsg(clientMsg);
-            } else {
-                getServerFrame().updateClientMsg(msg.toString());
-            }
             Server.clients.writeAndFlush(msg);
         }
 
@@ -97,6 +94,15 @@ public class Server {
             cause.printStackTrace();
             // 删除出异常的客户端channel并关闭
             Server.clients.remove(ctx.channel());
+            int mainMapValue = mainMap.get(ctx.channel().id().asLongText());
+            switch (mainMapValue) {
+                case 1:
+                    mainStatus = true;
+                    break;
+                case 2:
+                    otherStatus = true;
+                    break;
+            }
             ctx.close();
 
         }

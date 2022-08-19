@@ -17,9 +17,13 @@ import io.netty.util.ReferenceCountUtil;
  * @since 2022-08-15
  */
 public class Client {
-
+    public static final Client INSTANCE = new Client();
     private ChannelFuture channelFuture;
     private ClientFrame clientFrame;
+
+    private Client(){
+
+    }
 
     public void connect() {
         // 事件处理的线程池
@@ -85,16 +89,20 @@ public class Client {
         }
     }
 
+
     class ClientChildHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, TankJoinMsg tankJoinMsg) throws Exception {
             if (GameModel.getInstance().getMainTank() != null && tankJoinMsg.id.equals(GameModel.getInstance().getMainTank().getId())) {
                 return;
             }
+            if(GameModel.getInstance().getGameObjectMap().containsKey(tankJoinMsg.id)){
+                return;
+            }
             System.out.println(tankJoinMsg);
             BaseTank baseTank = GameModel.getInstance().getGameFactory().createTank(tankJoinMsg.x, tankJoinMsg.y, tankJoinMsg.directionEnum, tankJoinMsg.groupEnum, tankJoinMsg.repeat);
             GameModel.getInstance().add(baseTank);
-            if (GameModel.getInstance().getMainTank() != null) {
+            if (GameModel.getInstance().getMainTank() == null) {
                 GameModel.getInstance().setMainTank(baseTank);
             }
             ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
@@ -103,8 +111,14 @@ public class Client {
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
-            ByteBuf byteBuf = Unpooled.copiedBuffer("come".getBytes("UTF-8"));
-            ctx.writeAndFlush(byteBuf);
+//             ByteBuf byteBuf = Unpooled.copiedBuffer("come".getBytes("UTF-8"));
+//             ctx.writeAndFlush(byteBuf);
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+            cause.printStackTrace();
+            ctx.close();
         }
     }
 

@@ -163,8 +163,8 @@ public class GameModel {
         int i = 0;
         for (Map.Entry<UUID, GameObject> entry : gameObjectMap.entrySet()) {
             GameObject gameObject1 = entry.getValue();
+            int j = 0;
             for (Map.Entry<UUID, GameObject> entry2 : gameObjectMap.entrySet()) {
-                int j = 0;
                 if (j > i) {
                     GameObject gameObject2 = entry2.getValue();
                     colliderChain.collide(gameObject1, gameObject2);
@@ -372,5 +372,13 @@ public class GameModel {
 
     public void setMainTank(BaseTank mainTank) {
         this.mainTank = mainTank;
+    }
+
+    public Map<UUID, GameObject> getGameObjectMap() {
+        return gameObjectMap;
+    }
+
+    public void setGameObjectMap(Map<UUID, GameObject> gameObjectMap) {
+        this.gameObjectMap = gameObjectMap;
     }
 }

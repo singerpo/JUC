@@ -16,7 +16,7 @@ import java.util.UUID;
 public class TankJoinMsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        if (byteBuf.readableBytes() < 33) {
+        if (byteBuf.readableBytes() < 34) {
             //解决 TCP拆包 粘包的问题
             return;
         }
