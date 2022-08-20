@@ -6,13 +6,26 @@ package com.sing.tank.net;
  */
 public enum MsgEnum {
     /***普通字符串**/
-    MESSAGE,
+    MESSAGE("Str"),
     /***坦克加入**/
-    TANK_JOIN,
-    TANK_DIRECTION_CHANGED,
-    TANK_STOP,
-    TANK_START_MOVING,
-    BULLET_NEW,
-    TANK_DIE,
+    TANK_JOIN("TankJoin"),
+    TANK_DIRECTION_CHANGED("TankDirectionChanged"),
+    TANK_STOP("TankStop"),
+    TANK_START_MOVING("TankStartMoving"),
+    BULLET_NEW("BulletNew"),
+    TANK_DIE("TankDie"),
     ;
+    private String value;
+
+    MsgEnum(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

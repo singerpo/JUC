@@ -27,7 +27,7 @@ public class Tank extends BaseTank {
             if (this.getGroupEnum() == GroupEnum.BAD) {
                 GameModel.getInstance().setBeatTankNum(GameModel.getInstance().getBeatTankNum() + 1);
             }
-            if(this.getRepeat()){
+            if (this.getRepeat()) {
                 this.setRepeat(false);
                 this.setLive(true);
                 this.setLife(PropertyManager.getInstance().goodTankLife);
@@ -39,12 +39,27 @@ public class Tank extends BaseTank {
                 this.getRectangle().y = this.getY();
                 this.getRectangle().width = this.getWidth();
                 this.getRectangle().height = this.getHeight();
-            }else {
+            } else {
                 GameModel.getInstance().remove(this);
             }
             return;
         }
         this.setPaintCount(this.getPaintCount() + 1);
+
+        Color color = graphics.getColor();
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font(null, Font.PLAIN, 12));
+        if (this.getGroupEnum() == GroupEnum.BAD) {
+            graphics.drawString("灰太狼", this.getX() + 10, this.getY());
+        }else{
+            if(this == GameModel.getInstance().getMainTank()){
+                graphics.drawString("→喜羊羊", this.getX() + 10, this.getY());
+            }else {
+                graphics.drawString("好朋友", this.getX() + 10, this.getY());
+            }
+        }
+        graphics.setColor(color);
+
         switch (this.getDirectionEnum()) {
             case UP:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {

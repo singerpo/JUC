@@ -2,6 +2,10 @@ package com.sing.tank;
 
 import com.sing.tank.enums.DirectionEnum;
 import com.sing.tank.facade.GameModel;
+import com.sing.tank.net.Client;
+import com.sing.tank.net.TankDirectionChangedMsg;
+import com.sing.tank.net.TankStartMovingMsg;
+import com.sing.tank.net.TankStopMsg;
 import com.sing.tank.strategy.DefaultFireStrategy;
 import com.sing.tank.strategy.FourDirectionFireStrategy;
 
@@ -19,16 +23,16 @@ public class TankPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics graphics) {
-            if (offScreenImage == null) {
-                offScreenImage = this.createImage(TankFrame.GAME_WIDTH, TankFrame.GAME_HEIGHT);
-            }
-            Graphics offGraphics = offScreenImage.getGraphics();
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(TankFrame.GAME_WIDTH, TankFrame.GAME_HEIGHT);
+        }
+        Graphics offGraphics = offScreenImage.getGraphics();
 //             Color color = offGraphics.getColor();
 //             offGraphics.setColor(Color.GRAY);
 //             offGraphics.fillRect(0, 0, TankFrame.GAME_WIDTH, TankFrame.GAME_HEIGHT);
 //             offGraphics.setColor(color);
-            paint(offGraphics);
-            graphics.drawImage(offScreenImage, 0, 0, null);
+        paint(offGraphics);
+        graphics.drawImage(offScreenImage, 0, 0, null);
     }
 
     public void paint(Graphics graphics) {
@@ -149,8 +153,10 @@ public class TankPanel extends JPanel {
         private void setMainTankDirection() {
             if (!up && !down && !left && !right) {
                 GameModel.getInstance().getMainTank().setMoving(false);
+                // 向服务器发送坦克停止消息
+                Client.INSTANCE.send(new TankStopMsg(GameModel.getInstance().getMainTank()));
             } else {
-                GameModel.getInstance().getMainTank().setMoving(true);
+                DirectionEnum directionEnum = GameModel.getInstance().getMainTank().getDirectionEnum();
                 if (up) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.UP);
                 }
@@ -163,24 +169,33 @@ public class TankPanel extends JPanel {
                 if (right) {
                     GameModel.getInstance().getMainTank().setDirectionEnum(DirectionEnum.RIGHT);
                 }
+                if (!directionEnum.equals(GameModel.getInstance().getMainTank().getDirectionEnum())) {
+                    // 向服务器发送坦克方向变动消息
+                    Client.INSTANCE.send(new TankDirectionChangedMsg(GameModel.getInstance().getMainTank()));
+                }
+                if (!GameModel.getInstance().getMainTank().getMoving()) {
+                    // 向服务器发送坦克移动消息
+                    Client.INSTANCE.send(new TankStartMovingMsg(GameModel.getInstance().getMainTank()));
+                }
+                GameModel.getInstance().getMainTank().setMoving(true);
             }
-            if (!upOther && !downOther && !leftOther && !rightOther) {
-                GameModel.getInstance().getOtherTank().setMoving(false);
-            } else {
-                GameModel.getInstance().getOtherTank().setMoving(true);
-                if (upOther) {
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.UP);
-                }
-                if (downOther) {
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
-                }
-                if (leftOther) {
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
-                }
-                if (rightOther) {
-                    GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
-                }
-            }
+            // if (!upOther && !downOther && !leftOther && !rightOther) {
+            //     GameModel.getInstance().getOtherTank().setMoving(false);
+            // } else {
+            //     GameModel.getInstance().getOtherTank().setMoving(true);
+            //     if (upOther) {
+            //         GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.UP);
+            //     }
+            //     if (downOther) {
+            //         GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.DOWN);
+            //     }
+            //     if (leftOther) {
+            //         GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.LEFT);
+            //     }
+            //     if (rightOther) {
+            //         GameModel.getInstance().getOtherTank().setDirectionEnum(DirectionEnum.RIGHT);
+            //     }
+            // }
         }
 
         @Override

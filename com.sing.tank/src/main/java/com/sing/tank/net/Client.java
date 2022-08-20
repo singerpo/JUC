@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 public class Client {
     public static final Client INSTANCE = new Client();
     private Channel channel;
+    private String severAddress = "127.0.0.1";
 
     private Client() {
 
@@ -31,7 +32,7 @@ public class Client {
             ChannelFuture channelFuture = bootstrap.group(eventLoopGroup)
                     .channel(NioSocketChannel.class)
                     .handler(new ClientChannelInitializer())
-                    .connect("127.0.0.1", 8686)
+                    .connect(this.severAddress, 8686)
                     .sync();
 
             // // 如果没有.sync，则添加listener监听是否连接成功
@@ -116,6 +117,14 @@ public class Client {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
+    }
+
+    public String getSeverAddress() {
+        return severAddress;
+    }
+
+    public void setSeverAddress(String severAddress) {
+        this.severAddress = severAddress;
     }
 }
 

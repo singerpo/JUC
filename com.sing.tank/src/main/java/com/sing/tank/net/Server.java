@@ -37,6 +37,8 @@ public class Server {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             ChannelFuture channelFuture = serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    //禁用TCP-Nagle算法
+                    .option(ChannelOption.TCP_NODELAY,true)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {

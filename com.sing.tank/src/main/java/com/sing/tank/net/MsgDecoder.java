@@ -28,18 +28,23 @@ public class MsgDecoder extends ByteToMessageDecoder {
         }
         byte[] bytes = new byte[length];
         byteBuf.readBytes(bytes);
-        switch (msgEnum) {
-            case MESSAGE:
-                StrMsg strMsg = new StrMsg();
-                strMsg.parse(bytes);
-                list.add(strMsg);
-                break;
-            case TANK_JOIN:
-                TankJoinMsg tankJoinMsg = new TankJoinMsg();
-                tankJoinMsg.parse(bytes);
-                list.add(tankJoinMsg);
-                break;
-        }
+        Msg msg = (Msg) Class.forName("com.sing.tank.net."+msgEnum.getValue()+"Msg").newInstance();
+        // switch (msgEnum) {
+        //     case MESSAGE:
+        //         msg = new StrMsg();
+        //         break;
+        //     case TANK_JOIN:
+        //         msg = new TankJoinMsg();
+        //         break;
+        //     case TANK_START_MOVING:
+        //         msg = new TankStartMovingMsg();
+        //         break;
+        //     case TANK_STOP:
+        //         msg = new TankStopMsg();
+        //         break;
+        // }
+        msg.parse(bytes);
+        list.add(msg);
 
     }
 }
