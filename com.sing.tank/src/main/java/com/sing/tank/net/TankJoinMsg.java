@@ -114,7 +114,7 @@ public class TankJoinMsg extends Msg {
 
     @Override
     public MsgEnum getMsgEnum() {
-        return MsgEnum.tankJoin;
+        return MsgEnum.TANK_JOIN;
     }
 
 

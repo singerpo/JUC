@@ -99,8 +99,8 @@ public class Client {
         @Override
         public void channelActive(ChannelHandlerContext ctx) {
 //            ctx.writeAndFlush(new TankJoinMsg(GameModel.getInstance().getMainTank()));
-//             ByteBuf byteBuf = Unpooled.copiedBuffer("come".getBytes("UTF-8"));
-//             ctx.writeAndFlush(byteBuf);
+
+            ctx.writeAndFlush(new StrMsg("come"));
         }
 
         @Override

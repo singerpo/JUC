@@ -1,16 +1,16 @@
 package com.sing.tank.net;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author songbo
  * @since 2022-08-19
  */
 public class StrMsg extends Msg {
-    public static final int type = 1;
     public String str;
+
+    public StrMsg() {
+    }
 
     public StrMsg(String str) {
         this.str = str;
@@ -29,9 +29,7 @@ public class StrMsg extends Msg {
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
             dataOutputStream = new DataOutputStream(byteArrayOutputStream);
-            dataOutputStream.writeInt(type);
-            dataOutputStream.writeInt(str.getBytes("UTF-8").length);
-            dataOutputStream.write(str.getBytes("UTF-8"));
+            dataOutputStream.writeUTF(str);
             dataOutputStream.flush();
             bytes = byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
@@ -53,11 +51,37 @@ public class StrMsg extends Msg {
 
     @Override
     public void parse(byte[] bytes) {
+        ByteArrayInputStream byteArrayInputStream = null;
+        DataInputStream dataInputStream = null;
+
+        try {
+            byteArrayInputStream = new ByteArrayInputStream(bytes);
+            dataInputStream = new DataInputStream(byteArrayInputStream);
+            this.str = dataInputStream.readUTF();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (byteArrayInputStream != null) {
+                    byteArrayInputStream.close();
+                }
+                if (dataInputStream != null) {
+                    dataInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     @Override
     public MsgEnum getMsgEnum() {
-        return MsgEnum.message;
+        return MsgEnum.MESSAGE;
+    }
+
+    @Override
+    public String toString() {
+        return str;
     }
 }

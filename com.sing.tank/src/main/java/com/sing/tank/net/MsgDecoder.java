@@ -29,10 +29,12 @@ public class MsgDecoder extends ByteToMessageDecoder {
         byte[] bytes = new byte[length];
         byteBuf.readBytes(bytes);
         switch (msgEnum) {
-            case message:
-                list.add(new String(bytes, "UTF-8"));
+            case MESSAGE:
+                StrMsg strMsg = new StrMsg();
+                strMsg.parse(bytes);
+                list.add(strMsg);
                 break;
-            case tankJoin:
+            case TANK_JOIN:
                 TankJoinMsg tankJoinMsg = new TankJoinMsg();
                 tankJoinMsg.parse(bytes);
                 list.add(tankJoinMsg);
