@@ -45,6 +45,19 @@ public class Tank extends BaseTank {
             return;
         }
         this.setPaintCount(this.getPaintCount() + 1);
+        Color color = graphics.getColor();
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font(null, Font.PLAIN, 12));
+        if (this.getGroupEnum() == GroupEnum.BAD) {
+            graphics.drawString("灰太狼", this.getX() + 10, this.getY());
+        }else{
+            if(this == GameModel.getInstance().getMainTank()){
+                graphics.drawString("喜羊羊", this.getX() + 10, this.getY());
+            }else {
+                graphics.drawString("喜羊羊", this.getX() + 10, this.getY());
+            }
+        }
+        graphics.setColor(color);
         switch (this.getDirectionEnum()) {
             case UP:
                 if (this.getGroupEnum() == GroupEnum.GOOD) {
