@@ -1,6 +1,5 @@
 package com.sing.design.b07iterator;
 
-import org.apache.commons.collections.iterators.ArrayListIterator;
 import org.omg.CORBA.Object;
 
 import java.util.ArrayList;

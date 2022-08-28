@@ -1,3 +1,5 @@
+// https://github.com/protocolbuffers/protobuf/releases protoc-3.16.0-rc-1-win64
+// protoc.exe --java_out=目标目录 .\gameMsgProtocol.proto
 syntax = "proto3";
 package msg;
 option java_package = "com.sing.herostory.msg";
@@ -78,9 +80,9 @@ message UserMoveToResult {
   // 移动用户Id
   uint32 moveUserId = 1;
   // 移动到位置X
-  float moveToPosX = 1;
+  float moveToPosX = 2;
   // 移动到位置Y
-  float moveToPosY = 2;
+  float moveToPosY = 3;
 }
 
 //用户退场
