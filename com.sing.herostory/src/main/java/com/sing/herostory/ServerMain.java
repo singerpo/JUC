@@ -1,5 +1,6 @@
 package com.sing.herostory;
 
+import com.sing.herostory.msg.GameMsgDecoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -34,6 +35,8 @@ public class ServerMain {
                         new HttpObjectAggregator(65535),
                         // WebSocet协议处理器，在这里处理握手、ping等消息
                         new WebSocketServerProtocolHandler("/websocket"),
+                        // 自定义消息解码器
+                        new GameMsgDecoder(),
                         // 自定义消息处理器
                         new GameMsgHandler()
 
