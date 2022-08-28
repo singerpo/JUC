@@ -1,0 +1,88 @@
+syntax = "proto3";
+package msg;
+option java_package = "com.sing.herostory.msg";
+
+//消息代码
+enum MsgCode {
+  // 用户入场
+  USER_ENTRY_CMD = 0;
+  USER_ENTRY_RESULT = 1;
+  // 还有谁在场
+  WHO_ELSE_IS_HERE_CMD = 2;
+  WHO_ELSE_IS_HERE_RESULT = 3;
+  // 用户移动
+  USER_MOVE_TO_CMD = 4;
+  USER_MOVE_TO_RESULT = 5;
+  // 用户退场
+  USER_QUIT_RESULT = 6;
+  USER_STOP_CMD = 7;
+  USER_STOP_RESULT = 8;
+  USER_ATTK_CMD = 9;
+  USER_ATTK_RESULT = 10;
+  USER_SUBTRACT_HP_RESULT = 11;
+  USER_DIE_RESULT = 12;
+};
+
+//用户入场
+/////////////////////////////////////////////////
+//指令
+message UserEntryCmd {
+  //用户id
+  uint32 userId = 1;
+  //英雄形象
+  string heroAvatar = 2;
+
+}
+
+// 结果
+message UserEntryResult {
+  //用户id
+  uint32 userId = 1;
+  //英雄形象
+  string heroAvatar = 2;
+}
+
+//还有谁在场
+/////////////////////////////////////////////////
+// 指令
+message WhoElseIsHereCmd {
+
+}
+
+//结果
+message WhoElseIsHereResult {
+  // 用户信息数组
+  repeated UserInfo userInfo = 1;
+
+  //用户信息
+  message UserInfo {
+    //用户id
+    uint32 userId = 1;
+    //英雄形象
+    string heroAvatar = 2;
+  }
+}
+
+//用户移动
+/////////////////////////////////////////////////
+// 指令
+message UserMoveToCmd {
+  //注意：用户移动指令中没有用户Id,这是为什么
+  // 移动到位置X
+  float moveToPosX = 1;
+  // 移动到位置Y
+  float moveToPosY = 2;
+}
+// 结果
+message UserMoveToResult {
+  // 移动用户Id
+  uint32 moveUserId = 1;
+  // 移动到位置X
+  float moveToPosX = 1;
+  // 移动到位置Y
+  float moveToPosY = 2;
+}
+
+//用户退场
+/////////////////////////////////////////////////
+// 指令
