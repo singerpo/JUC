@@ -11,9 +11,9 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class MsgEncoder extends MessageToByteEncoder<Msg> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Msg msg, ByteBuf byteBuf) throws Exception {
-        byteBuf.writeInt(msg.getMsgEnum().ordinal());
+        byteBuf.writeShort(msg.getMsgEnum().ordinal());
         byte[] bytes = msg.toBytes();
-        byteBuf.writeInt(bytes.length);
+        byteBuf.writeShort(bytes.length);
         byteBuf.writeBytes(bytes);
     }
 }

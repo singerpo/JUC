@@ -13,14 +13,14 @@ import java.util.List;
 public class MsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        if (byteBuf.readableBytes() < 8) {
+        if (byteBuf.readableBytes() < 4) {
             return;
         }
         byteBuf.markReaderIndex();
         //第一个四位表示消息类型
-        MsgEnum msgEnum = MsgEnum.values()[byteBuf.readInt()];
+        MsgEnum msgEnum = MsgEnum.values()[byteBuf.readShort()];
         //第二个四位表示消息总字节数
-        int length = byteBuf.readInt();
+        short length = byteBuf.readShort();
         if (byteBuf.readableBytes() < length) {
             byteBuf.resetReaderIndex();
             //解决 TCP拆包 粘包的问题

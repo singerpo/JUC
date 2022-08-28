@@ -26,7 +26,7 @@ public class Server {
     private ServerFrame serverFrame;
     private boolean mainStatus = true;
     private boolean otherStatus = true;
-    private Map<String, Integer> mainMap = new ConcurrentHashMap<>();
+    private final Map<String, Integer> mainMap = new ConcurrentHashMap<>();
 
     public void startServer(ServerFrame serverFrame) {
         this.serverFrame = serverFrame;
@@ -41,7 +41,7 @@ public class Server {
                     .option(ChannelOption.TCP_NODELAY,true)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
                             channelPipeline.addLast(new MsgEncoder())
                                     .addLast(new MsgDecoder());
@@ -65,7 +65,7 @@ public class Server {
     class ServerChildHandler extends ChannelInboundHandlerAdapter {//SimpleChannelInboundHandler
 
         @Override
-        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        public void channelActive(ChannelHandlerContext ctx) {
             Server.clients.add(ctx.channel());
             TankJoinMsg tankJoinMsg = null;
             int obstacleSize = GameModel.getInstance().getObstacleSize();
@@ -84,13 +84,13 @@ public class Server {
         }
 
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        public void channelRead(ChannelHandlerContext ctx, Object msg) {
             serverFrame.updateClientMsg(msg.toString());
             Server.clients.writeAndFlush(msg);
         }
 
         @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
             cause.printStackTrace();
             // 删除出异常的客户端channel并关闭
             Server.clients.remove(ctx.channel());
@@ -108,13 +108,6 @@ public class Server {
         }
     }
 
-    public ServerFrame getServerFrame() {
-        return serverFrame;
-    }
-
-    public void setServerFrame(ServerFrame serverFrame) {
-        this.serverFrame = serverFrame;
-    }
 }
 
 

@@ -11,6 +11,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author songbo
  * @since 2022-08-16
@@ -30,7 +32,7 @@ public class Server {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
                             channelPipeline.addLast(new ServerChildHandler());
 
@@ -53,18 +55,18 @@ public class Server {
 
 
         @Override
-        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        public void channelActive(ChannelHandlerContext ctx) {
             Server.clients.add(ctx.channel());
         }
 
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        public void channelRead(ChannelHandlerContext ctx, Object msg) {
             ByteBuf byteBuf = (ByteBuf) msg;
             try {
                 byte[] bytes = new byte[byteBuf.readableBytes()];
                 // byteBuf.readBytes(bytes);
                 byteBuf.getBytes(byteBuf.readerIndex(), bytes);
-                String clientMsg = new String(bytes, "UTF-8");
+                String clientMsg = new String(bytes, StandardCharsets.UTF_8);
                 getServerFrame().updateClientMsg(clientMsg);
                 if ("b_bye_b".equals(clientMsg)) {
                     System.out.println("客户端要求退出");
@@ -84,7 +86,7 @@ public class Server {
         }
 
         @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
             cause.printStackTrace();
             // 删除出异常的客户端channel并关闭
             Server.clients.remove(ctx.channel());
