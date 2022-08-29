@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 1.下载工具将.proto文件转换为java类
  *  https://github.com/protocolbuffers/protobuf/releases protoc-3.16.0-rc-1-win64
- *  protoc.exe --java_out=目标目录 .\gameMsgProtocol.proto
+ *  protoc.exe --java_out=目标目录 .\GameMsgProtocol.proto
  *  2.前端
  *  Cocos Creator 2.2.0
  *  开发环境：VS Code
