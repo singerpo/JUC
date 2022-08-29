@@ -14,6 +14,17 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 1.下载工具将.proto文件转换为java类
+ *  https://github.com/protocolbuffers/protobuf/releases protoc-3.16.0-rc-1-win64
+ *  protoc.exe --java_out=目标目录 .\gameMsgProtocol.proto
+ *  2.前端
+ *  Cocos Creator 2.2.0
+ *  开发环境：VS Code
+ *  3.调试连接本地服务器
+ *  http://cdn0001.afrxvk.cn/hero_story/demo/step010/index.html?serverAddr=127.0.0.1:8686&userId=1
+ *
+ */
 public class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
     public static void main(String[] args) {

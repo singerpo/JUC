@@ -1,5 +1,3 @@
-// https://github.com/protocolbuffers/protobuf/releases protoc-3.16.0-rc-1-win64
-// protoc.exe --java_out=目标目录 .\gameMsgProtocol.proto
 syntax = "proto3";
 package msg;
 option java_package = "com.sing.herostory.msg";
