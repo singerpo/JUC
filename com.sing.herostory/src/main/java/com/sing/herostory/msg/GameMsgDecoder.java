@@ -30,8 +30,10 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler<Object> {
             case GameMsgProtocol.MsgCode.WHO_ELSE_IS_HERE_CMD_VALUE:
                 generatedMessageV3 = GameMsgProtocol.WhoElseIsHereCmd.parseFrom(msgBody);
                 break;
+            case GameMsgProtocol.MsgCode.USER_MOVE_TO_CMD_VALUE:
+                generatedMessageV3 = GameMsgProtocol.UserMoveToCmd.parseFrom(msgBody);
         }
-        if(generatedMessageV3 != null){
+        if (generatedMessageV3 != null) {
             channelHandlerContext.fireChannelRead(generatedMessageV3);
         }
 
