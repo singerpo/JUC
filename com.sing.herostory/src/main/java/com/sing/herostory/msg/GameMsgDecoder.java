@@ -10,6 +10,7 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         if (!(msg instanceof BinaryWebSocketFrame)) {
+            channelHandlerContext.fireChannelRead(((ByteBuf)msg).retain());
             return;
         }
         // WebSocket二进制消息会通过HttpServerCodec解码成BinaryWebSocketFrame类对象
