@@ -1,12 +1,17 @@
-package com.sing.herostory.msg;
+package com.sing.herostory;
 
 import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Message;
+import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameMsgDecoder extends SimpleChannelInboundHandler<Object> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameMsgDecoder.class);
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         if (!(msg instanceof BinaryWebSocketFrame)) {
@@ -20,22 +25,21 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler<Object> {
         byteBuf.readShort();
         // 读取消息的编号
         int msgCode = byteBuf.readShort();
-        // 拿到真实的字节数组并打印
+        Message.Builder msgBuilder = GameMsgRecognizer.getBuilderByMsgCode(msgCode);
+        if(msgBuilder == null){
+            return;
+        }else{
+            LOGGER.error("无法解码的消息，msgCode={}",msgCode);
+        }
+
+        // 拿到消息体
         byte[] msgBody = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(msgBody);
-        GeneratedMessageV3 generatedMessageV3 = null;
-        switch (msgCode) {
-            case GameMsgProtocol.MsgCode.USER_ENTRY_CMD_VALUE:
-                generatedMessageV3 = GameMsgProtocol.UserEntryCmd.parseFrom(msgBody);
-                break;
-            case GameMsgProtocol.MsgCode.WHO_ELSE_IS_HERE_CMD_VALUE:
-                generatedMessageV3 = GameMsgProtocol.WhoElseIsHereCmd.parseFrom(msgBody);
-                break;
-            case GameMsgProtocol.MsgCode.USER_MOVE_TO_CMD_VALUE:
-                generatedMessageV3 = GameMsgProtocol.UserMoveToCmd.parseFrom(msgBody);
-        }
-        if (generatedMessageV3 != null) {
-            channelHandlerContext.fireChannelRead(generatedMessageV3);
+
+        msgBuilder.clear();
+        Message newMsg = msgBuilder.mergeFrom(msgBody).build();
+        if (newMsg != null) {
+            channelHandlerContext.fireChannelRead(newMsg);
         }
 
     }

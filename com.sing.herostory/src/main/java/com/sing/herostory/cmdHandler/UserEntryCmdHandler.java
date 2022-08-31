@@ -2,7 +2,7 @@ package com.sing.herostory.cmdHandler;
 
 import com.sing.herostory.model.User;
 import com.sing.herostory.model.UserManager;
-import com.sing.herostory.msg.BroadCaster;
+import com.sing.herostory.BroadCaster;
 import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;

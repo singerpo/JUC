@@ -1,4 +1,4 @@
-package com.sing.herostory.msg;
+package com.sing.herostory;
 
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;

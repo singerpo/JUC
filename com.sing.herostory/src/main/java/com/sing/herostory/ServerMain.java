@@ -1,27 +1,15 @@
 package com.sing.herostory;
 
-import com.sing.herostory.msg.GameMsgDecoder;
-import com.sing.herostory.msg.GameMsgEncoder;
-import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 1.下载工具将.proto文件转换为java类
@@ -32,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 开发环境：VS Code
  * 3.调试连接本地服务器
  * http://cdn0001.afrxvk.cn/hero_story/demo/step010/index.html?serverAddr=127.0.0.1:8686&userId=1
+ * 6重构GameMsgDecoder  43
  */
 public class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);

@@ -1,23 +1,13 @@
 package com.sing.herostory;
 
-import com.sing.herostory.cmdHandler.UserEntryCmdHandler;
-import com.sing.herostory.cmdHandler.UserMoveToCmdHandler;
-import com.sing.herostory.cmdHandler.WhoElseIsHereCmdHandler;
-import com.sing.herostory.model.User;
+import com.google.protobuf.GeneratedMessageV3;
+import com.sing.herostory.cmdHandler.CmdHandlerFactory;
+import com.sing.herostory.cmdHandler.ICmdHandler;
 import com.sing.herostory.model.UserManager;
-import com.sing.herostory.msg.BroadCaster;
 import com.sing.herostory.msg.GameMsgProtocol;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.util.AttributeKey;
-import io.netty.util.concurrent.GlobalEventExecutor;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * websocket消息协议
@@ -50,17 +40,29 @@ public class GameMsgHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) {
-        System.out.println("收到客户端消息" + msg);
-        if (msg instanceof GameMsgProtocol.UserEntryCmd) {
-            new UserEntryCmdHandler().handle(channelHandlerContext, (GameMsgProtocol.UserEntryCmd) msg);
-        } else if (msg instanceof GameMsgProtocol.WhoElseIsHereCmd) {
-            new WhoElseIsHereCmdHandler().handle(channelHandlerContext, (GameMsgProtocol.WhoElseIsHereCmd) msg);
-        } else if (msg instanceof GameMsgProtocol.UserMoveToCmd) {
-           new UserMoveToCmdHandler().handle(channelHandlerContext, (GameMsgProtocol.UserMoveToCmd) msg);
+        System.out.println("收到客户端消息,msgClazz=" + msg.getClass().getName() + "," + msg);
+        if (msg instanceof GeneratedMessageV3) {
+            ICmdHandler<? extends GeneratedMessageV3> cmdHandler = CmdHandlerFactory.create(msg.getClass());
+            if (cmdHandler != null) {
+                cmdHandler.handle(channelHandlerContext, cast(msg));
+            }
         }
     }
 
-
+    /**
+     * 转型消息对象
+     *
+     * @param msg
+     * @param <TCmd>
+     * @return
+     */
+    private <TCmd extends GeneratedMessageV3> TCmd cast(Object msg) {
+        if (msg == null) {
+            return null;
+        } else {
+            return (TCmd) msg;
+        }
+    }
 
 
 }
