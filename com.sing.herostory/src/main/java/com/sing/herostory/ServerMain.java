@@ -20,13 +20,14 @@ import org.slf4j.LoggerFactory;
  * 开发环境：VS Code
  * 3.调试连接本地服务器
  * http://cdn0001.afrxvk.cn/hero_story/demo/step010/index.html?serverAddr=127.0.0.1:8686&userId=1
- * 6重构GameMsgDecoder  43
+ * 5重构CmdHandleFactory
  */
 public class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
 
 
     public static void main(String[] args) {
+        GameMsgRecognizer.init();
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
 

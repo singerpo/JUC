@@ -19,7 +19,7 @@ public class GameMsgEncoder extends ChannelOutboundHandlerAdapter {
             super.write(ctx, msg, promise);
             return;
         }
-        int msgCode = GameMsgRecognizer.getMsgCodeByClazz(msg);
+        int msgCode = GameMsgRecognizer.getMsgCodeByClazz(msg.getClass());
         if(msgCode <= -1){
             LOGGER.error("无法编码的消息，msgClazz={}",msg.getClass().getName());
         }
