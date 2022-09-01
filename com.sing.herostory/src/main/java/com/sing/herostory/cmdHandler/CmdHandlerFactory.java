@@ -17,7 +17,7 @@ import java.util.Set;
  * @since 2022-08-31
  */
 public final class CmdHandlerFactory {
-    private static final Map map = new HashMap();
+    private static final Map<Class<?>, ICmdHandler<? extends GeneratedMessageV3>> handlerMap = new HashMap<>();
 
     private CmdHandlerFactory() {
 
@@ -31,6 +31,7 @@ public final class CmdHandlerFactory {
                 continue;
             }
             Method[] methods = clazz.getDeclaredMethods();
+            Class<?> msgType = null;
             for (Method method : methods) {
                 if (!method.getName().equals("handle")) {
                     continue;
@@ -39,24 +40,24 @@ public final class CmdHandlerFactory {
                 if (parameterTypes.length < 2) {
                     continue;
                 }
-                if (parameterTypes.length < 2) {
-                    continue;
-                }
                 if (!ChannelHandlerContext.class.isAssignableFrom(parameterTypes[0]) || !GeneratedMessageV3.class.isAssignableFrom(parameterTypes[1])) {
                     continue;
                 }
+                msgType = parameterTypes[1];
+                break;
+            }
+            if (msgType == null) {
+                continue;
+            }
+            try {
+                handlerMap.put(msgType, (ICmdHandler<? extends GeneratedMessageV3>) clazz.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
-
     }
 
     public static ICmdHandler<? extends GeneratedMessageV3> create(Class<?> clazz) {
-        String cmdHandlerClazz = "com.sing.herostory.cmdHandler." + clazz.getSimpleName() + "Handler";
-        try {
-            return (ICmdHandler<? extends GeneratedMessageV3>) Class.forName(cmdHandlerClazz).newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return handlerMap.get(clazz);
     }
 }

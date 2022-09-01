@@ -69,7 +69,7 @@ public final class PackageUtil {
                     tmpSet = listClazzFromJar(new File(currentUrl.getFile()), packageName, recursive, filter);
                 }
 
-
+                resultSet.addAll(tmpSet);
             }
         } catch (IOException e) {
             e.printStackTrace();

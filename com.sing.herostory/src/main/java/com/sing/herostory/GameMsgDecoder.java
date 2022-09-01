@@ -27,11 +27,9 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler<Object> {
         int msgCode = byteBuf.readShort();
         Message.Builder msgBuilder = GameMsgRecognizer.getBuilderByMsgCode(msgCode);
         if(msgBuilder == null){
-            return;
-        }else{
             LOGGER.error("无法解码的消息，msgCode={}",msgCode);
+            return;
         }
-
         // 拿到消息体
         byte[] msgBody = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(msgBody);

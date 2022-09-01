@@ -3,6 +3,8 @@ package com.sing.herostory.model;
 public class User {
     private int userId;
     private String heroAvatar;
+    // 血量
+    private int hp = 100;
     private MoveState moveState;
 
     public int getUserId() {
@@ -27,6 +29,14 @@ public class User {
 
     public void setMoveState(MoveState moveState) {
         this.moveState = moveState;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }
 

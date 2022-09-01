@@ -45,6 +45,8 @@ public class GameMsgHandler extends SimpleChannelInboundHandler<Object> {
             ICmdHandler<? extends GeneratedMessageV3> cmdHandler = CmdHandlerFactory.create(msg.getClass());
             if (cmdHandler != null) {
                 cmdHandler.handle(channelHandlerContext, cast(msg));
+            }else {
+                System.out.println("消息未处理");
             }
         }
     }
