@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * Cocos Creator 2.2.0
  * 开发环境：VS Code
  * 3.调试连接本地服务器
- * http://cdn0001.afrxvk.cn/hero_story/demo/step010/index.html?serverAddr=127.0.0.1:8686&userId=1
+ * http://cdn0001.afrxvk.cn/hero_story/demo/step020/index.html?serverAddr=127.0.0.1:8686&userId=1
  * 5重构CmdHandleFactory 00:50
  */
 public class ServerMain {

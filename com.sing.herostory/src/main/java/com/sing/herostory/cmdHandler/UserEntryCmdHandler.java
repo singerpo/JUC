@@ -10,9 +10,8 @@ import io.netty.util.AttributeKey;
 public class UserEntryCmdHandler implements ICmdHandler<GameMsgProtocol.UserEntryCmd>{
 
     @Override
-    public void handle(ChannelHandlerContext channelHandlerContext, GameMsgProtocol.UserEntryCmd msg) {
+    public void handle(ChannelHandlerContext channelHandlerContext, GameMsgProtocol.UserEntryCmd userEntryCmd) {
         // 用户入场消息
-        GameMsgProtocol.UserEntryCmd userEntryCmd = msg;
         int userId = userEntryCmd.getUserId();
         String heroAvatar = userEntryCmd.getHeroAvatar();
 
