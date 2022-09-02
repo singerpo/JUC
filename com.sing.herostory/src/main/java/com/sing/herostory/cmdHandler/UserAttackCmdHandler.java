@@ -10,6 +10,9 @@ import io.netty.util.AttributeKey;
 public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAttackCmd> {
     @Override
     public void handle(ChannelHandlerContext channelHandlerContext, GameMsgProtocol.UserAttackCmd userAttackCmd) {
+        if (channelHandlerContext == null || userAttackCmd == null) {
+            return;
+        }
         // 获取当前用户Id
         Integer userId = (Integer) channelHandlerContext.channel().attr(AttributeKey.valueOf("userId")).get();
         if (userId == null) {
@@ -23,16 +26,20 @@ public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAtt
         BroadCaster.broadcast(resultBuilder.build());
 
         // 构建用户减血结果消息并群发
+        User targetUser = UserManager.getUser(targetUserId);
+        if (targetUser == null) {
+            return;
+        }
+        // 如果减血前，血量为0，则不重复返回减血消息和死亡消息
+        if (targetUser.getHp() <= 0) {
+            return;
+        }
         GameMsgProtocol.UserSubtractHpResult.Builder userSubtractHpBuilder = GameMsgProtocol.UserSubtractHpResult.newBuilder();
         userSubtractHpBuilder.setTargetUserId(targetUserId)
                 .setSubtractHp(10);
         BroadCaster.broadcast(userSubtractHpBuilder.build());
 
         // 构建用户死亡结果消息并群发
-        User targetUser = UserManager.getUser(targetUserId);
-        if (targetUser == null) {
-            return;
-        }
         targetUser.setHp(targetUser.getHp() - 10);
         UserManager.addUser(targetUser);
         if (targetUser.getHp() <= 0) {
