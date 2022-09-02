@@ -19,33 +19,39 @@ public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAtt
             return;
         }
         Integer targetUserId = userAttackCmd.getTargetUserId();
-        // 构建攻击结果消息并群发
-        GameMsgProtocol.UserAttackResult.Builder resultBuilder = GameMsgProtocol.UserAttackResult.newBuilder();
-        resultBuilder.setAttackUserId(userId);
-        resultBuilder.setTargetUserId(targetUserId);
-        BroadCaster.broadcast(resultBuilder.build());
-
-        // 构建用户减血结果消息并群发
-        User targetUser = UserManager.getUser(targetUserId);
-        if (targetUser == null) {
+        if(targetUserId == null){
             return;
         }
-        // 如果减血前，血量为0，则不重复返回减血消息和死亡消息
-        if (targetUser.getHp() <= 0) {
-            return;
-        }
-        GameMsgProtocol.UserSubtractHpResult.Builder userSubtractHpBuilder = GameMsgProtocol.UserSubtractHpResult.newBuilder();
-        userSubtractHpBuilder.setTargetUserId(targetUserId)
-                .setSubtractHp(10);
-        targetUser.setHp(targetUser.getHp() - 10);
-        UserManager.addUser(targetUser);
-        BroadCaster.broadcast(userSubtractHpBuilder.build());
+        synchronized (targetUserId) {
+            User targetUser = UserManager.getUser(targetUserId);
+            if (targetUser == null) {
+                return;
+            }
+            // 如果血量为0，则直接返回
+            if (targetUser.getHp() <= 0) {
+                return;
+            }
 
-        // 构建用户死亡结果消息并群发
-        if (targetUser.getHp() <= 0) {
-            GameMsgProtocol.UserDieResult.Builder userDieBuilder = GameMsgProtocol.UserDieResult.newBuilder();
-            userDieBuilder.setTargetUserId(targetUserId);
-            BroadCaster.broadcast(userDieBuilder.build());
+            // 构建攻击结果消息并群发
+            GameMsgProtocol.UserAttackResult.Builder resultBuilder = GameMsgProtocol.UserAttackResult.newBuilder();
+            resultBuilder.setAttackUserId(userId);
+            resultBuilder.setTargetUserId(targetUserId);
+            BroadCaster.broadcast(resultBuilder.build());
+
+            // 构建用户减血结果消息并群发
+            GameMsgProtocol.UserSubtractHpResult.Builder userSubtractHpBuilder = GameMsgProtocol.UserSubtractHpResult.newBuilder();
+            userSubtractHpBuilder.setTargetUserId(targetUserId)
+                    .setSubtractHp(10);
+            targetUser.setHp(targetUser.getHp() - 10);
+            BroadCaster.broadcast(userSubtractHpBuilder.build());
+
+            // 构建用户死亡结果消息并群发
+            if (targetUser.getHp() <= 0) {
+                GameMsgProtocol.UserDieResult.Builder userDieBuilder = GameMsgProtocol.UserDieResult.newBuilder();
+                userDieBuilder.setTargetUserId(targetUserId);
+                BroadCaster.broadcast(userDieBuilder.build());
+            }
         }
+
     }
 }
