@@ -42,29 +42,7 @@ public class GameMsgHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) {
         System.out.println("收到客户端消息,msgClazz=" + msg.getClass().getName() + "," + msg);
         if (msg instanceof GeneratedMessageV3) {
-            ICmdHandler<? extends GeneratedMessageV3> cmdHandler = CmdHandlerFactory.create(msg.getClass());
-            if (cmdHandler != null) {
-                cmdHandler.handle(channelHandlerContext, cast(msg));
-            }else {
-                System.out.println("消息未处理");
-            }
+            MainThreadProcessor.getInstance().process(channelHandlerContext, (GeneratedMessageV3) msg);
         }
     }
-
-    /**
-     * 转型消息对象
-     *
-     * @param msg
-     * @param <TCmd>
-     * @return
-     */
-    private <TCmd extends GeneratedMessageV3> TCmd cast(Object msg) {
-        if (msg == null) {
-            return null;
-        } else {
-            return (TCmd) msg;
-        }
-    }
-
-
 }
