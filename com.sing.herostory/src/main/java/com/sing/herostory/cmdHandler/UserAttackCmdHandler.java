@@ -37,11 +37,11 @@ public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAtt
         GameMsgProtocol.UserSubtractHpResult.Builder userSubtractHpBuilder = GameMsgProtocol.UserSubtractHpResult.newBuilder();
         userSubtractHpBuilder.setTargetUserId(targetUserId)
                 .setSubtractHp(10);
+        targetUser.setHp(targetUser.getHp() - 10);
+        UserManager.addUser(targetUser);
         BroadCaster.broadcast(userSubtractHpBuilder.build());
 
         // 构建用户死亡结果消息并群发
-        targetUser.setHp(targetUser.getHp() - 10);
-        UserManager.addUser(targetUser);
         if (targetUser.getHp() <= 0) {
             GameMsgProtocol.UserDieResult.Builder userDieBuilder = GameMsgProtocol.UserDieResult.newBuilder();
             userDieBuilder.setTargetUserId(targetUserId);
