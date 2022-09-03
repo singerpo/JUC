@@ -26,6 +26,13 @@ enum MsgCode {
     USER_SUBTRACT_HP_RESULT = 11;
     // 死亡结果
     USER_DIE_RESULT = 12;
+    //用户登录
+    USER_LOGIN_CMD = 13;
+    USER_LOGIN_RESULT = 14;
+    // 选择英雄
+    SELECT_HERO_CMD = 15;
+    SELECT_HERO_RESULT = 16;
+
 };
 
 //
@@ -33,18 +40,16 @@ enum MsgCode {
 ///////////////////////////////////////////////////////////////////////
 // 指令
 message UserEntryCmd {
-    // 用户 Id
-    uint32 userId = 1;
-    // 英雄形象
-    string heroAvatar = 2;
 }
 
 // 结果
 message UserEntryResult {
     // 用户 Id
     uint32 userId = 1;
+    // 用户名
+    string userName = 2;
     // 英雄形象
-    string heroAvatar = 2;
+    string heroAvatar = 3;
 }
 
 //
@@ -63,10 +68,12 @@ message WhoElseIsHereResult {
     message UserInfo {
         // 用户 Id
         uint32 userId = 1;
+        // 用户名
+        string userName = 2;
         // 英雄形象
-        string heroAvatar = 2;
+        string heroAvatar = 3;
         // 移动状态
-        MoveState moveState = 3;
+        MoveState moveState = 4;
 
         // 移动状态
         message MoveState {
@@ -177,4 +184,24 @@ message UserSubtractHpResult {
 message UserDieResult {
     // 目标用户 Id
     uint32 targetUserId = 1;
+}
+
+//
+// 用户登录
+///////////////////////////////////////////////////////////////////////
+// 指令
+message UserLoginCmd {
+    // 用户名
+    string userName = 1;
+    // 用户密码
+    string password = 2;
+}
+// 结果
+message UserLoginResult {
+    // 用户Id,为-1表示登录失败
+    uint32 userId = 1;
+    // 用户名
+    string userName = 2;
+    // 英雄形象
+    string heroAvatar = 3;
 }

@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 /**
  * 1.下载工具将.proto文件转换为java类
  * https://github.com/protocolbuffers/protobuf/releases protoc-3.16.0-rc-1-win64
- * protoc.exe --java_out=目标目录 .\GameMsgProtocol.proto
+ * protoc.exe --java_out=F:\sourceCode\JUC\com.sing.herostory\src\main\java .\GameMsgProtocol.proto
  * 2.前端
  * Cocos Creator 2.2.0
  * 开发环境：VS Code
  * 3.调试连接本地服务器
- * http://cdn0001.afrxvk.cn/hero_story/demo/step020/index.html?serverAddr=127.0.0.1:8686&userId=1
+ * http://cdn0001.afrxvk.cn/hero_story/demo/step030/index.html?serverAddr=127.0.0.1:8686&userId=1
  * 双核4G10M 3千左右连接
  */
 public class ServerMain {

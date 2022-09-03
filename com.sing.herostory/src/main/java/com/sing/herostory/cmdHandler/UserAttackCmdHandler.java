@@ -51,7 +51,5 @@ public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAtt
             userDieBuilder.setTargetUserId(targetUserId);
             BroadCaster.broadcast(userDieBuilder.build());
         }
-
-
     }
 }
