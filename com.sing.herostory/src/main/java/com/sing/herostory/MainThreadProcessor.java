@@ -44,11 +44,17 @@ public final class MainThreadProcessor {
                 try {
                     cmdHandler.handle(channelHandlerContext, cast(msg));
                 } catch (Exception e) {
-                    LOGGER.error(e.getMessage(),e);
+                    LOGGER.error(e.getMessage(), e);
                 }
             } else {
                 LOGGER.error(msg.getClass().getName() + ",消息未处理");
             }
+        });
+    }
+
+    public void process(Runnable runnable) {
+        this.executorService.submit(() -> {
+            runnable.run();
         });
     }
 

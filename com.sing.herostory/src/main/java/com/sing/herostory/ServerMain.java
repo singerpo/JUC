@@ -30,7 +30,7 @@ public class ServerMain {
     public static void main(String[] args) {
         GameMsgRecognizer.init();
         CmdHandlerFactory.init();
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workGroup = new NioEventLoopGroup();
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();

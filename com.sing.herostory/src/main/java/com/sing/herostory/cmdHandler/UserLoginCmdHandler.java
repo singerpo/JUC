@@ -1,54 +1,90 @@
 package com.sing.herostory.cmdHandler;
 
+import com.sing.herostory.async.AsyncOperationProcessor;
+import com.sing.herostory.async.IAsyncOperation;
 import com.sing.herostory.model.User;
 import com.sing.herostory.model.UserManager;
 import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLoginCmd> {
-    private static Integer maxUserId = 0;
+    private static AtomicInteger maxUserId = new AtomicInteger();
 
     @Override
     public void handle(ChannelHandlerContext channelHandlerContext, GameMsgProtocol.UserLoginCmd userLoginCmd) {
         String userName = userLoginCmd.getUserName();
         String password = userLoginCmd.getPassword();
         // 从数据库查询省略
-        User user = userLogin(userName, password);
+        userLogin(userName, password,(user)->{
+            // 存储用户信息
+            UserManager.addUser(user);
+            // 将userId绑定到channel属性
+            channelHandlerContext.channel().attr(AttributeKey.valueOf("userId")).set(user.getUserId());
 
-        // 存储用户信息
-        UserManager.addUser(user);
-        // 将userId绑定到channel属性
-        channelHandlerContext.channel().attr(AttributeKey.valueOf("userId")).set(user.getUserId());
+            // 构建用户登录结果
+            GameMsgProtocol.UserLoginResult.Builder loginResultBuilder = GameMsgProtocol.UserLoginResult.newBuilder();
+            loginResultBuilder.setUserId(user.getUserId());
+            loginResultBuilder.setUserName(user.getUserName());
+            loginResultBuilder.setHeroAvatar(user.getHeroAvatar());
+            channelHandlerContext.writeAndFlush(loginResultBuilder.build());
+            return null;
+        });
 
-        // 构建用户登录结果
-        GameMsgProtocol.UserLoginResult.Builder loginResultBuilder = GameMsgProtocol.UserLoginResult.newBuilder();
-        loginResultBuilder.setUserId(user.getUserId());
-        loginResultBuilder.setUserName(user.getUserName());
-        loginResultBuilder.setHeroAvatar(user.getHeroAvatar());
-        channelHandlerContext.writeAndFlush(loginResultBuilder.build());
+
     }
 
-    private User userLogin(String userName, String password) {
-        maxUserId += 1;
-        User user = new User();
-        user.setUserId(maxUserId);
-        user.setUserName(userName);
-        int userCase = maxUserId % 3;
-        switch (userCase) {
-            case 1:
-                user.setHeroAvatar("Hero_Hammer");
-                break;
-            case 2:
-                user.setHeroAvatar("Hero_Shaman");
-                break;
-            case 0:
-                user.setHeroAvatar("Hero_Skeleton");
-                break;
+    /**
+     * 用户登录
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @param callback 回调函数
+     */
+    private void userLogin(String userName, String password, Function<User, Void> callback) {
+        IAsyncOperation asyncOperation = new UserLoginAsyncOperation(userName, password, callback);
+        AsyncOperationProcessor.getInstance().process(asyncOperation);
+    }
+
+    private class UserLoginAsyncOperation implements IAsyncOperation {
+        private String userName;
+        private String password;
+        private User user;
+        private Function<User, Void> callback;
+
+        public UserLoginAsyncOperation(String userName, String password, Function<User, Void> callback) {
+            this.userName = userName;
+            this.password = password;
+            this.callback = callback;
+
         }
-        return user;
+
+        @Override
+        public void doAsync() {
+            maxUserId.incrementAndGet();
+            user = new User();
+            user.setUserId(maxUserId.get());
+            user.setUserName(userName);
+            int userCase = maxUserId.get() % 3;
+            switch (userCase) {
+                case 1:
+                    user.setHeroAvatar("Hero_Hammer");
+                    break;
+                case 2:
+                    user.setHeroAvatar("Hero_Shaman");
+                    break;
+                case 0:
+                    user.setHeroAvatar("Hero_Skeleton");
+                    break;
+            }
+        }
+
+        @Override
+        public void doFinish() {
+            callback.apply(user);
+        }
     }
 }
