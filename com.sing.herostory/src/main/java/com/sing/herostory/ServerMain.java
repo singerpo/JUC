@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
  * 3.调试连接本地服务器
  * http://cdn0001.afrxvk.cn/hero_story/demo/step040/index.html?serverAddr=127.0.0.1:8686&userId=1
  * 双核4G10M 3千左右连接
+ * 9RocketMQ.vep
  */
 public class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
