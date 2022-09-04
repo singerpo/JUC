@@ -44,6 +44,9 @@ public final class CmdHandlerFactory {
                     continue;
                 }
                 msgType = parameterTypes[1];
+                if(msgType.equals(GeneratedMessageV3.class)){
+                    continue;
+                }
                 break;
             }
             if (msgType == null) {

@@ -7,6 +7,8 @@ import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 
+import java.lang.reflect.Method;
+
 public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAttackCmd> {
     @Override
     public void handle(ChannelHandlerContext channelHandlerContext, GameMsgProtocol.UserAttackCmd userAttackCmd) {
