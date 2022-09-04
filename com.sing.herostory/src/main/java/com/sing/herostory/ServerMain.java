@@ -1,6 +1,7 @@
 package com.sing.herostory;
 
 import com.sing.herostory.cmdHandler.CmdHandlerFactory;
+import com.sing.herostory.util.RedisUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * Cocos Creator 2.2.0
  * 开发环境：VS Code
  * 3.调试连接本地服务器
- * http://cdn0001.afrxvk.cn/hero_story/demo/step030/index.html?serverAddr=127.0.0.1:8686&userId=1
+ * http://cdn0001.afrxvk.cn/hero_story/demo/step040/index.html?serverAddr=127.0.0.1:8686&userId=1
  * 双核4G10M 3千左右连接
  */
 public class ServerMain {
@@ -30,6 +31,7 @@ public class ServerMain {
     public static void main(String[] args) {
         GameMsgRecognizer.init();
         CmdHandlerFactory.init();
+        RedisUtil.init();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workGroup = new NioEventLoopGroup();
 

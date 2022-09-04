@@ -1,12 +1,16 @@
 package com.sing.herostory.cmdHandler;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.sing.herostory.async.AsyncOperationProcessor;
 import com.sing.herostory.async.IAsyncOperation;
 import com.sing.herostory.model.User;
 import com.sing.herostory.model.UserManager;
 import com.sing.herostory.msg.GameMsgProtocol;
+import com.sing.herostory.util.RedisUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
+import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -19,7 +23,7 @@ public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLogi
         String userName = userLoginCmd.getUserName();
         String password = userLoginCmd.getPassword();
         // 从数据库查询省略
-        userLogin(userName, password,(user)->{
+        userLogin(userName, password, (user) -> {
             // 存储用户信息
             UserManager.addUser(user);
             // 将userId绑定到channel属性
@@ -62,6 +66,17 @@ public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLogi
 
         }
 
+        /**
+         * 更新Redis中的用户信息
+         * @param user
+         */
+        private void updateUserInRedis(User user) {
+            Jedis redis = RedisUtil.getRedis();
+            String userJson = JSONObject.toJSONString(user);
+            redis.hset("user_"+user.getUserId(),"user",userJson);
+
+        }
+
         @Override
         public void doAsync() {
             maxUserId.incrementAndGet();
@@ -80,11 +95,19 @@ public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLogi
                     user.setHeroAvatar("Hero_Skeleton");
                     break;
             }
+            this.updateUserInRedis(user);
         }
 
         @Override
         public void doFinish() {
             callback.apply(user);
         }
+
+        @Override
+        public int bindId() {
+            return userName.charAt(userName.length() - 1);
+        }
+
+
     }
 }

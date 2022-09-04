@@ -5,6 +5,13 @@ package com.sing.herostory.async;
  */
 public interface IAsyncOperation {
     /**
+     * 获取绑定Id
+     * @return
+     */
+    default int bindId(){
+        return 0;
+    }
+    /**
      * 执行异步操作
      */
     void doAsync();
