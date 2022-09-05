@@ -1,6 +1,7 @@
 package com.sing.herostory;
 
 import com.sing.herostory.mq.MQConsumer;
+import com.sing.herostory.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ public class RankApp {
     private static final Logger LOGGER = LoggerFactory.getLogger(RankApp.class);
 
     public static void main(String[] args) {
+        RedisUtil.init();
         MQConsumer.init();
         LOGGER.info("排行榜应用程序启动成功");
     }

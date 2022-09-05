@@ -38,6 +38,23 @@ public class RankService {
         AsyncOperationProcessor.getInstance().process(asyncOperation);
     }
 
+    /**
+     * 刷新排行榜
+     * @param winnerId 赢家Id
+     * @param loserId 输家Id
+     */
+    public void refreshRank(int winnerId, int loserId) {
+        Jedis redis = RedisUtil.getRedis();
+        // 增加用户属于测试
+        redis.hincrBy("user_" + winnerId, "win", 1);
+        redis.hincrBy("user_" + loserId, "lose", 1);
+
+        // 修改排行榜
+        String winStr = redis.hget("user_"+winnerId,"win");
+        int winInt = Integer.parseInt(winStr);
+        redis.zadd("rank",winInt, String.valueOf(winnerId));
+    }
+
     private class GetRankAsyncOperation implements IAsyncOperation {
         private Function<List<RankItem>, Void> callback;
         /**
@@ -62,11 +79,11 @@ public class RankService {
             int rankId = 0;
             for (Tuple tuple : valList) {
                 int userId = Integer.parseInt(tuple.getElement());
-                String jsonStr = redis.hget("user_" + userId,"user");
-                if(jsonStr == null || jsonStr.isEmpty()){
+                String jsonStr = redis.hget("user_" + userId, "user");
+                if (jsonStr == null || jsonStr.isEmpty()) {
                     continue;
                 }
-                User user = JSONObject.parseObject(jsonStr,User.class);
+                User user = JSONObject.parseObject(jsonStr, User.class);
                 RankItem rankItem = new RankItem();
                 rankItem.setRankId(++rankId);
                 rankItem.setUserId(userId);

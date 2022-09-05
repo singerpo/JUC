@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * http://cdn0001.afrxvk.cn/hero_story/demo/step040/index.html?serverAddr=127.0.0.1:8686&userId=1
  * 4.Redis
  * 5.RocketMQ http://rocketmq.apache.org/
+ *  启动NameServer：    mqnamesrv &
  *  启动broker并开启自动创建topic: mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true
  *  查看主题 ./mqadmin topicList -n 127.0.0.1:9876
  *  查看主题下的消息 ./mqadmin printMsg -n 127.0.0.1:9876 -t victor
