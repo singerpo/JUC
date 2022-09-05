@@ -3,6 +3,8 @@ package com.sing.herostory.cmdHandler;
 import com.sing.herostory.BroadCaster;
 import com.sing.herostory.model.User;
 import com.sing.herostory.model.UserManager;
+import com.sing.herostory.mq.MQProducer;
+import com.sing.herostory.mq.VictorMsg;
 import com.sing.herostory.msg.GameMsgProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -52,6 +54,13 @@ public class UserAttackCmdHandler implements ICmdHandler<GameMsgProtocol.UserAtt
             GameMsgProtocol.UserDieResult.Builder userDieBuilder = GameMsgProtocol.UserDieResult.newBuilder();
             userDieBuilder.setTargetUserId(targetUserId);
             BroadCaster.broadcast(userDieBuilder.build());
+
+            // 向MQ发送战斗结果消息
+            VictorMsg victorMsg = new VictorMsg();
+            victorMsg.setWinnerId(userId);
+            victorMsg.setLoserId(targetUserId);
+            MQProducer.sendMsg("victor",victorMsg);
+
         }
     }
 }

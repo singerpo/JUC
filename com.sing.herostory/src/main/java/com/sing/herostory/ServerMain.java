@@ -1,6 +1,7 @@
 package com.sing.herostory;
 
 import com.sing.herostory.cmdHandler.CmdHandlerFactory;
+import com.sing.herostory.mq.MQProducer;
 import com.sing.herostory.util.RedisUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -22,6 +23,13 @@ import org.slf4j.LoggerFactory;
  * 开发环境：VS Code
  * 3.调试连接本地服务器
  * http://cdn0001.afrxvk.cn/hero_story/demo/step040/index.html?serverAddr=127.0.0.1:8686&userId=1
+ * 4.Redis
+ * 5.RocketMQ http://rocketmq.apache.org/
+ *  启动broker并开启自动创建topic: mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true
+ *  查看主题 ./mqadmin topicList -n 127.0.0.1:9876
+ *  查看主题下的消息 ./mqadmin printMsg -n 127.0.0.1:9876 -t victor
+ *  ./mqadmin clusterlist -n 127.0.0.1:9876
+ *  删除主题 ./mqadmin deleteTopic -c DefaultClust -n 127.0.0.1:9876
  * 双核4G10M 3千左右连接
  * 9RocketMQ.vep
  */
@@ -33,6 +41,8 @@ public class ServerMain {
         GameMsgRecognizer.init();
         CmdHandlerFactory.init();
         RedisUtil.init();
+        MQProducer.init();
+
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workGroup = new NioEventLoopGroup();
 
