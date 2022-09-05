@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  *  查看主题 ./mqadmin topicList -n 127.0.0.1:9876
  *  查看主题下的消息 ./mqadmin printMsg -n 127.0.0.1:9876 -t victor
  *  ./mqadmin clusterlist -n 127.0.0.1:9876
- *  删除主题 ./mqadmin deleteTopic -c DefaultClust -n 127.0.0.1:9876
+ *  删除主题 ./mqadmin deleteTopic -c DefaultCluster -n 127.0.0.1:9876 -t victor
  * 双核4G10M 3千左右连接
  * 9RocketMQ.vep
  */
