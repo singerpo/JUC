@@ -32,7 +32,13 @@ import org.slf4j.LoggerFactory;
  * ./mqadmin clusterlist -n 127.0.0.1:9876
  * 删除主题 ./mqadmin deleteTopic -c DefaultCluster -n 127.0.0.1:9876 -t victor
  * 双核4G10M 3千左右连接
- * 9RocketMQ.vep
+ *
+ * 二。打包发布
+ * 1.安装ansible
+ *      新建host文件内容为多个IP
+ *      ansible -i host all -u root -a "ls -al"
+ *      ansible -i host all -u root -m shell -a "cd /tmp;echo hello > hello.txt"
+ *      ansible -i host all -m copy -a "src=/home/wwwroot/herostory-1.0.0-all.tar.gz dest=/home/wwwroot"
  */
 public class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
