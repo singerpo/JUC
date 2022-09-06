@@ -26,15 +26,16 @@ public class MQConsumer {
     public static void init() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("herostory");
         consumer.setNamesrvAddr("127.0.0.1:9876");
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        // consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         try {
             consumer.subscribe("victor", "*");
             consumer.registerMessageListener(new MessageListenerConcurrently() {
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+                    System.out.println("--消费消息--");
                     for (MessageExt messageExt : list) {
+                        System.out.println(messageExt.getMsgId());
                         VictorMsg victorMsg = JSONObject.parseObject(messageExt.getBody(), VictorMsg.class);
-                        System.out.println(victorMsg+"---");
                         // 刷新排行榜
                         RankService.getInstance().refreshRank(victorMsg.getWinnerId(), victorMsg.getLoserId());
                     }
@@ -45,6 +46,5 @@ public class MQConsumer {
         } catch (MQClientException e) {
             e.printStackTrace();
         }
-
     }
 }
