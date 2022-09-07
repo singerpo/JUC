@@ -50,6 +50,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -69,13 +75,14 @@
                     <descriptors>
                         <descriptor>publish.xml</descriptor>
                     </descriptors>
+                    <encoding>UTF-8</encoding>
                 </configuration>
                 <executions>
                     <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>

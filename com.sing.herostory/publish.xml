@@ -3,10 +3,12 @@
     <formats>
         <format>tar.gz</format>
     </formats>
-    <includeBaseDirectory>false</includeBaseDirectory>
+    <includeBaseDirectory>true</includeBaseDirectory>
     <fileSets>
-        <fileSet>bin</fileSet>
-        <outputDirectory>./</outputDirectory>
+        <fileSet>
+            <directory>bin</directory>
+            <outputDirectory>./</outputDirectory>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
